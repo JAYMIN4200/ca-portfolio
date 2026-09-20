@@ -1,0 +1,1418 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+
+    --font-serif: 'Georgia', ui-serif, serif;
+
+    --font-display: 'Sora', 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+
+    --color-navy-50: #f0f5fa;
+    --color-navy-100: #dce8f3;
+    --color-navy-200: #bdd4e8;
+    --color-navy-300: #92b6d8;
+    --color-navy-400: #6192c4;
+    --color-navy-500: #3e75ae;
+    --color-navy-600: #2e5d92;
+    --color-navy-700: #274b76;
+    --color-navy-800: #244063;
+    --color-navy-900: #1e3a5f;
+    --color-navy-950: #14263d;
+
+    --color-gold-50: #fbf7eb;
+    --color-gold-100: #f5ecce;
+    --color-gold-200: #ecd89f;
+    --color-gold-300: #e2bf68;
+    --color-gold-400: #d9ac40;
+    --color-gold-500: #c9a84c;
+    --color-gold-600: #b68a2f;
+    --color-gold-700: #93692a;
+    --color-gold-800: #7a5527;
+    --color-gold-900: #684724;
+    --color-gold-950: #3a2611;
+
+    --color-violet-50: #f5f3ff;
+    --color-violet-100: #ede9fe;
+    --color-violet-200: #ddd6fe;
+    --color-violet-300: #c4b5fd;
+    --color-violet-400: #a78bfa;
+    --color-violet-500: #8b5cf6;
+    --color-violet-600: #7c3aed;
+    --color-violet-700: #6d28d9;
+    --color-violet-800: #5b21b6;
+    --color-violet-900: #4c1d95;
+    --color-violet-950: #2e1065;
+
+    --color-ink: #070a14;
+    --color-night: #0b1020;
+
+    --color-surface: #ffffff;
+    --color-surface-alt: #f8fafc;
+}
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    input,
+    select,
+    textarea {
+        outline: none;
+    }
+}
+
+@layer utilities {
+    .container-app {
+        @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+    }
+
+    .grid-pattern {
+        background-image: radial-gradient(circle at 1px 1px, #c9a84c 1px, transparent 0);
+        background-size: 40px 40px;
+        opacity: .12;
+    }
+
+    .gst-grid {
+        background-image: radial-gradient(circle at 1px 1px, #8b5cf6 1px, transparent 0);
+        background-size: 34px 34px;
+        opacity: .14;
+    }
+
+    .aurora-bg {
+        background: linear-gradient(125deg, #0b1020 0%, #181a3d 28%, #33206b 52%, #150d33 78%, #0b1020 100%);
+        background-size: 220% 220%;
+        animation: auroraShift 16s ease-in-out infinite;
+    }
+
+    .text-shine {
+        background: linear-gradient(90deg, #ffffff 0%, #c4b5fd 35%, #8b5cf6 52%, #ffffff 80%);
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        animation: textShine 5s linear infinite;
+    }
+
+    .animate-float {
+        animation: floatY 6s ease-in-out infinite;
+    }
+
+    .animate-float-slow {
+        animation: floatY 9s ease-in-out infinite;
+    }
+
+    .marquee-track {
+        animation: marqueeScroll 32s linear infinite;
+    }
+
+    .gloss-card {
+        @apply rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md shadow-lg;
+    }
+}
+
+@keyframes auroraShift {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+@keyframes textShine {
+    to {
+        background-position: 200% center;
+    }
+}
+
+@keyframes floatY {
+    0%, 100% {
+        transform: translateY(0) rotate(-3deg);
+    }
+    50% {
+        transform: translateY(-20px) rotate(3deg);
+    }
+}
+
+@keyframes marqueeScroll {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+.admin-shell {
+    transition: padding-left 0.3s ease;
+}
+
+#sidebar {
+    transition: width 0.3s ease, transform 0.3s ease;
+}
+
+#sidebar nav {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+#sidebar nav::-webkit-scrollbar {
+    display: none;
+}
+
+.sidebar-section-heading {
+    transition: opacity 0.15s ease;
+}
+
+#sidebarCollapseBtn svg {
+    transition: transform 0.3s ease;
+}
+
+@media (min-width: 1024px) {
+    body.sidebar-collapsed .admin-shell {
+        padding-left: 5rem;
+    }
+
+    body.sidebar-collapsed #sidebar {
+        width: 5rem !important;
+    }
+
+    body.sidebar-collapsed #sidebar .sidebar-label,
+    body.sidebar-collapsed #sidebar .sidebar-brand-text,
+    body.sidebar-collapsed #sidebar .sidebar-section-heading {
+        opacity: 0;
+        width: 0;
+        overflow: hidden;
+    }
+
+    body.sidebar-collapsed #sidebar .sidebar-link {
+        justify-content: center;
+        gap: 0;
+    }
+
+    body.sidebar-collapsed #sidebar nav {
+        overflow-x: visible;
+    }
+
+    body.sidebar-collapsed #sidebar .sidebar-brand {
+        display: none;
+    }
+
+    body.sidebar-collapsed #sidebar .sidebar-brand-actions {
+        width: 100%;
+        justify-content: center;
+    }
+
+    body.sidebar-collapsed #sidebarCollapseBtn svg {
+        transform: rotate(180deg);
+    }
+
+    body.sidebar-collapsed .sidebar-group-items {
+        margin-left: 0;
+        padding-left: 0;
+        border-left: 0;
+    }
+
+    body.sidebar-collapsed [data-sidebar-group-chevron] {
+        display: none;
+    }
+}
+
+@layer components {
+    [data-reveal] {
+        opacity: 0;
+        transform: translateY(24px);
+        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+
+    [data-reveal].reveal-visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .dropdown-menu {
+        transform-origin: top right;
+        transition: opacity 0.15s ease, transform 0.15s ease;
+    }
+
+    .dropdown-menu[data-open="true"] {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    .dropdown-menu[data-open="false"] {
+        transform: scale(0.95);
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .field-error {
+        @apply text-xs text-red-600 mt-1;
+    }
+
+    input.is-invalid,
+    select.is-invalid,
+    textarea.is-invalid {
+        @apply border-red-500 focus:border-red-500 focus:ring-red-500;
+    }
+
+    .glass-card {
+        @apply rounded-2xl border border-white/20 bg-white/5 backdrop-blur-md shadow-lg;
+    }
+
+    .btn-ghost {
+        @apply inline-flex items-center justify-center rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition-colors hover:border-slate-400 hover:bg-slate-50;
+    }
+
+    .spinner {
+        @apply inline-block h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent;
+    }
+
+    .btn-loading {
+        @apply pointer-events-none opacity-70;
+    }
+
+    .alert-hide {
+        opacity: 0;
+        transform: translateY(-4px);
+        transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+
+    .swal-popup {
+        @apply rounded-2xl border border-slate-200 !px-8 !py-7 shadow-2xl;
+    }
+
+    .swal-title {
+        @apply !text-lg !font-bold !text-navy-950;
+    }
+
+    .swal-html {
+        @apply !mt-1;
+    }
+
+    .swal-icon-wrapper {
+        @apply !my-0 !mx-auto !flex !h-auto !w-auto !items-center !justify-center !border-0 !bg-transparent !shadow-none;
+    }
+
+    .swal-icon {
+        @apply flex h-14 w-14 items-center justify-center rounded-full;
+    }
+
+    .swal-popup .swal2-actions {
+        @apply !mt-5 flex gap-3;
+    }
+
+    .swal-popup .swal2-actions .swal-btn {
+        margin: 0;
+    }
+
+    .swal-icon-warning {
+        @apply bg-gold-500/15 text-gold-600;
+    }
+
+    .swal-icon-danger {
+        @apply bg-red-50 text-red-500;
+    }
+
+    .swal-btn {
+        @apply inline-flex items-center justify-center rounded-lg px-5 py-2.5 text-sm font-semibold transition-colors focus:outline-none;
+    }
+
+    .swal-btn-gold {
+        @apply bg-gradient-to-r from-gold-400 to-gold-600 text-navy-950 shadow-md shadow-gold-500/25 hover:from-gold-500 hover:to-gold-700;
+    }
+
+    .swal-btn-danger {
+        @apply bg-red-600 text-white shadow-md shadow-red-600/25 hover:bg-red-700;
+    }
+
+    .swal-btn-cancel {
+        @apply bg-slate-100 text-slate-600 hover:bg-slate-200;
+    }
+
+    .swal-toast {
+        @apply !rounded-xl !border !border-slate-200 !px-4 !py-3 shadow-xl;
+    }
+
+    .swal-toast .swal2-html-container {
+        @apply !m-0 !p-0;
+    }
+
+    /* ─── Custom select ─────────────────────── */
+    .cs,
+    .cp {
+        @apply relative;
+    }
+
+    .cs-value,
+    .cp-value {
+        flex: 0 1 auto;
+        min-width: 2rem;
+    }
+
+    .cs-trigger,
+    .cp-trigger {
+        position: relative;
+        min-width: 0;
+    }
+
+    .cs-chevron {
+        position: absolute;
+        right: 0.7rem;
+        top: 50%;
+        transform: translateY(-50%);
+        @apply text-slate-400 transition-transform duration-200;
+    }
+
+    .cs-open .cs-chevron {
+        @apply text-navy-600;
+        transform: translateY(-50%) rotate(180deg);
+    }
+
+    .cs-open .cs-trigger,
+    .cp-open .cp-trigger {
+        @apply border-navy-500 ring-2 ring-navy-500/20;
+    }
+
+    .cs-invalid .cs-trigger,
+    .cp-invalid .cp-trigger {
+        @apply border-red-500 ring-2 ring-red-500/20;
+    }
+
+    .cs-menu {
+        @apply fixed left-0 top-0 z-40 max-h-64 overflow-auto rounded-xl border border-slate-200 bg-white p-1.5 shadow-xl;
+        width: max-content;
+        max-width: min(20rem, calc(100vw - 2rem));
+    }
+
+    .cs-option {
+        @apply block w-full whitespace-nowrap rounded-lg px-3 py-2 text-left text-sm text-slate-700 transition-colors hover:bg-navy-50 hover:text-navy-800;
+    }
+
+    .cs-option.is-selected {
+        @apply bg-navy-900 text-white hover:bg-navy-900 hover:text-white;
+    }
+
+    .cs-native,
+    .cp-native {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    /* ─── Custom date / time picker ─────────── */
+    .cp-menu {
+        @apply fixed left-0 top-0 z-50 w-72 rounded-xl border border-slate-200 bg-white p-3 shadow-xl max-w-[calc(100vw-2rem)];
+    }
+
+    .cp-menu-time {
+        @apply w-64;
+    }
+
+    .cp-panel-title {
+        @apply text-center;
+    }
+
+    .cp-nav-btn,
+    .cp-action-btn {
+        @apply inline-flex items-center justify-center rounded-lg px-2 py-1 text-xs font-semibold text-slate-500 transition-colors hover:bg-slate-100 hover:text-navy-800;
+    }
+
+    .cp-action-btn {
+        @apply text-navy-700;
+    }
+
+    .cp-action-btn:disabled {
+        @apply cursor-not-allowed text-slate-300 hover:bg-transparent;
+    }
+
+    .cp-weekday {
+        @apply py-1 text-center text-[10px] font-semibold uppercase tracking-wider text-slate-400;
+    }
+
+    .cp-day {
+        @apply flex h-8 w-8 items-center justify-center rounded-lg text-sm font-medium text-slate-700 transition-colors hover:bg-navy-50 hover:text-navy-800;
+    }
+
+    .cp-day.is-today:not(.is-selected) {
+        @apply text-gold-700 ring-1 ring-inset ring-gold-400;
+    }
+
+    .cp-day.is-selected {
+        @apply bg-navy-900 text-white hover:bg-navy-900 hover:text-white;
+    }
+
+    .cp-day.is-disabled {
+        @apply cursor-not-allowed text-slate-300 hover:bg-transparent;
+    }
+
+    .cp-icon {
+        position: absolute;
+        right: 0.7rem;
+        top: 50%;
+        transform: translateY(-50%);
+        @apply text-slate-400;
+    }
+
+    .cp-time-label {
+        @apply mb-1 text-[10px] font-semibold uppercase tracking-wider text-slate-400;
+    }
+
+    .cp-time-group + .cp-time-group {
+        @apply mt-2;
+    }
+
+    .cp-time-chip {
+        @apply rounded-lg px-2 py-1.5 text-xs font-medium text-slate-600 transition-colors hover:bg-navy-50 hover:text-navy-800;
+    }
+
+    .cp-time-chip.is-selected {
+        @apply bg-navy-900 text-white hover:bg-navy-900 hover:text-white;
+    }
+}
+
+/* ════════════════════════════════════════════════════════════════
+   THEME TOGGLES
+   [data-theme="light"] = frontend light mode (frontend default dark)
+   [data-theme="dark"]  = admin dark mode (admin default light)
+   The current theme is set on <html data-theme="..."> by an inline
+   head script (localStorage "ca_theme") and toggled from the
+   sun/moon buttons via initThemeToggle() in resources/js/app.js.
+   These rules are unlayered so they win over Tailwind utilities.
+   ════════════════════════════════════════════════════════════════ */
+
+/* ── Frontend: light surface overrides ── */
+html[data-theme="light"] body {
+    background-color: #ffffff;
+    color: #1e293b;
+}
+
+html[data-theme="light"] .bg-night,
+html[data-theme="light"] .bg-night\/85 {
+    background-color: #ffffff;
+}
+
+html[data-theme="light"] .bg-ink {
+    background-color: #f8fafc;
+}
+
+html[data-theme="light"] .bg-night\/5 {
+    background-color: #ffffff;
+}
+
+html[data-theme="light"] .bg-night\/10 {
+    background-color: #f1f5f9;
+}
+
+html[data-theme="light"] .bg-night\/80,
+html[data-theme="light"] .bg-night\/90 {
+    background-color: rgba(255, 255, 255, .94);
+}
+
+html[data-theme="light"] .bg-white\/5 {
+    background-color: #ffffff;
+}
+
+html[data-theme="light"] .bg-white\/10 {
+    background-color: #f1f5f9;
+}
+
+html[data-theme="light"] .bg-white\/15,
+html[data-theme="light"] .bg-white\/20 {
+    background-color: #f1f5f9;
+}
+
+html[data-theme="light"] .border-white\/5,
+html[data-theme="light"] .border-white\/10,
+html[data-theme="light"] .border-white\/15,
+html[data-theme="light"] .border-white\/20 {
+    border-color: #e2e8f0;
+}
+
+html[data-theme="light"] .text-white:not([class*="from-"]):not([class*="to-"]):not(.bg-violet-600) {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .text-slate-100 {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .text-slate-300 {
+    color: #475569;
+}
+
+html[data-theme="light"] .text-slate-400 {
+    color: #64748b;
+}
+
+html[data-theme="light"] .text-slate-500 {
+    color: #94a3b8;
+}
+
+html[data-theme="light"] .text-violet-200,
+html[data-theme="light"] .text-violet-300 {
+    color: #7c3aed;
+}
+
+html[data-theme="light"] .text-violet-400 {
+    color: #6d28d9;
+}
+
+html[data-theme="light"] .text-white\/5 {
+    color: rgba(15, 23, 42, .06);
+}
+
+html[data-theme="light"] .text-green-200,
+html[data-theme="light"] .text-green-300 {
+    color: #15803d;
+}
+
+html[data-theme="light"] .text-blue-300 {
+    color: #1d4ed8;
+}
+
+html[data-theme="light"] .text-emerald-300 {
+    color: #047857;
+}
+
+html[data-theme="light"] .bg-green-500\/10,
+html[data-theme="light"] .bg-green-500\/15 {
+    background-color: #f0fdf4;
+}
+
+html[data-theme="light"] .bg-blue-500\/15 {
+    background-color: #dbeafe;
+}
+
+html[data-theme="light"] .bg-emerald-500\/15 {
+    background-color: #d1fae5;
+}
+
+html[data-theme="light"] .border-green-400\/30 {
+    border-color: #bbf7d0;
+}
+
+html[data-theme="light"] .bg-violet-500\/15 {
+    background-color: #f3e8ff;
+}
+
+html[data-theme="light"] .text-shine {
+    background-image: linear-gradient(120deg, #0f172a 0%, #4c1d95 45%, #7c3aed 60%, #0f172a 100%);
+    background-size: 200% auto;
+}
+
+html[data-theme="light"] .aurora-bg {
+    background: linear-gradient(125deg, #ffffff 0%, #eef2ff 28%, #ede9fe 52%, #f8fafc 78%, #ffffff 100%);
+    background-size: 220% 220%;
+    animation: auroraShift 16s ease-in-out infinite;
+}
+
+/* Admin login (guest) page on light theme */
+html[data-theme="light"] body.bg-navy-950 {
+    background-color: #f1f5f9;
+}
+
+html[data-theme="light"] body.bg-navy-950 .text-slate-200 {
+    color: #1e293b;
+}
+
+html[data-theme="light"] body.bg-navy-950 .border-gold-500\/40 {
+    border-color: rgba(202, 138, 4, .35);
+}
+
+html[data-theme="light"] body.bg-navy-950 .bg-navy-900\/80 {
+    background-color: rgba(255, 255, 255, .9);
+}
+
+html[data-theme="light"] body.bg-navy-950 .hover\:bg-navy-800:hover {
+    background-color: #f1f5f9;
+}
+
+/* Hover feedback for theme toggles themselves */
+html[data-theme="light"] [data-theme-toggle]:hover {
+    border-color: rgba(139, 92, 246, .5);
+    background-color: #ede9fe;
+    color: #6d28d9;
+}
+
+html[data-theme="dark"] [data-theme-toggle]:hover {
+    border-color: rgba(167, 139, 250, .4);
+    color: #c4b5fd;
+}
+
+/* Keep text white inside intentionally dark gradient surfaces (e.g. the
+   resume header strip) even in light mode */
+html[data-theme="light"] .keep-white,
+html[data-theme="light"] .keep-white :is(div, p, span, svg, a, h1, h2, h3, h4, dd, dt) {
+    color: #ffffff !important;
+}
+
+/* Light mode hover: keep text readable on light surfaces instead of
+   flipping to white (white-on-white) */
+html[data-theme="light"] header nav a:hover,
+html[data-theme="light"] #mobileMenu a:hover,
+html[data-theme="light"] a.js-ajax-link:hover {
+    color: #0f172a;
+}
+
+/* ── Admin: dark surface overrides ── */
+html[data-theme="dark"] body {
+    background-color: #0b1020;
+    color: #cbd5e1;
+}
+
+html[data-theme="dark"] .bg-slate-100 {
+    background-color: #0b1020;
+}
+
+html[data-theme="dark"] .bg-slate-50 {
+    background-color: #131b2e;
+}
+
+html[data-theme="dark"] .bg-white {
+    background-color: #101726;
+}
+
+html[data-theme="dark"] .bg-white\/90,
+html[data-theme="dark"] .bg-white\/95 {
+    background-color: rgba(16, 23, 38, .92);
+}
+
+html[data-theme="dark"] .border-slate-100 {
+    border-color: #1e293b;
+}
+
+html[data-theme="dark"] .border-slate-200 {
+    border-color: #1e293b;
+}
+
+html[data-theme="dark"] .border-slate-300 {
+    border-color: #334155;
+}
+
+html[data-theme="dark"] .ring-slate-100,
+html[data-theme="dark"] .ring-slate-200 {
+    --tw-ring-color: #1e293b;
+}
+
+html[data-theme="dark"] .text-slate-400 {
+    color: #94a3b8;
+}
+
+html[data-theme="dark"] .text-slate-500 {
+    color: #94a3b8;
+}
+
+html[data-theme="dark"] .text-slate-600 {
+    color: #cbd5e1;
+}
+
+html[data-theme="dark"] .text-slate-700,
+html[data-theme="dark"] .text-slate-800 {
+    color: #e2e8f0;
+}
+
+html[data-theme="dark"] .text-navy-900,
+html[data-theme="dark"] .text-navy-950:not([class*="from-"]):not([class*="bg-gold"]) {
+    color: #f1f5f9;
+}
+
+html[data-theme="dark"] .text-navy-500,
+html[data-theme="dark"] .text-navy-600,
+html[data-theme="dark"] .text-navy-700,
+html[data-theme="dark"] .text-navy-800 {
+    color: #cbd5e1;
+}
+
+html[data-theme="dark"] .bg-navy-50,
+html[data-theme="dark"] .bg-navy-50\/50 {
+    background-color: #131b2e;
+}
+
+html[data-theme="dark"] .bg-navy-100 {
+    background-color: #1a2338;
+}
+
+html[data-theme="dark"] .border-navy-100,
+html[data-theme="dark"] .border-navy-200 {
+    border-color: #1e293b;
+}
+
+html[data-theme="dark"] .border-navy-300 {
+    border-color: #334155;
+}
+
+html[data-theme="dark"] .hover\:bg-navy-50:hover,
+html[data-theme="dark"] .hover\:bg-navy-100:hover {
+    background-color: #1a2338;
+}
+
+html[data-theme="dark"] .hover\:border-navy-300:hover {
+    border-color: #475569;
+}
+
+html[data-theme="dark"] .swal-popup {
+    background-color: #101726;
+    border-color: #1e293b;
+}
+
+html[data-theme="dark"] .swal-title {
+    color: #f1f5f9;
+}
+
+html[data-theme="dark"] .swal-html p {
+    color: #94a3b8;
+}
+
+html[data-theme="dark"] .hover\:bg-slate-50:hover,
+html[data-theme="dark"] .hover\:bg-slate-100:hover,
+html[data-theme="dark"] .hover\:bg-navy-50:hover {
+    background-color: #1a2338;
+}
+
+/* Admin dark: gold accents, toggle switches, dividers, unread rows */
+html[data-theme="dark"] .bg-gold-100,
+html[data-theme="dark"] .bg-gold-50\/30 {
+    background-color: rgba(251, 191, 36, .12);
+}
+
+html[data-theme="dark"] .text-gold-600,
+html[data-theme="dark"] .text-gold-700 {
+    color: #fbbf24;
+}
+
+html[data-theme="dark"] .text-gold-800 {
+    color: #fcd34d;
+}
+
+html[data-theme="dark"] .bg-slate-200 {
+    background-color: #1e293b;
+}
+
+html[data-theme="dark"] .bg-slate-300 {
+    background-color: #475569;
+}
+
+html[data-theme="dark"] .hover\:bg-slate-200:hover {
+    background-color: #1a2338;
+}
+
+/* Admin dark: hover text that was never remapped (navy) */
+html[data-theme="dark"] .hover\:text-navy-700:hover,
+html[data-theme="dark"] .hover\:text-navy-800:hover,
+html[data-theme="dark"] .hover\:text-navy-900:hover {
+    color: #f8fafc;
+}
+
+/* Admin dark: semantic status/money colors bumped to readable light shades */
+html[data-theme="dark"] .text-green-600,
+html[data-theme="dark"] .text-green-700,
+html[data-theme="dark"] .text-green-800,
+html[data-theme="dark"] .text-emerald-600,
+html[data-theme="dark"] .text-emerald-700 {
+    color: #4ade80;
+}
+
+html[data-theme="dark"] .text-red-600,
+html[data-theme="dark"] .text-red-700,
+html[data-theme="dark"] .text-red-800 {
+    color: #f87171;
+}
+
+html[data-theme="dark"] .hover\:text-red-600:hover {
+    color: #fca5a5;
+}
+
+html[data-theme="dark"] .text-amber-600,
+html[data-theme="dark"] .text-amber-700,
+html[data-theme="dark"] .text-amber-800 {
+    color: #fbbf24;
+}
+
+html[data-theme="dark"] .text-blue-600,
+html[data-theme="dark"] .text-blue-700,
+html[data-theme="dark"] .text-blue-800 {
+    color: #60a5fa;
+}
+
+html[data-theme="dark"] .text-cyan-600 {
+    color: #22d3ee;
+}
+
+html[data-theme="dark"] .text-purple-600 {
+    color: #c084fc;
+}
+
+/* Admin dark: pagination (vendor view uses the gray palette) */
+html[data-theme="dark"] .text-gray-500,
+html[data-theme="dark"] .text-gray-600 {
+    color: #94a3b8;
+}
+
+html[data-theme="dark"] .text-gray-700,
+html[data-theme="dark"] .text-gray-800 {
+    color: #e2e8f0;
+}
+
+html[data-theme="dark"] .hover\:text-gray-700:hover,
+html[data-theme="dark"] .hover\:text-gray-400:hover {
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .bg-gray-200 {
+    background-color: #475569;
+}
+
+html[data-theme="dark"] .border-gray-300 {
+    border-color: #334155;
+}
+
+/* Admin dark: pastel status chips → translucent dark tints */
+html[data-theme="dark"] .bg-green-50,
+html[data-theme="dark"] .bg-emerald-50 {
+    background-color: rgba(74, 222, 128, .12);
+}
+
+html[data-theme="dark"] .bg-red-50 {
+    background-color: rgba(248, 113, 113, .12);
+}
+
+html[data-theme="dark"] .bg-amber-50 {
+    background-color: rgba(251, 191, 36, .12);
+}
+
+html[data-theme="dark"] .bg-blue-50 {
+    background-color: rgba(96, 165, 250, .12);
+}
+
+html[data-theme="dark"] .bg-purple-50 {
+    background-color: rgba(192, 132, 252, .12);
+}
+
+html[data-theme="dark"] .bg-cyan-50 {
+    background-color: rgba(34, 211, 238, .12);
+}
+
+html[data-theme="dark"] .bg-green-100 {
+    background-color: rgba(74, 222, 128, .15);
+}
+
+html[data-theme="dark"] .bg-red-100 {
+    background-color: rgba(248, 113, 113, .15);
+}
+
+html[data-theme="dark"] .bg-amber-100 {
+    background-color: rgba(251, 191, 36, .15);
+}
+
+html[data-theme="dark"] .bg-blue-100 {
+    background-color: rgba(96, 165, 250, .15);
+}
+
+html[data-theme="dark"] .border-green-200 {
+    border-color: rgba(74, 222, 128, .3);
+}
+
+html[data-theme="dark"] .border-red-200 {
+    border-color: rgba(248, 113, 113, .3);
+}
+
+html[data-theme="dark"] .border-amber-200 {
+    border-color: rgba(251, 191, 36, .3);
+}
+
+html[data-theme="dark"] .border-blue-200 {
+    border-color: rgba(96, 165, 250, .3);
+}
+
+html[data-theme="dark"] .hover\:bg-red-50:hover {
+    background-color: rgba(248, 113, 113, .1);
+}
+
+html[data-theme="dark"] .hover\:bg-green-100:hover {
+    background-color: rgba(74, 222, 128, .12);
+}
+
+html[data-theme="dark"] .hover\:bg-amber-100:hover {
+    background-color: rgba(251, 191, 36, .12);
+}
+
+/* Admin dark: toggle-switch knob stays light so it reads on the track */
+html[data-theme="dark"] .rounded-full.bg-white {
+    background-color: #f1f5f9;
+}
+
+/* Admin dark: table row dividers */
+html[data-theme="dark"] .divide-slate-100 > :not([hidden]) ~ :not([hidden]),
+html[data-theme="dark"] .divide-slate-200 > :not([hidden]) ~ :not([hidden]) {
+    border-color: #1e293b;
+}
+
+/* Admin dark: calendar out-of-month cells stay muted, not light-on-light */
+html[data-theme="dark"] .bg-slate-50\/60 {
+    background-color: rgba(15, 23, 42, .45);
+}
+
+/* Admin dark: financial chart bars */
+html[data-theme="dark"] .bg-navy-700\/80 {
+    background-color: rgba(100, 116, 139, .75);
+}
+
+/* Admin dark: financial-period segmented active pill stands out on dark */
+html[data-theme="dark"] [data-financial-period].bg-white {
+    background-color: #334155;
+}
+
+/* Admin dark: task status filter pills — inactive pills must keep their
+   label/badge readable and stay visible against the dark page surface */
+html[data-theme="dark"] [data-task-tabs] button:not(.bg-navy-900) {
+    background-color: #131b2e;
+    --tw-ring-color: #334155;
+    color: #e2e8f0;
+}
+
+html[data-theme="dark"] [data-task-tabs] button:not(.bg-navy-900) span {
+    color: #cbd5e1;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   LIGHT-THEME REACH-FIX — surfaces that intentionally stay dark in
+   light mode (navy/violet gradient panels, admin sidebar, user
+   dropdown header) must keep their light text/icons. Without this,
+   the global light-theme remaps flip those to near-black and they
+   disappear on the still-dark background.
+   ════════════════════════════════════════════════════════════════ */
+
+html[data-theme="light"] :is(
+    #userDropdownMenu,
+    .keep-white,
+    [class*="from-navy"],
+    [class*="from-violet"],
+    [class*="to-navy"],
+    [class*="to-violet"]
+) :is(
+    .text-white, .text-slate-100, .text-slate-200, .text-slate-300,
+    .text-violet-200, .text-violet-300, .text-violet-400,
+    .text-green-200, .text-green-300, .text-emerald-300, .text-blue-300
+) {
+    color: #ffffff;
+}
+
+/* Hover states that were never remapped for light mode — flip them
+   so links/chips stay visible while hovering on light surfaces. */
+html[data-theme="light"] .hover\:bg-white\/10:hover,
+html[data-theme="light"] .hover\:bg-white\/20:hover {
+    background-color: #eef2ff;
+}
+
+html[data-theme="light"] .hover\:text-white:hover:not([class*="from-"]):not([class*="to-"]):not(.bg-violet-600) {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .hover\:text-violet-200:hover {
+    color: #4c1d95;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   ADMIN SIDEBAR — follow the active theme like the rest of the app.
+   Light mode: white rail with dark text. Dark mode: navy rail.
+   ════════════════════════════════════════════════════════════════ */
+
+html[data-theme="light"] #sidebar {
+    background-color: #ffffff;
+    border-right: 1px solid #e2e8f0;
+}
+
+html[data-theme="light"] #sidebar .border-white\/10 {
+    border-color: #e2e8f0;
+}
+
+html[data-theme="light"] #sidebar .bg-white\/5,
+html[data-theme="light"] #sidebar .bg-white\/10,
+html[data-theme="light"] #sidebar .hover\:bg-white\/5:hover {
+    background-color: #f1f5f9;
+}
+
+html[data-theme="light"] #sidebar .text-white {
+    color: #0f172a;
+}
+
+html[data-theme="light"] #sidebar .text-slate-400 {
+    color: #64748b;
+}
+
+html[data-theme="light"] #sidebar .hover\:text-white:hover,
+html[data-theme="light"] #sidebar .hover\:text-red-400:hover {
+    color: #0f172a;
+}
+
+html[data-theme="light"] #sidebar .hover\:bg-red-500\/10:hover {
+    background-color: #fef2f2;
+}
+
+html[data-theme="light"] #sidebar .bg-gradient-to-r.from-gold-500\/20 {
+    background-image: none;
+    background-color: #fffbeb;
+}
+
+html[data-theme="light"] #sidebar .ring-gold-500\/30 {
+    --tw-ring-color: rgba(217, 172, 64, .45);
+}
+
+html[data-theme="dark"] #sidebar {
+    background-color: #0b1020;
+}
+
+/* ── Theme toggle button: always read as a control in BOTH themes.
+      (The unlayered .bg-white/5 remap makes it white-on-white in light
+      mode, so give it an explicit visible chip.) ── */
+html[data-theme="light"] [data-theme-toggle] {
+    background-color: #e9e4fb !important;
+    border-color: #6d28d9 !important;
+    color: #4c1d95 !important;
+    box-shadow: 0 1px 3px rgba(109, 40, 217, .28) !important;
+}
+
+html[data-theme="dark"] [data-theme-toggle] {
+    background-color: rgba(255, 255, 255, .12) !important;
+    border-color: rgba(255, 255, 255, .35) !important;
+    color: #f1f5f9 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .4) !important;
+}
+
+/* ── Remaining light-mode color gaps found in the frontend audit ── */
+/* Stronger borders that were never remapped (hero outline buttons) */
+html[data-theme="light"] .border-white\/25,
+html[data-theme="light"] .border-white\/30 {
+    border-color: #cbd5e1;
+}
+
+/* Hover-tinted text: violet needs to darken, not turn white/wash out */
+html[data-theme="light"] .hover\:text-violet-300:hover {
+    color: #6d28d9;
+}
+
+html[data-theme="light"] .hover\:text-violet-400:hover {
+    color: #6d28d9;
+}
+
+html[data-theme="light"] .group:hover .group-hover\:text-violet-400 {
+    color: #6d28d9;
+}
+
+html[data-theme="light"] .group:hover .group-hover\:text-violet-300 {
+    color: #7c3aed;
+}
+
+html[data-theme="light"] .group:hover .group-hover\:text-violet-700 {
+    color: #4c1d95;
+}
+
+/* Mobile-menu row hover (was .hover:bg-white/5 = near-invisible) */
+html[data-theme="light"] .hover\:bg-white\/5:hover {
+    background-color: #f1f5f9;
+}
+
+/* Violet icon chips that sit ON dark gradient panels must stay tinted
+   in light mode, otherwise the reach-fix turns their white text into a
+   washy lavender-on-white chip. */
+html[data-theme="light"] :is(
+    [class*="from-navy"], [class*="from-violet"],
+    [class*="to-navy"], [class*="to-violet"]
+) .bg-violet-500\/15 {
+    background-color: rgba(139, 92, 246, .15);
+}
+
+/* ════════════════════════════════════════════════════════════════
+   FRONTEND "FULLY ANIMATED" — reveal variants + card hover effects.
+   These rules are unlayered so they win over Tailwind utilities and
+   the layered [data-reveal] defaults in @layer components below.
+   ════════════════════════════════════════════════════════════════ */
+
+/* Entrance reveal variants — pick one via data-reveal="left|right|..."
+   The layered [data-reveal] default (translateY up) still applies when
+   no value is given. */
+[data-reveal="fade"] {
+    transform: translateY(0);
+}
+
+[data-reveal="down"] {
+    transform: translateY(-30px);
+}
+
+[data-reveal="left"] {
+    transform: translateX(-40px);
+}
+
+[data-reveal="right"] {
+    transform: translateX(40px);
+}
+
+[data-reveal="zoom"] {
+    transform: scale(.8);
+}
+
+[data-reveal="flip"] {
+    transform: perspective(700px) rotateY(-16deg);
+    transform-origin: left center;
+}
+
+[data-reveal="blur"] {
+    filter: blur(8px);
+    transition: opacity .6s ease-out, transform .6s ease-out, filter .6s ease-out;
+}
+
+/* Reaching visible must always win (0,2,0 vs 0,1,0) and clear any
+   variant transform/blur so the card can settle. */
+[data-reveal].reveal-visible {
+    opacity: 1;
+    transform: none;
+    filter: none;
+}
+
+/* Card hover animations — one per card kind for variety */
+.hv-lift,
+.hv-pop,
+.hv-tilt,
+.hv-zoom,
+.hv-glow {
+    transition: transform .4s cubic-bezier(.22, 1, .36, 1), box-shadow .4s ease !important;
+    will-change: transform;
+}
+
+.hv-lift:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 18px 35px -14px rgba(124, 58, 237, .35);
+}
+
+.hv-pop:hover {
+    transform: scale(1.05);
+    box-shadow: 0 14px 30px -12px rgba(124, 58, 237, .3);
+}
+
+.hv-tilt:hover {
+    transform: translateY(-4px) rotate(1.2deg);
+    box-shadow: 0 16px 32px -14px rgba(124, 58, 237, .35);
+}
+
+.hv-zoom:hover {
+    transform: scale(1.08);
+    box-shadow: 0 18px 38px -16px rgba(124, 58, 237, .35);
+}
+
+.hv-glow:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, .25), 0 20px 40px -18px rgba(124, 58, 237, .5);
+}
+
+/* Light sweep across the card on hover */
+.hv-sheen {
+    position: relative;
+    overflow: hidden;
+}
+
+.hv-sheen::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, .35) 50%, transparent 70%);
+    transform: translateX(-130%);
+    transition: transform .8s ease;
+    pointer-events: none;
+}
+
+.hv-sheen:hover::after {
+    transform: translateX(130%);
+}
+
+html[data-theme="light"] .hv-sheen::after {
+    background: linear-gradient(115deg, transparent 30%, rgba(139, 92, 246, .14) 50%, transparent 70%);
+}
+
+/* Icon inside a card pops + spins on hover */
+.hv-icon {
+    transition: transform .4s cubic-bezier(.22, 1, .36, 1) !important;
+}
+
+.hv-icon:hover {
+    transform: scale(1.06);
+}
+
+.hv-icon svg {
+    transition: transform .4s cubic-bezier(.22, 1, .36, 1);
+}
+
+.hv-icon:hover svg {
+    transform: scale(1.18) rotate(8deg);
+}
+
+/* ════════════════════════════════════════════════════════════════
+   Theme-aware custom select / date / time pickers (dark mode)
+   The default .cs-* / .cp-* popups are light-styled in the theme
+   layer; on the frontend dark theme these flip to dark popups.
+   ──────────────────────────────────────────────────────────────── */
+html[data-theme="dark"] .cs-menu,
+html[data-theme="dark"] .cp-menu {
+    border-color: rgba(255, 255, 255, .12);
+    background-color: #0f1730;
+    box-shadow: 0 18px 40px -12px rgba(0, 0, 0, .6);
+}
+
+html[data-theme="dark"] .cp-panel-title {
+    color: #e2e8f0;
+}
+
+html[data-theme="dark"] .cp-panel-footer {
+    border-color: rgba(255, 255, 255, .1);
+}
+
+html[data-theme="dark"] .cs-option {
+    background: transparent;
+    color: #cbd5e1;
+}
+
+html[data-theme="dark"] .cs-option:hover {
+    background-color: rgba(139, 92, 246, .18);
+    color: #ffffff;
+}
+
+html[data-theme="dark"] .cs-option.is-selected,
+html[data-theme="dark"] .cs-option.is-selected:hover {
+    background-color: #7c3aed;
+    color: #ffffff;
+}
+
+html[data-theme="dark"] .cp-day,
+html[data-theme="dark"] .cp-time-chip {
+    background: transparent;
+    color: #cbd5e1;
+}
+
+html[data-theme="dark"] .cp-day:hover,
+html[data-theme="dark"] .cp-time-chip:hover {
+    background-color: rgba(139, 92, 246, .18);
+    color: #ffffff;
+}
+
+html[data-theme="dark"] .cp-day.is-selected,
+html[data-theme="dark"] .cp-day.is-selected:hover,
+html[data-theme="dark"] .cp-time-chip.is-selected,
+html[data-theme="dark"] .cp-time-chip.is-selected:hover {
+    background-color: #7c3aed;
+    color: #ffffff;
+}
+
+html[data-theme="dark"] .cp-day.is-disabled {
+    color: #475569;
+}
+
+html[data-theme="dark"] .cp-day.is-today:not(.is-selected) {
+    color: #e2bf68;
+    --tw-ring-color: #d9ac40;
+}
+
+html[data-theme="dark"] .cp-nav-btn,
+html[data-theme="dark"] .cp-action-btn {
+    color: #94a3b8;
+}
+
+html[data-theme="dark"] .cp-nav-btn:hover,
+html[data-theme="dark"] .cp-action-btn:hover {
+    background-color: rgba(139, 92, 246, .18);
+    color: #ffffff;
+}
+
+html[data-theme="dark"] .cp-action-btn:disabled {
+    color: #475569;
+}
+
+html[data-theme="dark"] .cp-weekday,
+html[data-theme="dark"] .cp-time-label {
+    color: #64748b;
+}
+
+html[data-theme="dark"] .cs-open .cs-chevron {
+    color: #a78bfa;
+}
+
+html[data-theme="dark"] .cs-open .cs-trigger,
+html[data-theme="dark"] .cp-open .cp-trigger {
+    border-color: rgba(139, 92, 246, .5);
+    --tw-ring-color: rgba(139, 92, 246, .3);
+}
+
+/* ════════════════════════════════════════════════════════════════
+   LIGHT-THEME TOUCH-UPS — found while testing light mode on the
+   frontend. Each rule beats the equivalent light-theme remap or
+   Tailwind utility because it is unlayered and sits last.
+   ──────────────────────────────────────────────────────────────── */
+
+/* Hero image + stat tiles: violet frame on a white hero, instead of
+   a nearly-invisible border-violet-400/20 */
+html[data-theme="light"] .border-violet-400\/20 {
+    border-color: rgba(139, 92, 246, .4);
+}
+
+/* Card hover feedback on white cards: add a visible violet border so
+   the lift/tilt/pop/glow/sheen reads in light mode too */
+html[data-theme="light"] .hv-lift:hover,
+html[data-theme="light"] .hv-pop:hover,
+html[data-theme="light"] .hv-tilt:hover,
+html[data-theme="light"] .hv-zoom:hover,
+html[data-theme="light"] .hv-glow:hover,
+html[data-theme="light"] .hv-sheen:hover {
+    border-color: rgba(139, 92, 246, .45);
+}
+
+/* Button text on violet hover: the global hover:text-white remap flips
+   it to dark navy on hover:bg-violet-600. Keep it white instead. Also,
+   the light-mode remaps (bg-violet-500/15, bg-white/10, ...) are
+   unlayered and normally beat the layered hover:bg-violet-600 utility,
+   so force the violet background here too. */
+html[data-theme="light"] .hover\:bg-violet-600:hover {
+    background-color: #7c3aed;
+    color: #ffffff !important;
+}
+
+/* Custom select / date / time pickers in LIGHT mode: the .is-selected
+   utilities (bg-navy-900 text-white) get their white flipped to dark
+   navy by the light remap, producing dark-on-dark. Fix the selected
+   cells to white-on-violet in both themes. */
+html[data-theme="light"] .cs-option.is-selected,
+html[data-theme="light"] .cs-option.is-selected:hover,
+html[data-theme="light"] .cp-day.is-selected,
+html[data-theme="light"] .cp-time-chip.is-selected {
+    background-color: #7c3aed;
+    color: #ffffff !important;
+}
+
+/* Solid colored buttons keep their white text in light mode — the global
+   text-white remap otherwise flips it to dark navy, producing dark-on-dark.
+   Applies to the same element carrying both classes (compound). */
+html[data-theme="light"] :is(
+    .bg-navy-900, .bg-navy-800, .bg-navy-700, .bg-navy-600, .bg-navy-500,
+    .bg-violet-600, .bg-violet-700, .bg-violet-800,
+    .bg-gold-600, .bg-gold-500,
+    .bg-red-500, .bg-red-600, .bg-red-700,
+    .bg-green-500, .bg-green-600, .bg-green-700,
+    .bg-blue-500, .bg-blue-600, .bg-blue-700,
+    .bg-amber-500, .bg-amber-600,
+    .bg-orange-500, .bg-orange-600,
+    .bg-emerald-500, .bg-emerald-600,
+    .bg-cyan-600, .bg-teal-600
+).text-white {
+    color: #ffffff !important;
+}
