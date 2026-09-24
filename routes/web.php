@@ -39,6 +39,25 @@ use App\Http\Controllers\Frontend\SkillController as FrontendSkillController;
 use App\Http\Controllers\Frontend\TermController as FrontendTermController;
 use App\Http\Controllers\Frontend\TestimonialController as FrontendTestimonialController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
+
+Route::get('/clear-cache', function() {
+// Clear application cache
+ Artisan::call('cache:clear');
+// Clear config cache
+ Artisan::call('config:clear');
+// Clear view cache
+ Artisan::call('view:clear');
+// Clear route cache
+ Artisan::call('route:clear');
+// Clear compiled class files
+ Artisan::call('clear-compiled');
+// Optimize the class loader
+ Artisan::call('optimize:clear');
+
+ return "Cache cleared successfully!";
+});
+
 
 // ---------------------------------------------------------------------------
 // Admin Authentication
