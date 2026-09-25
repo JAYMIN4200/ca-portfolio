@@ -59,25 +59,30 @@
                 @endif
             </div>
 
-            <div class="mt-12 lg:mt-0" data-reveal="zoom">
-                <div class="relative">
-                    <div class="absolute -inset-4 rounded-3xl bg-gradient-to-br from-violet-500/30 to-navy-500/20 blur-lg"></div>
-                    <div class="relative overflow-hidden rounded-3xl border border-violet-400/20 shadow-2xl">
-                        @php $heroPath = $settings['hero_image'] ?? null; @endphp
-                        @if ($heroPath)
-                            <img src="{{ Storage::url($heroPath) }}" alt="{{ $profile?->user?->name ?? 'Portfolio' }}" class="h-80 w-full object-cover md:h-96">
-                        @else
-                            <img src="{{ asset('images/gst-hero.svg') }}" alt="GST & Tax Illustration" class="h-80 w-full object-cover md:h-96">
-                        @endif
+            <div class="hero-shell mt-12 w-full lg:mt-0 lg:max-w-sm" data-reveal="zoom">
+                <div class="hero-lift relative">
+                    <div class="hero-aura"></div>
+
+                    <div class="hero-ring">
+                        <div class="hero-surface">
+                            @php $heroPath = $settings['hero_image'] ?? null; @endphp
+                            @if ($heroPath)
+                                <img src="{{ Storage::url($heroPath) }}" alt="{{ $profile?->user?->name ?? 'Portfolio' }}" class="aspect-square w-full object-cover">
+                            @else
+                                <img src="{{ asset('images/gst-hero.svg') }}" alt="GST & Tax Illustration" class="aspect-square w-full object-cover">
+                            @endif
+                        </div>
                     </div>
 
-                    <div class="absolute -right-3 -top-3 rounded-2xl border border-violet-400/30 bg-night/90 px-4 py-2.5 text-center shadow-xl backdrop-blur animate-float">
-                        <p class="bg-gradient-to-r from-violet-300 to-violet-500 bg-clip-text font-display text-2xl font-bold text-transparent">GST</p>
-                        <p class="text-[10px] font-medium uppercase tracking-wider text-slate-400">Expert</p>
+                    <div class="absolute -right-3 -top-3 hero-badge animate-float">
+                        <span class="hero-badge-ring" aria-hidden="true"></span>
+                        <p class="hero-badge-title">GST</p>
+                        <p class="hero-badge-label">Expert</p>
                     </div>
-                    <div class="absolute -bottom-4 -left-3 rounded-2xl border border-white/10 bg-night/90 px-4 py-2.5 text-center shadow-xl backdrop-blur animate-float-slow">
-                        <p class="font-display text-2xl font-bold text-violet-400">₹</p>
-                        <p class="text-[10px] font-medium uppercase tracking-wider text-slate-400">Tax Planning</p>
+                    <div class="absolute -bottom-4 -left-3 hero-badge animate-float-slow">
+                        <span class="hero-badge-ring" aria-hidden="true"></span>
+                        <p class="hero-badge-title font-display text-2xl font-bold">₹</p>
+                        <p class="hero-badge-label">Tax Planning</p>
                     </div>
                 </div>
             </div>

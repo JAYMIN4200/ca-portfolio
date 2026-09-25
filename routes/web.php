@@ -6,8 +6,8 @@ use App\Http\Controllers\Admin\CaseStudyController;
 use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\ClientWorkController;
 use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\ExperienceController;
 use App\Http\Controllers\Admin\ExpenseController;
+use App\Http\Controllers\Admin\ExperienceController;
 use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\Admin\MeetingController;
 use App\Http\Controllers\Admin\MessageController;
@@ -38,26 +38,32 @@ use App\Http\Controllers\Frontend\ServiceController as FrontendServiceController
 use App\Http\Controllers\Frontend\SkillController as FrontendSkillController;
 use App\Http\Controllers\Frontend\TermController as FrontendTermController;
 use App\Http\Controllers\Frontend\TestimonialController as FrontendTestimonialController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ThemeController;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Route;
 
-Route::get('/clear-cache', function() {
-// Clear application cache
- Artisan::call('cache:clear');
-// Clear config cache
- Artisan::call('config:clear');
-// Clear view cache
- Artisan::call('view:clear');
-// Clear route cache
- Artisan::call('route:clear');
-// Clear compiled class files
- Artisan::call('clear-compiled');
-// Optimize the class loader
- Artisan::call('optimize:clear');
+Route::get('/clear-cache', function () {
+    // Clear application cache
+    Artisan::call('cache:clear');
+    // Clear config cache
+    Artisan::call('config:clear');
+    // Clear view cache
+    Artisan::call('view:clear');
+    // Clear route cache
+    Artisan::call('route:clear');
+    // Clear compiled class files
+    Artisan::call('clear-compiled');
+    // Optimize the class loader
+    Artisan::call('optimize:clear');
 
- return "Cache cleared successfully!";
+    return 'Cache cleared successfully!';
 });
 
+// ---------------------------------------------------------------------------
+// Theme preference — shared by the frontend and the admin panel so a manual
+// toggle is remembered per section (localStorage primary, session backup).
+// ---------------------------------------------------------------------------
+Route::post('/theme', [ThemeController::class, 'update'])->name('theme.update');
 
 // ---------------------------------------------------------------------------
 // Admin Authentication

@@ -153,6 +153,20 @@
     }
 }
 
+/* Registered so the angle itself can be interpolated. Without @property the
+   conic-gradient would jump between stops instead of sweeping smoothly. */
+@property --hero-angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+}
+
+@keyframes heroRingSpin {
+    to {
+        --hero-angle: 360deg;
+    }
+}
+
 .admin-shell {
     transition: padding-left 0.3s ease;
 }
@@ -296,6 +310,14 @@
         @apply !text-lg !font-bold !text-navy-950;
     }
 
+    /* Must live in the same layer as the base rule above. The base sets its
+       colour with !important, and !important reverses the layer order — an
+       unlayered !important override has the LOWEST priority of all, so the
+       layered base would still win on specificity alone. */
+    html[data-theme="dark"] .swal-title {
+        color: #f1f5f9 !important;
+    }
+
     .swal-html {
         @apply !mt-1;
     }
@@ -342,6 +364,13 @@
 
     .swal-toast {
         @apply !rounded-xl !border !border-slate-200 !px-4 !py-3 shadow-xl;
+    }
+
+    /* Also has to sit in this layer, for the same reason as .swal-title: the
+       base border-color is !important, and a layered !important beats an
+       unlayered one regardless of specificity. */
+    html[data-theme="dark"] .swal-toast {
+        border-color: #1e293b !important;
     }
 
     .swal-toast .swal2-html-container {
@@ -482,15 +511,218 @@
     .cp-time-chip.is-selected {
         @apply bg-navy-900 text-white hover:bg-navy-900 hover:text-white;
     }
+
+    /* ── Homepage hero: right-hand portrait card ──
+       The old markup used a 1px border at only 20% alpha with a heavy
+       16px blur sitting right behind it, so the edge read as smeared
+       rather than crisp. Its aura also stayed dark navy on the light
+       theme, which turned to mud against a white page, and the badges
+       used backdrop-blur under a 90-94% opaque fill, so the blur never
+       actually showed. This version uses a real gradient hairline ring,
+       a theme-aware aura, and badges translucent enough for the glass
+       to be genuine. */
+
+    /* Outer wrapper paints the gradient and the inner surface sits on
+       top, so what looks like a border is a real gradient edge. A conic
+       gradient driven by a registered angle gives a border that flows
+       around the card instead of sitting still. */
+    .hero-ring {
+        @apply relative rounded-[1.75rem] p-px;
+        background-image: conic-gradient(from var(--hero-angle), rgba(167, 139, 250, .95), rgba(96, 165, 250, .55) 22%, rgba(217, 172, 64, .9) 45%, rgba(236, 72, 153, .7) 68%, rgba(167, 139, 250, .95) 100%);
+        animation: heroRingSpin 6s linear infinite;
+        transition: transform .55s cubic-bezier(.22, 1, .36, 1), box-shadow .45s ease;
+    }
+
+    html[data-theme="light"] .hero-ring {
+        background-image: conic-gradient(from var(--hero-angle), rgba(124, 58, 237, .7), rgba(37, 99, 235, .3) 22%, rgba(180, 140, 40, .65) 45%, rgba(219, 39, 119, .4) 68%, rgba(124, 58, 237, .7) 100%);
+    }
+
+    /* Brighter ring that fades in on hover. The opaque surface below it
+       occludes the middle, so only the 1px edge shows through. */
+    .hero-ring::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        pointer-events: none;
+        background: conic-gradient(from var(--hero-angle), rgba(221, 214, 254, 1), rgba(147, 197, 253, .95) 20%, rgba(253, 224, 71, 1) 45%, rgba(244, 114, 182, .9) 68%, rgba(221, 214, 254, 1) 100%);
+        opacity: 0;
+        transition: opacity .4s ease;
+    }
+
+    html[data-theme="light"] .hero-ring::before {
+        background: conic-gradient(from var(--hero-angle), rgba(91, 33, 182, .85), rgba(37, 99, 235, .6) 20%, rgba(180, 140, 40, .8) 45%, rgba(219, 39, 119, .5) 68%, rgba(91, 33, 182, .85) 100%);
+    }
+
+    /* Only the box-shadow lives here. The lift belongs to .hero-shell so the
+       image and the badges move together and stay aligned. */
+    .hero-ring:hover,
+    .hero-ring:focus-within {
+        box-shadow: 0 24px 60px -20px rgba(139, 92, 246, .8), 0 0 0 1px rgba(167, 139, 250, .3);
+    }
+
+    .hero-ring:hover::before,
+    .hero-ring:focus-within::before {
+        opacity: 1;
+    }
+
+    /* Lift the whole card (image + badges together) and bloom the aura.
+       The lift lives on an inner wrapper, not on .hero-shell itself: the
+       reveal stylesheet keeps an unlayered [data-reveal].reveal-visible
+       { transform: none } that deliberately outranks anything layered,
+       so a hover transform on the reveal element would be dropped. */
+    .hero-lift {
+        transition: transform .55s cubic-bezier(.22, 1, .36, 1);
+    }
+
+    .hero-shell:hover .hero-lift {
+        transform: translateY(-5px);
+    }
+
+    .hero-aura {
+        transition: opacity .45s ease, filter .45s ease;
+    }
+
+    .hero-shell:hover .hero-aura {
+        opacity: .9;
+        filter: blur(46px);
+    }
+
+    html[data-theme="light"] .hero-shell:hover .hero-aura {
+        opacity: .6;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .hero-ring {
+            animation: none;
+        }
+
+        .hero-shell:hover .hero-lift {
+            transform: none;
+        }
+    }
+
+    .hero-surface {
+        @apply relative overflow-hidden rounded-[calc(1.75rem_-_1px)];
+        /* The hero asset is a transparent cut-out PNG, so this surface has
+           to be opaque. Without it the ring gradient and the aura bleed
+           through the cut-out and read as a blurry colour wash over the
+           photo. */
+        background-color: #101830;
+        background-image: radial-gradient(120% 90% at 30% 10%, rgba(139, 92, 246, .35), transparent 60%), radial-gradient(90% 80% at 80% 90%, rgba(59, 130, 246, .28), transparent 60%);
+    }
+
+    html[data-theme="light"] .hero-surface {
+        background-color: #eef2ff;
+        background-image: radial-gradient(120% 90% at 30% 10%, rgba(139, 92, 246, .22), transparent 60%), radial-gradient(90% 80% at 80% 90%, rgba(59, 130, 246, .18), transparent 60%);
+    }
+
+    /* Diagonal light streak that crosses the frame on hover. */
+    .hero-surface::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: linear-gradient(105deg, transparent 38%, rgba(255, 255, 255, .22) 50%, transparent 62%);
+        transform: translateX(-120%);
+        transition: transform .9s cubic-bezier(.22, 1, .36, 1);
+    }
+
+    .hero-ring:hover .hero-surface::after,
+    .hero-ring:focus-within .hero-surface::after {
+        transform: translateX(120%);
+    }
+
+    html[data-theme="light"] .hero-surface::after {
+        background: linear-gradient(105deg, transparent 38%, rgba(124, 58, 237, .14) 50%, transparent 62%);
+    }
+
+    /* No static highlight overlay here: the hero is a cut-out PNG, so a
+       white wash across the top 45% tints the photo itself. The hover
+       sheen below is enough. */
+
+    .hero-aura {
+        @apply pointer-events-none absolute -inset-6 rounded-[2.25rem];
+        filter: blur(34px);
+        opacity: .55;
+        background: radial-gradient(70% 60% at 25% 20%, rgba(139, 92, 246, .75), transparent 70%), radial-gradient(60% 60% at 85% 80%, rgba(59, 130, 246, .5), transparent 70%);
+    }
+
+    html[data-theme="light"] .hero-aura {
+        opacity: .4;
+        background: radial-gradient(70% 60% at 25% 20%, rgba(139, 92, 246, .3), transparent 70%), radial-gradient(60% 60% at 85% 80%, rgba(59, 130, 246, .22), transparent 70%);
+    }
+
+    /* Real glass: the fill stays translucent enough for the blur behind
+       the badge to be visible, which is what sells the effect. */
+    .hero-badge {
+        @apply relative overflow-hidden rounded-2xl px-4 py-2.5 text-center shadow-xl backdrop-blur-xl backdrop-saturate-150;
+        background: rgba(11, 16, 32, .55);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, .18), 0 12px 30px -12px rgba(2, 6, 23, .8);
+    }
+
+    .hero-badge::before {
+        content: '';
+        position: absolute;
+        inset-inline: 0;
+        top: 0;
+        height: 1px;
+        background: linear-gradient(to right, transparent, rgba(255, 255, 255, .5), transparent);
+    }
+
+    html[data-theme="light"] .hero-badge {
+        background: rgba(255, 255, 255, .62);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, .9), 0 12px 28px -14px rgba(15, 23, 42, .35);
+    }
+
+    html[data-theme="light"] .hero-badge::before {
+        background: linear-gradient(to right, transparent, rgba(124, 58, 237, .45), transparent);
+    }
+
+    .hero-badge-ring {
+        @apply pointer-events-none absolute inset-0 rounded-2xl;
+        padding: 1px;
+        background: linear-gradient(135deg, rgba(167, 139, 250, .9), rgba(59, 130, 246, .25) 55%, rgba(217, 172, 64, .7));
+        -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+        mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+    }
+
+    html[data-theme="light"] .hero-badge-ring {
+        background: linear-gradient(135deg, rgba(124, 58, 237, .6), rgba(37, 99, 235, .2) 55%, rgba(180, 140, 40, .55));
+    }
+
+    /* Headline inside the badge needs a light-theme gradient too, the
+       default one started at violet-300 which is ~1.6:1 on white. */
+    .hero-badge-title {
+        @apply bg-clip-text font-display text-2xl font-bold text-transparent;
+        background-image: linear-gradient(120deg, #ddd6fe, #a78bfa 55%, #8b5cf6);
+    }
+
+    html[data-theme="light"] .hero-badge-title {
+        background-image: linear-gradient(120deg, #5b21b6, #7c3aed 55%, #4c1d95);
+    }
+
+    .hero-badge-label {
+        @apply text-[10px] font-medium uppercase tracking-wider text-slate-300;
+    }
+
+    html[data-theme="light"] .hero-badge-label {
+        @apply text-slate-600;
+    }
 }
 
 /* ════════════════════════════════════════════════════════════════
    THEME TOGGLES
-   [data-theme="light"] = frontend light mode (frontend default dark)
-   [data-theme="dark"]  = admin dark mode (admin default light)
+   Dark is the default on every page (frontend, admin, auth) via
+   data-theme-default="dark"; light mode is the opt-in override.
+   [data-theme="light"] = frontend + admin light surfaces
+   [data-theme="dark"]  = admin dark overrides
    The current theme is set on <html data-theme="..."> by an inline
-   head script (localStorage "ca_theme") and toggled from the
-   sun/moon buttons via initThemeToggle() in resources/js/app.js.
+   head script (localStorage "ca_theme_frontend" / "ca_theme_admin",
+   session backup) and toggled from the sun/moon buttons via
+   initThemeToggle() in resources/js/app.js.
    These rules are unlayered so they win over Tailwind utilities.
    ════════════════════════════════════════════════════════════════ */
 
@@ -764,17 +996,55 @@ html[data-theme="dark"] .hover\:border-navy-300:hover {
     border-color: #475569;
 }
 
+/* SweetAlert2 drives its own palette from CSS variables, so overriding the
+   two colour tokens fixes the confirm dialog, the flash toast and every
+   internal element at once. `html[data-theme]` outranks SweetAlert2's own
+   :root default, and unlike its `prefers-color-scheme` / data-swal2-theme
+   gates this follows the in-app toggle instead of the OS setting. */
+html[data-theme="dark"] {
+    --swal2-background: #101726;
+    --swal2-color: #e2e8f0;
+}
+
 html[data-theme="dark"] .swal-popup {
     background-color: #101726;
     border-color: #1e293b;
 }
 
-html[data-theme="dark"] .swal-title {
+html[data-theme="dark"] .swal-html p {
+    color: #94a3b8;
+}
+
+html[data-theme="dark"] .swal-toast {
+    background-color: #101726;
+}
+
+html[data-theme="dark"] .swal-toast p {
+    color: #e2e8f0;
+}
+
+/* The cancel button is a light pill by default, which reads as a bright
+   block on the dark dialog. */
+html[data-theme="dark"] .swal-btn-cancel {
+    background-color: #1e293b;
+    color: #e2e8f0;
+}
+
+html[data-theme="dark"] .swal-btn-cancel:hover {
+    background-color: #334155;
     color: #f1f5f9;
 }
 
-html[data-theme="dark"] .swal-html p {
-    color: #94a3b8;
+/* Icon discs use near-white tints by default, so swap them for a
+   translucent tint that reads on the dark surface. */
+html[data-theme="dark"] .swal-icon-danger {
+    background-color: rgba(239, 68, 68, .12);
+    color: #f87171;
+}
+
+html[data-theme="dark"] .swal-icon-warning {
+    background-color: rgba(201, 168, 76, .14);
+    color: #d9ac40;
 }
 
 html[data-theme="dark"] .hover\:bg-slate-50:hover,
@@ -1009,6 +1279,19 @@ html[data-theme="light"] :is(
     .text-green-200, .text-green-300, .text-emerald-300, .text-blue-300
 ) {
     color: #ffffff;
+}
+
+/* Same reach problem, but for backgrounds. The user dropdown's identity
+   card stays dark navy in light mode (the guard above keeps its text
+   white), yet the global remaps turn its translucent white fills solid:
+   .bg-white\/5 becomes #ffffff, so the "Last Login" row ends up white
+   under white guarded text. Keep the original alphas for both themes. */
+html[data-theme="light"] #userDropdownMenu .bg-white\/5 {
+    background-color: rgba(255, 255, 255, .05);
+}
+
+html[data-theme="light"] #userDropdownMenu .bg-white\/10 {
+    background-color: rgba(255, 255, 255, .1);
 }
 
 /* Hover states that were never remapped for light mode — flip them

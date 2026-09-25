@@ -42,14 +42,18 @@ document.addEventListener('DOMContentLoaded', initApp);
 /* ──────────────────────────────────────────────
    Light / dark theme toggle — applied via
    [data-theme] on <html>. The current theme is
-   shared across frontend and admin pages through
-   localStorage (key: ca_theme). An inline script
-   in each layout already pre-applies the saved
-   theme on first paint to avoid a flash.
+   stored per section so a frontend choice never
+   leaks into the admin panel:
+     localStorage  "ca_theme_frontend" / "ca_theme_admin"  (primary)
+     session       "theme_frontend"    / "theme_admin"      (backup)
+   Both are read back in an inline head script that
+   pre-applies the saved theme on first paint to avoid
+   a flash, falling through to data-theme-default.
    ────────────────────────────────────────────── */
 function initThemeToggle() {
-    const KEY = 'ca_theme';
     const root = document.documentElement;
+    const scope = root.dataset.themeScope || 'frontend';
+    const KEY = `ca_theme_${scope}`;
     const buttons = document.querySelectorAll('[data-theme-toggle]');
     if (!buttons.length) return;
 
@@ -63,12 +67,29 @@ function initThemeToggle() {
         });
     };
 
+    const rememberInSession = (value) => {
+        const endpoint = document.querySelector('meta[name="theme-endpoint"]')?.content;
+        if (!endpoint) return;
+
+        const body = new URLSearchParams({ scope, theme: value });
+        const token = document.querySelector('meta[name="csrf-token"]')?.content;
+        if (token) body.set('_token', token);
+
+        fetch(endpoint, {
+            method: 'POST',
+            body,
+            headers: { 'X-Requested-With': 'XMLHttpRequest' },
+            keepalive: true,
+        }).catch(() => { /* theme already applied locally */ });
+    };
+
     buttons.forEach((btn) => {
         btn.addEventListener('click', () => {
             theme = theme === 'dark' ? 'light' : 'dark';
             try {
                 localStorage.setItem(KEY, theme);
             } catch (err) { /* storage unavailable */ }
+            rememberInSession(theme);
             sync();
         });
     });

@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-theme-default="dark">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-theme-default="dark" data-theme-scope="frontend" data-theme-session="{{ session('theme_frontend') }}">
     <head>
         @props(['seoTitle' => null, 'seoDescription' => null])
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <script>!function(){var t=null;try{t=localStorage.getItem('ca_theme')}catch(e){}document.documentElement.setAttribute('data-theme',t||document.documentElement.getAttribute('data-theme-default')||'dark')}();</script>
+        <meta name="theme-endpoint" content="{{ route('theme.update') }}">
+        <script>!function(){var d=document.documentElement,k='ca_theme_'+(d.getAttribute('data-theme-scope')||'frontend'),t=null;try{t=localStorage.getItem(k)}catch(e){}d.setAttribute('data-theme',t||d.getAttribute('data-theme-session')||d.getAttribute('data-theme-default')||'dark')}();</script>
         @if (!empty($seoTitle))
             <title>{{ $seoTitle }}</title>
         @else

@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-theme-default="light">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-theme-default="dark" data-theme-scope="admin" data-theme-session="{{ session('theme_admin') }}">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <script>!function(){var t=null;try{t=localStorage.getItem('ca_theme')}catch(e){}document.documentElement.setAttribute('data-theme',t||document.documentElement.getAttribute('data-theme-default')||'light')}();</script>
+        <meta name="theme-endpoint" content="{{ route('theme.update') }}">
+        <script>!function(){var d=document.documentElement,k='ca_theme_'+(d.getAttribute('data-theme-scope')||'frontend'),t=null;try{t=localStorage.getItem(k)}catch(e){}d.setAttribute('data-theme',t||d.getAttribute('data-theme-session')||d.getAttribute('data-theme-default')||'dark')}();</script>
         @php
             $siteName = \App\Services\SettingsService::get('site_name', config('app.name'));
             $favicon = \App\Services\SettingsService::get('site_favicon');
