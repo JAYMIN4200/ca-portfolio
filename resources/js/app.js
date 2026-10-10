@@ -1293,7 +1293,8 @@ function initCustomPickers(scope) {
                     b.type = 'button';
                     b.className = 'cp-nav-btn';
                     b.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-4 w-4 ${dir === 'next' ? 'ml-auto' : ''}"><path stroke-linecap="round" stroke-linejoin="round" d="${dir === 'prev' ? 'M15.75 19.5L8.25 12l7.5-7.5' : 'M8.25 4.5l7.5 7.5-7.5 7.5'}" /></svg>`;
-                    b.addEventListener('click', () => {
+                    b.addEventListener('click', (e) => {
+                        e.stopPropagation();
                         cursor.month += dir === 'next' ? 1 : -1;
                         if (cursor.month < 0) { cursor.month = 11; cursor.year -= 1; }
                         if (cursor.month > 11) { cursor.month = 0; cursor.year += 1; }

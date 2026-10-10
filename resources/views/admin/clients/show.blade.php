@@ -105,7 +105,7 @@
                                     <th class="py-2 text-right">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-slate-100">
+                            <tbody>
                                 @foreach ($client->payments as $payment)
                                     <tr>
                                         <td class="py-2 pr-4 text-slate-600">{{ $payment->payment_date?->format('d M Y') }}</td>

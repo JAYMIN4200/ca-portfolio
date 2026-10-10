@@ -1,6 +1,6 @@
 <div class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-200">
     <div class="overflow-x-auto">
-        <table class="min-w-full divide-y divide-slate-200">
+        <table class="min-w-full">
             <thead class="bg-slate-50">
                 <tr>
                     <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">Date</th>
@@ -12,7 +12,7 @@
                     <th class="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wider text-slate-500">Actions</th>
                 </tr>
             </thead>
-            <tbody class="divide-y divide-slate-100">
+            <tbody>
                 @forelse ($payments as $payment)
                     <tr>
                         <td class="px-4 py-3 text-sm text-slate-600">{{ $payment->payment_date?->format('d M Y') }}</td>
@@ -65,3 +65,5 @@
         </div>
     @endif
 </div>
+
+

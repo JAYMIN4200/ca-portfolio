@@ -33,7 +33,7 @@
             <p class="text-xs font-semibold uppercase tracking-wider text-slate-500">Recent Payments</p>
             <div class="mt-1.5 overflow-hidden rounded-lg bg-white ring-1 ring-slate-200">
                 <table class="min-w-full divide-y divide-slate-100 text-sm">
-                    <tbody class="divide-y divide-slate-100" data-summary-history>
+                    <tbody data-summary-history>
                         @foreach ($summary['history'] as $payment)
                             <tr>
                                 <td class="px-3 py-2 text-xs text-slate-600">{{ $payment['date'] }}</td>
