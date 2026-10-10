@@ -24,7 +24,7 @@
                 <p class="mt-4 text-base text-slate-300">A few reasons clients rely on us for their accounting, audit and taxation needs.</p>
             </div>
 
-            <div class="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3" data-reveal-stagger="90">
+            <x-frontend.grid :items="$reasons->count()" class="mt-12" data-reveal-stagger="90">
                 @foreach ($reasons as $reason)
                     <div class="group relative overflow-hidden rounded-2xl border border-white/10 bg-night/5 p-6 shadow-lg backdrop-blur transition-all duration-300 hover:border-violet-400/60 hover:shadow-2xl hover:shadow-violet-600/25" data-reveal="zoom">
                         <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(139,92,246,0.28),transparent_60%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
@@ -40,7 +40,7 @@
                         @endif
                     </div>
                 @endforeach
-            </div>
+            </x-frontend.grid>
         </div>
     </section>
 @endif

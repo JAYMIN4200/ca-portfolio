@@ -11,7 +11,7 @@
                         <div>
                             <p class="text-sm font-medium text-slate-700">Current photo</p>
                             <label class="mt-1 flex items-center gap-2 text-xs text-red-600">
-                                <input type="checkbox" name="remove_photo" value="1" class="rounded border-slate-300 text-red-600 focus:ring-red-500">
+                                <input type="checkbox" name="remove_photo" value="1" class="rounded border-slate-300 accent-red-600 focus:ring-red-500">
                                 Remove this photo
                             </label>
                         </div>
@@ -22,7 +22,7 @@
                     <x-admin.form-input name="designation" label="Designation" :value="$testimonial->designation" placeholder="E.g. Proprietor" />
                     <x-admin.form-input name="company" label="Company" :value="$testimonial->company" placeholder="E.g. Shree Balaji Traders" />
                 </div>
-                <x-admin.form-textarea name="message" label="Testimonial" :value="$testimonial->message" rows="5" required placeholder="What did the client say about your work?" />
+                <x-admin.form-textarea name="message" label="Testimonial" :value="$testimonial->message" rows="5" required placeholder="What did the client say about your work?" help="Short quote shown in the testimonial card on the website." />
                 <div class="grid grid-cols-2 gap-4">
                     <x-admin.form-input name="rating" label="Rating" type="number" min="1" max="5" :value="$testimonial->rating" placeholder="1-5" />
                     <x-admin.form-input name="display_order" label="Display Order" type="number" :value="$testimonial->display_order" placeholder="0" />

@@ -1,11 +1,9 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-theme-default="dark" data-theme-scope="admin" data-theme-session="{{ session('theme_admin') }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-theme="dark">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <meta name="theme-endpoint" content="{{ route('theme.update') }}">
-        <script>!function(){var d=document.documentElement,k='ca_theme_'+(d.getAttribute('data-theme-scope')||'frontend'),t=null;try{t=localStorage.getItem(k)}catch(e){}d.setAttribute('data-theme',t||d.getAttribute('data-theme-session')||d.getAttribute('data-theme-default')||'dark')}();</script>
         @php
             $siteName = \App\Services\SettingsService::get('site_name', config('app.name'));
             $favicon = \App\Services\SettingsService::get('site_favicon');
@@ -19,16 +17,7 @@
         @endif
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="min-h-screen bg-navy-950 font-sans text-slate-200 antialiased">
-        <button type="button" data-theme-toggle aria-label="Toggle light / dark theme"
-            class="fixed right-4 top-4 z-50 rounded-xl border border-gold-500/40 bg-navy-900/80 p-2 text-gold-400 backdrop-blur transition-colors hover:bg-navy-800">
-            <svg data-icon-dark xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
-            </svg>
-            <svg data-icon-light class="hidden h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
-            </svg>
-        </button>
+    <body class="relative min-h-screen overflow-x-hidden bg-gradient-to-br from-navy-950 via-violet-950 to-night font-sans text-slate-200 antialiased">
         @if (session('toast'))
             <div data-toast='{{ json_encode(session('toast')) }}' class="hidden"></div>
         @endif
@@ -54,6 +43,10 @@
                 </div>
             </div>
         @endif
-        {{ $slot }}
+        <x-admin.auth-backdrop />
+
+        <div class="relative z-10">
+            {{ $slot }}
+        </div>
     </body>
 </html>

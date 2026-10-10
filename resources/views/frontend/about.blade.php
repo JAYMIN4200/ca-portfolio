@@ -18,8 +18,11 @@
     />
 
     @if ($profile?->years_of_experience || $profile?->clients_count)
+        @php
+            $aboutStatCount = collect([$profile?->years_of_experience, $profile?->clients_count, $qualifications->isNotEmpty() ? 1 : null])->filter()->count() + 1;
+        @endphp
         <section class="border-b border-white/5 bg-ink">
-            <div class="container-app grid grid-cols-2 gap-6 py-10 lg:grid-cols-4" data-reveal-stagger="100">
+            <x-frontend.grid :items="$aboutStatCount" max="4" class="container-app py-10" data-reveal-stagger="100">
                 @if ($profile?->years_of_experience)
                     <div class="text-center" data-reveal="down">
                         <p class="font-display text-3xl font-semibold text-white md:text-4xl"><span data-count-to="{{ $profile->years_of_experience }}" data-count-suffix="+">0+</span></p>
@@ -42,7 +45,7 @@
                     <p class="font-display text-3xl font-semibold text-white md:text-4xl"><span data-count-to="100" data-count-suffix="%">0%</span></p>
                     <p class="mt-1 text-sm font-medium text-slate-400">Commitment</p>
                 </div>
-            </div>
+            </x-frontend.grid>
         </section>
     @endif
 
@@ -76,7 +79,8 @@
                 @endif
 
                 @if (!empty($settings['mission']) || !empty($settings['vision']))
-                    <div class="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2" data-reveal-stagger="90">
+                    @php $mvCount = collect([$settings['mission'] ?? null, $settings['vision'] ?? null])->filter()->count(); @endphp
+                    <x-frontend.grid :items="$mvCount" max="2" class="mt-10" data-reveal-stagger="90">
                         @if (!empty($settings['mission']))
                             <div class="rounded-2xl border border-white/10 bg-night/5 p-6 shadow-lg backdrop-blur hv-lift" data-reveal="fade">
                                 <span class="flex h-11 w-11 items-center justify-center rounded-xl bg-violet-500/15 text-violet-300 ring-1 ring-violet-500/30">
@@ -99,7 +103,7 @@
                                 <p class="mt-2 text-sm leading-relaxed text-slate-300">{{ $settings['vision'] }}</p>
                             </div>
                         @endif
-                    </div>
+                    </x-frontend.grid>
                 @endif
 
                 @if ($qualifications->isNotEmpty())

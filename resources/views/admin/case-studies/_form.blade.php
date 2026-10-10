@@ -11,10 +11,10 @@
         <x-admin.form-input name="client_name" label="Client Name" :value="$caseStudy?->client_name" placeholder="E.g. Sharma Traders" />
         <x-admin.form-input name="category" label="Category" :value="$caseStudy?->category" placeholder="E.g. Taxation, Audit, Advisory" />
     </div>
-    <x-admin.form-textarea name="summary" label="Summary" rows="2" :value="$caseStudy?->summary" placeholder="A short one-line summary shown on the listing." />
-    <x-admin.form-textarea name="challenge" label="The Challenge" rows="3" :value="$caseStudy?->challenge" placeholder="What problem did the client face?" />
-    <x-admin.form-textarea name="solution" label="Our Solution" rows="3" :value="$caseStudy?->solution" placeholder="How did you solve it?" />
-    <x-admin.form-textarea name="results" label="The Results" rows="3" :value="$caseStudy?->results" placeholder="Measurable outcomes achieved." />
+    <x-admin.form-textarea name="summary" label="Summary" rows="2" :value="$caseStudy?->summary" placeholder="A short one-line summary shown on the listing." help="One-line summary shown on the case studies listing and in the page header." />
+    <x-admin.form-textarea name="challenge" label="The Challenge" rows="3" :value="$caseStudy?->challenge" placeholder="What problem did the client face?" help="Line breaks are preserved. Use a new line for each point." />
+    <x-admin.form-textarea name="solution" label="Our Solution" rows="3" :value="$caseStudy?->solution" placeholder="How did you solve it?" help="Line breaks are preserved. Use a new line for each point." />
+    <x-admin.form-textarea name="results" label="The Results" rows="3" :value="$caseStudy?->results" placeholder="Measurable outcomes achieved." help="Line breaks are preserved. Use a new line for each point." />
 </div>
 
 <div class="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">

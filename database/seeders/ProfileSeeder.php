@@ -40,9 +40,6 @@ class ProfileSeeder extends Seeder
                     ['label' => 'GitHub', 'url' => 'https://github.com/jinendra2002'],
                     ['label' => 'WhatsApp', 'url' => 'https://wa.me/919979024601'],
                 ],
-                'seo_title' => 'Jinendra Panchal | CA Finalist — Accounting, Audit & Taxation',
-                'seo_description' => 'Portfolio of Jinendra Panchal, CA Finalist specialising in accounting, audit, GST and income tax compliance. Explore my qualifications, skills and professional assignments.',
-                'seo_keywords' => 'Jinendra Panchal, CA Finalist, Chartered Accountant, Accounting, Audit, Taxation, GST, Income Tax, Articleship, Ahmedabad',
             ]
         );
     }

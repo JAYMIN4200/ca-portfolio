@@ -13,7 +13,7 @@
                     <x-admin.form-input name="end_date" label="End Date" type="date" :value="$experience->end_date?->format('Y-m-d')" placeholder="YYYY-MM-DD" help="Leave blank if currently working" />
                 </div>
                 <x-admin.form-checkbox name="is_current" label="Currently working here" :checked="$experience->is_current" />
-                <x-admin.form-textarea name="description" label="Description" :value="$experience->description" rows="4" placeholder="Describe your role and key achievements..." />
+                <x-admin.form-textarea name="description" label="Description" :value="$experience->description" rows="4" placeholder="Describe your role and key achievements..." help="Optional intro paragraph shown at the top of this experience entry." />
 
                 <div>
                     <label class="mb-1.5 block text-sm font-medium text-slate-700">Responsibilities</label>
@@ -33,6 +33,7 @@
                         @endforelse
                     </div>
                     <button type="button" data-target="responsibilitiesWrapper" class="add-list-item mt-2 text-sm font-medium text-navy-700 hover:underline">+ Add responsibility</button>
+                    <p class="mt-1.5 text-xs text-slate-500">Each item appears as a checkmark bullet under "Key Responsibilities" on the website.</p>
                 </div>
 
                 <div>
@@ -53,6 +54,7 @@
                         @endforelse
                     </div>
                     <button type="button" data-target="skillsUsedWrapper" class="add-list-item mt-2 text-sm font-medium text-navy-700 hover:underline">+ Add skill</button>
+                    <p class="mt-1.5 text-xs text-slate-500">Each skill appears as a small tag/chip on the website.</p>
                 </div>
 
                 <div class="grid grid-cols-2 gap-4">

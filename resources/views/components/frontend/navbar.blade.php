@@ -4,11 +4,9 @@
     $navItems = [
         ['label' => 'Home', 'route' => 'home'],
         ['label' => 'About', 'route' => 'about'],
-        ['label' => 'Qualifications', 'route' => 'qualifications'],
-        ['label' => 'Skills', 'route' => 'skills'],
         ['label' => 'Experience', 'route' => 'experience'],
         ['label' => 'Services', 'route' => 'services'],
-        ['label' => 'Assignments', 'route' => 'assignments'],
+        ['label' => 'Testimonials', 'route' => 'testimonials'],
         ['label' => 'Contact', 'route' => 'contact'],
     ];
 @endphp

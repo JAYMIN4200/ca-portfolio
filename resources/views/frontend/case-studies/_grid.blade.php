@@ -1,5 +1,5 @@
 @if ($caseStudies->isNotEmpty())
-    <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3" data-reveal-stagger="80">
+    <x-frontend.grid :items="$caseStudies->count()" data-reveal-stagger="80">
         @foreach ($caseStudies as $caseStudy)
             <a href="{{ route('case-studies.show', $caseStudy) }}" class="group overflow-hidden rounded-2xl border border-white/10 bg-night/5 shadow-lg backdrop-blur transition-all hover:-translate-y-1 hover:shadow-lg hv-lift" data-reveal="zoom">
                 @if (!empty($caseStudy->image_path))
@@ -21,7 +21,7 @@
                 </div>
             </a>
         @endforeach
-    </div>
+    </x-frontend.grid>
 
     @if ($caseStudies->hasPages())
         <div class="mt-10">

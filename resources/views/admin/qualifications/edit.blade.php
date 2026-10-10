@@ -12,7 +12,7 @@
                     <x-admin.form-input name="start_year" label="Start Year" type="number" :value="$qualification->start_year" placeholder="E.g. 2020" />
                     <x-admin.form-input name="end_year" label="Completion Year" type="number" :value="$qualification->end_year" placeholder="E.g. 2023" />
                 </div>
-                <x-admin.form-textarea name="description" label="Description" :value="$qualification->description" rows="4" placeholder="Any additional details about this qualification..." />
+                <x-admin.form-textarea name="description" label="Description" :value="$qualification->description" rows="4" placeholder="Any additional details about this qualification..." help="Optional. Appears under this qualification in the 'CA & Academic Journey' section and on the Qualifications page." />
                 <div class="grid grid-cols-2 gap-4">
                     <x-admin.form-input name="display_order" label="Display Order" type="number" :value="$qualification->display_order" placeholder="0" />
                     <div class="pt-6">

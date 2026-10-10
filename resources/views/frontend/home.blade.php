@@ -125,7 +125,7 @@
                     title="Professional Qualification"
                     description="Strong academic foundation built through the Chartered Accountancy journey and commerce studies."
                 />
-                <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4" data-reveal-stagger="90">
+                <x-frontend.grid :items="$qualifications->count()" max="4" data-reveal-stagger="90">
                     @foreach ($qualifications as $qualification)
                         <div class="group relative overflow-hidden rounded-2xl border border-white/10 bg-night/5 p-6 shadow-lg backdrop-blur transition-all duration-300 hover:-translate-y-1 hover:border-violet-400/50 hover:bg-night/10 hover:shadow-2xl hover:shadow-violet-900/40 hv-pop" data-reveal="zoom">
                             <div class="absolute -right-6 -top-6 h-20 w-20 rounded-full bg-violet-500/10 transition-all group-hover:scale-125"></div>
@@ -146,7 +146,7 @@
                             </span>
                         </div>
                     @endforeach
-                </div>
+                </x-frontend.grid>
             </div>
         </section>
     @endif
@@ -154,7 +154,7 @@
     {{-- About preview --}}
     @if (!empty($profile?->about_me) || !empty($profile?->career_objective))
         <section class="bg-ink py-16 md:py-20">
-            <div class="container-app grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
+            <div class="container-app grid grid-cols-1 items-center gap-12 {{ $qualifications->isNotEmpty() ? 'lg:grid-cols-2' : 'lg:gap-0' }}">
                 <div data-reveal="left">
                     <x-frontend.section-heading eyebrow="About Me" title="A Journey Toward Chartered Accountancy" align="left" description="{{ $profile?->professional_title ?? 'CA Finalist | Accounting, Audit & Taxation' }}" />
                     <div class="space-y-4 text-base leading-relaxed text-slate-300">
@@ -179,17 +179,19 @@
                     </a>
                 </div>
 
-                <div class="grid grid-cols-2 gap-4" data-reveal-stagger="100">
-                    @foreach ($qualifications->take(4) as $qualification)
-                        <div class="rounded-xl border border-white/10 bg-night/5 p-5 text-center shadow-lg backdrop-blur transition-all duration-300 hover:-translate-y-1 hover:border-violet-400/50 hover:bg-night/10 hover:shadow-2xl hover:shadow-violet-900/40 hv-pop" data-reveal="zoom">
-                            <p class="text-3xl font-semibold text-violet-600">
-                                {{ $qualification->status === 'completed' ? '✓' : ($qualification->status === 'cleared' ? '★' : '◉') }}
-                            </p>
-                            <p class="mt-1 text-sm font-medium text-slate-300">{{ $qualification->name }}</p>
-                            <p class="text-xs text-slate-400">{{ $qualification->status_label }}</p>
-                        </div>
-                    @endforeach
-                </div>
+                @if ($qualifications->isNotEmpty())
+                    <x-frontend.grid :items="$qualifications->take(4)->count()" max="2" gap="gap-4" data-reveal-stagger="100">
+                        @foreach ($qualifications->take(4) as $qualification)
+                            <div class="rounded-xl border border-white/10 bg-night/5 p-5 text-center shadow-lg backdrop-blur transition-all duration-300 hover:-translate-y-1 hover:border-violet-400/50 hover:bg-night/10 hover:shadow-2xl hover:shadow-violet-900/40 hv-pop" data-reveal="zoom">
+                                <p class="text-3xl font-semibold text-violet-600">
+                                    {{ $qualification->status === 'completed' ? '✓' : ($qualification->status === 'cleared' ? '★' : '◉') }}
+                                </p>
+                                <p class="mt-1 text-sm font-medium text-slate-300">{{ $qualification->name }}</p>
+                                <p class="text-xs text-slate-400">{{ $qualification->status_label }}</p>
+                            </div>
+                        @endforeach
+                    </x-frontend.grid>
+                @endif
             </div>
         </section>
     @endif
@@ -206,7 +208,7 @@
                     title="Areas of Expertise"
                     description="Professional skills developed through the CA curriculum and hands-on Articleship experience."
                 />
-                <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3" data-reveal-stagger="90">
+                <x-frontend.grid :items="$skills->count()" data-reveal-stagger="90">
                     @foreach ($skills as $category)
                         <div class="rounded-2xl border border-white/10 bg-night/5 p-6 shadow-lg backdrop-blur transition-all duration-300 hover:-translate-y-1 hover:border-violet-400/50 hover:bg-night/10 hover:shadow-2xl hover:shadow-violet-900/40 hv-tilt" data-reveal="right">
                             <h3 class="flex items-center gap-3 font-display text-base font-semibold text-white">
@@ -231,7 +233,7 @@
                             </ul>
                         </div>
                     @endforeach
-                </div>
+                </x-frontend.grid>
             </div>
         </section>
     @endif
@@ -253,7 +255,7 @@
                     <h2 class="font-display text-3xl font-bold text-white md:text-4xl"><span class="text-shine">Professional Services</span></h2>
                     <p class="mt-4 text-base leading-relaxed text-slate-300">Expert assistance and support across core finance, taxation and compliance domains.</p>
                 </div>
-                <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3" data-reveal-stagger="90">
+                <x-frontend.grid :items="$services->count()" data-reveal-stagger="90">
                     @foreach ($services as $service)
                         <div class="group relative overflow-hidden rounded-2xl border border-white/10 bg-night/5 p-6 backdrop-blur transition-all hover:-translate-y-1 hover:border-violet-400/40 hover:bg-night/10 hover:shadow-xl hover:shadow-violet-600/10 hv-sheen hv-icon" data-reveal="zoom">
                             <div class="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-violet-500/10 blur-2xl transition-all group-hover:scale-150"></div>
@@ -276,7 +278,7 @@
                             <p class="mt-2 text-sm leading-relaxed text-slate-300">{{ $service->short_description }}</p>
                         </div>
                     @endforeach
-                </div>
+                </x-frontend.grid>
             </div>
         </section>
     @endif
@@ -290,7 +292,7 @@
                     title="Professional Assignments"
                     description="A selection of professional work and assignments undertaken, showcased without revealing confidential client information."
                 />
-                <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3" data-reveal-stagger="90">
+                <x-frontend.grid :items="$assignments->count()" data-reveal-stagger="90">
                     @foreach ($assignments as $assignment)
                         <a href="{{ route('assignments.show', $assignment) }}" class="group overflow-hidden rounded-2xl border border-white/10 bg-night/5 shadow-lg backdrop-blur transition-all duration-300 hover:-translate-y-1 hover:border-violet-400/50 hover:bg-night/10 hover:shadow-2xl hover:shadow-violet-900/40 hv-tilt" data-reveal="left">
                             @if (!empty($assignment->image_path))
@@ -309,7 +311,7 @@
                             </div>
                         </a>
                     @endforeach
-                </div>
+                </x-frontend.grid>
                 <div class="mt-10 text-center" data-reveal="fade">
                     <a href="{{ route('assignments') }}" class="inline-flex items-center gap-2 rounded-lg border border-white/25 px-6 py-3 text-sm font-semibold text-white transition-all hover:border-violet-400 hover:bg-violet-500/10 hover:text-violet-200">
                         View All Assignments
@@ -399,14 +401,18 @@
     @endif
 
     {{-- Contact preview --}}
-    <section class="bg-night py-16 md:py-20">
+    @if (!empty($settings['contact_email']) || !empty($settings['contact_phone']) || !empty($settings['contact_location']))
+        <section class="bg-night py-16 md:py-20">
         <div class="container-app">
             <x-frontend.section-heading
                 eyebrow="Contact"
                 title="Let's Stay Connected"
                 description="Feel free to reach out for professional discussions, collaboration, or opportunities."
             />
-            <div class="grid grid-cols-1 gap-6 md:grid-cols-3" data-reveal-stagger="90">
+            @php
+                $contactCount = collect([$settings['contact_email'] ?? null, $settings['contact_phone'] ?? null, $settings['contact_location'] ?? null])->filter()->count();
+            @endphp
+            <x-frontend.grid :items="$contactCount" max="3" data-reveal-stagger="90">
                 @if (!empty($settings['contact_email']))
                     <a href="mailto:{{ $settings['contact_email'] }}" class="group block rounded-2xl border border-white/10 bg-night/5 p-6 text-center shadow-lg backdrop-blur transition-all duration-300 hover:-translate-y-0.5 hover:border-violet-400/50 hover:shadow-xl hv-lift" data-reveal="left">
                         <div class="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-violet-50 text-violet-700 group-hover:scale-105 group-hover:bg-violet-500/20 group-hover:text-violet-400">
@@ -441,7 +447,8 @@
                         <p class="mt-1 text-sm font-medium text-slate-300 group-hover:text-slate-200">{{ $settings['contact_location'] }}</p>
                     </div>
                 @endif
-            </div>
+            </x-frontend.grid>
         </div>
-    </section>
+        </section>
+    @endif
 </x-frontend.layouts.app>

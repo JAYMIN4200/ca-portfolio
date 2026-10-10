@@ -7,7 +7,7 @@
 
     <section class="bg-ink py-16 md:py-20">
         <div class="container-app">
-            <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3" data-reveal-stagger="90">
+            <x-frontend.grid :items="$testimonials->count()" data-reveal-stagger="90">
                 @foreach ($testimonials as $testimonial)
                     <div class="flex flex-col justify-between gap-6 rounded-2xl border border-white/10 bg-night/5 p-6 shadow-lg backdrop-blur hv-lift" data-reveal="zoom">
                         <div>
@@ -39,7 +39,7 @@
                         </div>
                     </div>
                 @endforeach
-            </div>
+            </x-frontend.grid>
         </div>
     </section>
 </x-frontend.layouts.app>

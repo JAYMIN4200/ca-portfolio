@@ -27,9 +27,6 @@ class Profile extends Model
         'github_url',
         'whatsapp_number',
         'social_links',
-        'seo_title',
-        'seo_description',
-        'seo_keywords',
         'og_image',
     ];
 

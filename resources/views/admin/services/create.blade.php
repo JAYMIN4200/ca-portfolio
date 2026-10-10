@@ -6,8 +6,8 @@
             <div class="space-y-4">
                 <x-admin.form-input name="title" label="Service Title" required placeholder="E.g. Accounting & Bookkeeping" />
                 <x-admin.form-input name="icon" label="Icon Name" placeholder="E.g. calculator" help="Icon identifier from Heroicons set" />
-                <x-admin.form-textarea name="short_description" label="Short Description" rows="3" placeholder="Brief summary shown on service cards" help="Shown on cards and listing pages" />
-                <x-admin.form-textarea name="description" label="Detailed Description" rows="6" placeholder="Full details of the service you offer..." help="Full description shown on the services page" />
+                <x-admin.form-textarea name="short_description" label="Short Description" rows="3" placeholder="Brief summary shown on service cards" help="One-line summary shown on the home page and services list cards." />
+                <x-admin.form-textarea name="description" label="Detailed Description" rows="6" placeholder="Full details of the service you offer..." help="Shown by expanding the service card. Line breaks are preserved, so separate points into their own lines." />
                 <div class="grid grid-cols-2 gap-4">
                     <x-admin.form-input name="display_order" label="Display Order" type="number" value="0" placeholder="0" />
                     <div class="pt-6">

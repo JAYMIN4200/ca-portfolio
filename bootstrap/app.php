@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Middleware\AdminIdleTimeout;
+use App\Http\Middleware\ConfigureAdminSessionLifetime;
 use App\Http\Middleware\IsAdmin;
 use App\Http\Middleware\TrackVisit;
 use Illuminate\Foundation\Application;
@@ -16,7 +18,12 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
             'admin' => IsAdmin::class,
+            'admin.idle' => AdminIdleTimeout::class,
             'track.visit' => TrackVisit::class,
+        ]);
+
+        $middleware->web(prepend: [
+            ConfigureAdminSessionLifetime::class,
         ]);
 
         $middleware->redirectGuestsTo('/admin/login');

@@ -24,7 +24,7 @@
                     </div>
 
                     @if ($category->skills->isNotEmpty())
-                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" data-reveal-stagger="70">
+                        <x-frontend.grid :items="$category->skills->count()" gap="gap-4" data-reveal-stagger="70">
                             @foreach ($category->skills as $skill)
                                 <div class="rounded-xl border border-white/10 bg-night/5 p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md hv-pop" data-reveal="zoom">
                                     <div class="flex items-center justify-between">
@@ -43,7 +43,7 @@
                                     @endif
                                 </div>
                             @endforeach
-                        </div>
+                        </x-frontend.grid>
                     @endif
                 </div>
             @empty

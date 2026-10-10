@@ -7,8 +7,8 @@
         <x-admin.form-input name="title" label="Title" :value="$post?->title" required placeholder="E.g. 5 tax tips for small businesses" />
         <x-admin.form-input name="slug" label="Slug" :value="$post?->slug" help="Leave blank to auto-generate from the title." placeholder="5-tax-tips-for-small-businesses" />
     </div>
-    <x-admin.form-textarea name="excerpt" label="Excerpt" rows="2" :value="$post?->excerpt" placeholder="A short summary shown on the blog listing." />
-    <x-admin.form-textarea name="content" label="Content" rows="12" :value="$post?->content" placeholder="Write the full post content here..." />
+    <x-admin.form-textarea name="excerpt" label="Excerpt" rows="2" :value="$post?->excerpt" placeholder="A short summary shown on the blog listing." help="1–2 line summary shown on blog cards and used as the page's search description." />
+    <x-admin.form-textarea name="content" label="Content" rows="12" :value="$post?->content" placeholder="Write the full post content here..." help="The main article body. Line breaks are preserved, so press Enter to start a new paragraph." />
 </div>
 
 <div class="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">

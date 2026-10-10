@@ -13,10 +13,10 @@
             <div class="rounded-xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
                 <h2 class="mb-4 text-base font-semibold text-navy-950">General</h2>
                 <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                    <x-admin.form-input name="general[site_name]" label="Website Name" value="{{ $g('general', 'site_name', config('app.name')) }}" placeholder="E.g. Jinendra Panchal" />
-                    <x-admin.form-input name="general[site_title]" label="Website Title" value="{{ $g('general', 'site_title') }}" placeholder="E.g. CA Finalist | Accounting, Audit & Taxation" />
-                    <x-admin.form-input name="general[footer_text]" label="Footer Text" value="{{ $g('general', 'footer_text') }}" placeholder="Short tagline shown in the website footer" />
-                    <x-admin.form-input name="general[copyright]" label="Copyright" value="{{ $g('general', 'copyright') }}" placeholder="© 2026 Jinendra Panchal. All rights reserved." />
+                    <x-admin.form-input name="general[site_name]" label="Website Name" :value="$g('general', 'site_name', config('app.name'))" placeholder="E.g. Jinendra Panchal" />
+                    <x-admin.form-input name="general[site_title]" label="Website Title" :value="$g('general', 'site_title')" placeholder="E.g. CA Finalist | Accounting, Audit & Taxation" />
+                    <x-admin.form-input name="general[footer_text]" label="Footer Text" :value="$g('general', 'footer_text')" placeholder="Short tagline shown in the website footer" help="Shown as the tagline in the website footer only when the profile's Short Intro is empty. If a Short Intro is set, that is used instead." />
+                    <x-admin.form-input name="general[copyright]" label="Copyright" :value="$g('general', 'copyright')" placeholder="© 2026 Jinendra Panchal. All rights reserved." />
                 </div>
             </div>
 
@@ -28,7 +28,7 @@
                 @endphp
                 <div class="grid grid-cols-1 gap-6 sm:grid-cols-3">
                     <div class="sm:col-span-1">
-                        <x-admin.form-input name="general[logo_text]" label="Brand / Logo Text" value="{{ $logoText }}" placeholder="E.g. CA or JP" help="Shown as the initials/logo in the admin sidebar and favicon fallback." />
+                        <x-admin.form-input name="general[logo_text]" label="Brand / Logo Text" :value="$logoText" placeholder="E.g. CA or JP" help="Shown as the initials/logo in the admin sidebar and favicon fallback." />
                     </div>
                     <div class="sm:col-span-2">
                         <div class="flex items-start gap-4">
@@ -56,8 +56,8 @@
             <div class="rounded-xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
                 <h2 class="mb-4 text-base font-semibold text-navy-950">Mission & Vision</h2>
                 <div class="space-y-4">
-                    <x-admin.form-textarea name="about[mission]" label="Mission" rows="3" value="{{ $g('about', 'mission') }}" placeholder="What is the purpose and mission of the practice?" />
-                    <x-admin.form-textarea name="about[vision]" label="Vision" rows="3" value="{{ $g('about', 'vision') }}" placeholder="What long-term vision guides the work?" />
+                    <x-admin.form-textarea name="about[mission]" label="Mission" rows="3" :value="$g('about', 'mission')" placeholder="What is the purpose and mission of the practice?" help="Shown in the 'Our Mission' card on the About page. Leave blank to hide the card." />
+                    <x-admin.form-textarea name="about[vision]" label="Vision" rows="3" :value="$g('about', 'vision')" placeholder="What long-term vision guides the work?" help="Shown in the 'Our Vision' card on the About page. Leave blank to hide the card." />
                 </div>
             </div>
 
@@ -67,7 +67,7 @@
                     name="home[why_choose_us]"
                     label="Reasons"
                     rows="6"
-                    value="{{ $g('home', 'why_choose_us') }}"
+                    :value="$g('home', 'why_choose_us')"
                     placeholder="Experienced Team | Qualified professionals with hands-on industry experience.&#10;Personalised Service | Tailored solutions for every client."
                     help="One reason per line in the format: Title | Description. Up to 6 lines are shown on the website." />
             </div>
@@ -97,19 +97,32 @@
 
             <div class="rounded-xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
                 <h2 class="mb-4 text-base font-semibold text-navy-950">Contact Information</h2>
-                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                    <x-admin.form-input name="contact[contact_email]" label="Contact Email" type="email" value="{{ $g('contact', 'contact_email') }}" placeholder="you@example.com" />
-                    <x-admin.form-input name="contact[contact_phone]" label="Contact Phone" value="{{ $g('contact', 'contact_phone') }}" placeholder="+91 98765 43210" />
-                    <x-admin.form-input name="contact[contact_location]" label="Contact Location" value="{{ $g('contact', 'contact_location') }}" placeholder="City, State, Country" />
+                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                    <x-admin.form-input name="contact[contact_email]" label="Contact Email" type="email" :value="$g('contact', 'contact_email')" placeholder="you@example.com" />
+                    <x-admin.form-input name="contact[contact_phone]" label="Contact Phone" :value="$g('contact', 'contact_phone')" placeholder="+91 98765 43210" />
+                    <x-admin.form-input name="contact[contact_location]" label="Contact Location" :value="$g('contact', 'contact_location')" placeholder="City, State, Country" />
+                </div>
+            </div>
+
+            <div class="rounded-xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+                <h2 class="mb-4 text-base font-semibold text-navy-950">Security</h2>
+                <div class="grid grid-cols-1 items-start gap-4 sm:grid-cols-2">
+                    <div>
+                        <p class="text-sm font-medium text-slate-700">Auto Logout (minutes)</p>
+                        <p class="mt-1 text-xs text-slate-500">Admin is signed out automatically after this many idle minutes. Leave empty for the default of 15 minutes.</p>
+                    </div>
+                    <div>
+                        <x-admin.form-input name="security[auto_logout_minutes]" type="number" min="1" max="1440" :value="$g('security', 'auto_logout_minutes', '15')" placeholder="15" help="Between 1 and 1440 minutes (24 hours)." />
+                    </div>
                 </div>
             </div>
 
             <div class="rounded-xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
                 <h2 class="mb-4 text-base font-semibold text-navy-950">SEO</h2>
                 <div class="space-y-4">
-                    <x-admin.form-input name="seo[seo_title]" label="SEO Title" value="{{ $g('seo', 'seo_title') }}" placeholder="Page title shown in search engines" />
-                    <x-admin.form-textarea name="seo[seo_description]" label="Meta Description" rows="3" value="{{ $g('seo', 'seo_description') }}" placeholder="Short description for search engine results" />
-                    <x-admin.form-input name="seo[seo_keywords]" label="SEO Keywords" value="{{ $g('seo', 'seo_keywords') }}" placeholder="keyword1, keyword2, keyword3" />
+                    <x-admin.form-input name="seo[seo_title]" label="SEO Title" :value="$g('seo', 'seo_title')" placeholder="Page title shown in search engines" />
+                    <x-admin.form-textarea name="seo[seo_description]" label="Meta Description" rows="3" :value="$g('seo', 'seo_description')" placeholder="Short description for search engine results" />
+                    <x-admin.form-input name="seo[seo_keywords]" label="SEO Keywords" :value="$g('seo', 'seo_keywords')" placeholder="keyword1, keyword2, keyword3" />
                 </div>
             </div>
         </div>

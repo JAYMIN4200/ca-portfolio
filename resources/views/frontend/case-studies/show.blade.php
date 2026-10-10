@@ -62,7 +62,7 @@
         <section class="bg-night/5 py-16 md:py-20">
             <div class="container-app">
                 <h2 class="mb-8 text-2xl font-semibold text-white">More Case Studies</h2>
-                <div class="grid grid-cols-1 gap-6 md:grid-cols-3" data-reveal-stagger="80">
+                <x-frontend.grid :items="$related->count()" data-reveal-stagger="80">
                     @foreach ($related as $item)
                         <a href="{{ route('case-studies.show', $item) }}" class="group overflow-hidden rounded-2xl border border-white/10 bg-night/5 shadow-lg backdrop-blur transition-all hover:-translate-y-1 hover:shadow-lg hv-lift" data-reveal="zoom">
                             @if (!empty($item->image_path))
@@ -81,7 +81,7 @@
                             </div>
                         </a>
                     @endforeach
-                </div>
+                </x-frontend.grid>
             </div>
         </section>
     @endif

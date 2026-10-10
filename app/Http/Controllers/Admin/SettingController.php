@@ -48,6 +48,9 @@ class SettingController extends Controller
             'seo.seo_title' => ['nullable', 'string', 'max:255'],
             'seo.seo_description' => ['nullable', 'string', 'max:1000'],
             'seo.seo_keywords' => ['nullable', 'string', 'max:500'],
+
+            // Security
+            'security.auto_logout_minutes' => ['nullable', 'integer', 'min:1', 'max:1440'],
         ]);
 
         if ($request->hasFile('site_favicon')) {

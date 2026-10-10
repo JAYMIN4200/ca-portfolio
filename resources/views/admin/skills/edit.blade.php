@@ -7,7 +7,7 @@
             <div class="space-y-4">
                 <x-admin.form-select name="skill_category_id" label="Category" :options="$categories->pluck('name', 'id')->toArray()" :value="$skill->skill_category_id" placeholder="Select category" required />
                 <x-admin.form-input name="name" label="Skill Name" :value="$skill->name" required placeholder="E.g. Tally, GST expertise" />
-                <x-admin.form-textarea name="description" label="Description" :value="$skill->description" rows="3" placeholder="Describe this skill briefly..." />
+                <x-admin.form-textarea name="description" label="Description" :value="$skill->description" rows="3" placeholder="Describe this skill briefly..." help="Short one-line note shown under the skill name on the Skills page." />
                 <div class="grid grid-cols-2 gap-4">
                     <x-admin.form-input name="proficiency" label="Proficiency (%)" type="number" min="0" max="100" :value="$skill->proficiency" placeholder="0-100" />
                     <x-admin.form-input name="icon" label="Icon Name" :value="$skill->icon" placeholder="E.g. calculator" help="Icon identifier from Heroicons set" />

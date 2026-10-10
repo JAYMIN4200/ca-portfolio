@@ -9,7 +9,7 @@
                     <x-admin.form-input name="designation" label="Designation" placeholder="E.g. Proprietor" />
                     <x-admin.form-input name="company" label="Company" placeholder="E.g. Shree Balaji Traders" />
                 </div>
-                <x-admin.form-textarea name="message" label="Testimonial" rows="5" required placeholder="What did the client say about your work?" />
+                <x-admin.form-textarea name="message" label="Testimonial" rows="5" required placeholder="What did the client say about your work?" help="The client's quote shown in the testimonial card. Keep it short (1–3 sentences) for best layout." />
                 <div class="grid grid-cols-2 gap-4">
                     <x-admin.form-input name="rating" label="Rating" type="number" min="1" max="5" value="" placeholder="1-5" />
                     <x-admin.form-input name="display_order" label="Display Order" type="number" value="0" placeholder="0" />

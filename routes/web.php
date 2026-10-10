@@ -81,7 +81,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
-    Route::middleware(['auth', 'admin'])->group(function () {
+    Route::middleware(['auth', 'admin', 'admin.idle'])->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('calendar', [DashboardController::class, 'calendar'])->name('dashboard.calendar');
         Route::get('financials', [DashboardController::class, 'financials'])->name('dashboard.financials');

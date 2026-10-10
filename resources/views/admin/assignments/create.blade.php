@@ -10,8 +10,8 @@
                     <x-admin.form-file name="image" label="Cover Image" accept="image/png,image/jpeg,image/webp" />
                     <x-admin.form-input name="external_url" label="External URL" placeholder="https://..." help="Optional public link" />
                 </div>
-                <x-admin.form-textarea name="short_description" label="Short Description" rows="3" placeholder="Brief summary shown on assignment cards" />
-                <x-admin.form-textarea name="description" label="Detailed Description" rows="6" placeholder="Detailed overview of the assignment..." />
+                <x-admin.form-textarea name="short_description" label="Short Description" rows="3" placeholder="Brief summary shown on assignment cards" help="Shown under the title on assignment cards and the details sidebar. Keep it 1–2 lines." />
+                <x-admin.form-textarea name="description" label="Detailed Description" rows="6" placeholder="Detailed overview of the assignment..." help="Shown in the 'Overview' section of the assignment page. Leave a blank line to start a new paragraph." />
 
                 <div>
                     <label class="mb-1.5 block text-sm font-medium text-slate-700">Responsibilities</label>
@@ -23,6 +23,7 @@
                         </div>
                     </div>
                     <button type="button" data-target="responsibilitiesWrapper" class="add-list-item mt-2 text-sm font-medium text-navy-700 hover:underline">+ Add responsibility</button>
+                    <p class="mt-1.5 text-xs text-slate-500">Each item appears as a bullet point under "Key Responsibilities" on the website.</p>
                 </div>
 
                 <div>
@@ -35,6 +36,7 @@
                         </div>
                     </div>
                     <button type="button" data-target="toolsWrapper" class="add-list-item mt-2 text-sm font-medium text-navy-700 hover:underline">+ Add tool</button>
+                    <p class="mt-1.5 text-xs text-slate-500">Each tool appears as a small tag under "Tools &amp; Software Used" on the website.</p>
                 </div>
 
                 <div class="grid grid-cols-2 gap-4">

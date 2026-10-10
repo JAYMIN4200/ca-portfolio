@@ -48,13 +48,13 @@
                     <h2 class="mb-4 text-base font-semibold text-navy-950">Professional Information</h2>
                     <div class="space-y-4">
                         <x-admin.form-input name="professional_title" label="Professional Title" :value="$profile->professional_title" placeholder="CA Finalist | Accounting, Audit & Taxation Professional" help="E.g. CA Finalist | Accounting, Audit & Taxation Professional" />
-                        <x-admin.form-textarea name="short_intro" label="Short Introduction" :value="$profile->short_intro" rows="3" placeholder="A one-line professional summary shown on the website hero section" />
+                        <x-admin.form-textarea name="short_intro" label="Short Introduction" :value="$profile->short_intro" rows="3" placeholder="A one-line professional summary shown on the website hero section" help="Short summary shown in the home page hero/footer. Keep it to one or two lines." />
                         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                             <x-admin.form-input name="years_of_experience" label="Years of Experience" type="number" min="0" max="60" :value="$profile->years_of_experience" placeholder="E.g. 5" help="Shown as a stat on the website." />
                             <x-admin.form-input name="clients_count" label="Clients Served" type="number" min="0" :value="$profile->clients_count" placeholder="E.g. 120" help="Shown as a stat on the website." />
                         </div>
-                        <x-admin.form-textarea name="about_me" label="About Me" :value="$profile->about_me" rows="8" placeholder="Write a short bio about your professional background..." />
-                        <x-admin.form-textarea name="career_objective" label="Career Objective" :value="$profile->career_objective" rows="4" placeholder="Your career objective statement" />
+                        <x-admin.form-textarea name="about_me" label="About Me" :value="$profile->about_me" rows="8" placeholder="Write a short bio about your professional background..." help="Each new line becomes a separate paragraph on the About section and About page." />
+                        <x-admin.form-textarea name="career_objective" label="Career Objective" :value="$profile->career_objective" rows="4" placeholder="Your career objective statement" help="Shown as the 'Career Objective' block on the About page. Each new line becomes a separate paragraph." />
                     </div>
                 </div>
 
@@ -69,15 +69,6 @@
                         <x-admin.form-input name="telegram_url" label="Telegram" type="url" :value="$profile->telegram_url" placeholder="https://t.me/username" />
                         <x-admin.form-input name="github_url" label="GitHub" type="url" :value="$profile->github_url" placeholder="https://github.com/username" />
                         <x-admin.form-input name="whatsapp_number" label="WhatsApp Number" :value="$profile->whatsapp_number" placeholder="+91 98765 43210" help="Full international number, e.g. +91..." />
-                    </div>
-                </div>
-
-                <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
-                    <h2 class="mb-4 text-base font-semibold text-navy-950">SEO Settings</h2>
-                    <div class="space-y-4">
-                        <x-admin.form-input name="seo_title" label="SEO Title" :value="$profile->seo_title" placeholder="Page title shown in search engines" />
-                        <x-admin.form-textarea name="seo_description" label="Meta Description" :value="$profile->seo_description" rows="3" placeholder="Short description for search engine results" />
-                        <x-admin.form-input name="seo_keywords" label="SEO Keywords" :value="$profile->seo_keywords" placeholder="keyword1, keyword2, keyword3" help="Comma separated keywords" />
                     </div>
                 </div>
 

@@ -1,5 +1,5 @@
 @if ($posts->isNotEmpty())
-    <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3" data-reveal-stagger="80">
+    <x-frontend.grid :items="$posts->count()" data-reveal-stagger="80">
         @foreach ($posts as $post)
             <a href="{{ route('blog.show', $post) }}" class="group flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-night/5 shadow-lg backdrop-blur transition-all hover:-translate-y-1 hover:shadow-lg hv-lift" data-reveal="zoom">
                 @if (!empty($post->cover_image))
@@ -25,7 +25,7 @@
                 </div>
             </a>
         @endforeach
-    </div>
+    </x-frontend.grid>
 
     @if ($posts->hasPages())
         <div class="mt-10">

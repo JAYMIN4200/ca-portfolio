@@ -1445,6 +1445,11 @@ html[data-theme="dark"] .hover\:bg-amber-100:hover {
     background-color: rgba(251, 191, 36, .12);
 }
 
+/* Admin dark: checkbox accent matches the gold theme; red stays readable */
+html[data-theme="dark"] .accent-navy-600 {
+    accent-color: #c9a84c;
+}
+
 /* Admin dark: toggle-switch knob stays light so it reads on the track */
 html[data-theme="dark"] .rounded-full.bg-white {
     background-color: #f1f5f9;

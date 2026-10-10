@@ -8,7 +8,7 @@
     <section class="bg-night py-16 md:py-20">
         <div class="container-app">
             @if ($services->isNotEmpty())
-                <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3" data-reveal-stagger="90">
+                <x-frontend.grid :items="$services->count()" data-reveal-stagger="90">
                     @foreach ($services as $service)
                         <div class="rounded-2xl border border-white/10 bg-night/5 p-6 shadow-lg backdrop-blur transition-all hover:-translate-y-1 hover:border-violet-300 hover:shadow-lg hv-sheen hv-icon" data-reveal="zoom">
                             <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-violet-500/15 text-violet-300 ring-1 ring-violet-500/30">
@@ -28,7 +28,7 @@
                             @endif
                         </div>
                     @endforeach
-                </div>
+                </x-frontend.grid>
 
                 <div class="mt-12 rounded-2xl bg-night/5 p-6 text-center" data-reveal="fade">
                     <p class="text-sm text-slate-300">
