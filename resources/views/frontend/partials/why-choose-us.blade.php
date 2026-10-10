@@ -26,15 +26,17 @@
 
             <div class="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3" data-reveal-stagger="90">
                 @foreach ($reasons as $reason)
-                    <div class="animate-pulse-glow rounded-2xl border border-white/10 bg-night/5 p-6 shadow-lg backdrop-blur transition-all duration-300 hover:-translate-y-1 hover:border-violet-400/50 hover:bg-night/10 hover:shadow-2xl hover:shadow-violet-900/40 hv-glow" data-reveal="zoom">
-                        <span class="flex h-11 w-11 items-center justify-center rounded-xl bg-violet-500/15 text-violet-300 ring-1 ring-violet-500/30">
+                    <div class="group relative overflow-hidden rounded-2xl border border-white/10 bg-night/5 p-6 shadow-lg backdrop-blur transition-all duration-300 hover:border-violet-400/60 hover:shadow-2xl hover:shadow-violet-600/25" data-reveal="zoom">
+                        <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(139,92,246,0.28),transparent_60%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+                        <div class="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full bg-violet-500/10 blur-2xl transition-all duration-500 group-hover:scale-150 group-hover:bg-violet-500/25"></div>
+                        <span class="relative flex h-11 w-11 items-center justify-center rounded-xl bg-violet-500/15 text-violet-300 ring-1 ring-violet-500/30 transition-all duration-300 group-hover:scale-110 group-hover:bg-violet-500/25 group-hover:ring-violet-400/50">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-5 w-5">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                             </svg>
                         </span>
-                        <h3 class="mt-4 text-base font-semibold text-white">{{ $reason['title'] }}</h3>
+                        <h3 class="relative mt-4 text-base font-semibold text-white transition-colors duration-300 group-hover:text-violet-300">{{ $reason['title'] }}</h3>
                         @if ($reason['description'] !== '')
-                            <p class="mt-2 text-sm leading-relaxed text-slate-300">{{ $reason['description'] }}</p>
+                            <p class="relative mt-2 text-sm leading-relaxed text-slate-300">{{ $reason['description'] }}</p>
                         @endif
                     </div>
                 @endforeach
