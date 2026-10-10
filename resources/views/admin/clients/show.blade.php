@@ -94,7 +94,7 @@
                     <p class="py-6 text-center text-sm text-slate-500">No payments recorded yet.</p>
                 @else
                     <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-slate-200 text-sm">
+                        <table class="min-w-full text-sm">
                             <thead>
                                 <tr class="text-left text-xs font-semibold uppercase tracking-wider text-slate-500">
                                     <th class="py-2 pr-4">Date</th>

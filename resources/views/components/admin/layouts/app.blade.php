@@ -38,12 +38,6 @@
                     ],
                 ],
                 [
-                    'label' => 'Tasks',
-                    'items' => [
-                        ['label' => 'My Tasks', 'route' => 'admin.tasks.index', 'icon' => 'M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z'],
-                    ],
-                ],
-                [
                     'label' => 'Profile',
                     'icon' => 'M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z',
                     'items' => [
@@ -89,14 +83,11 @@
                     ],
                 ],
                 [
-                    'label' => 'Blog',
+                    'label' => 'Others',
+                    'icon' => 'M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25A2.25 2.25 0 018.25 10.5H6a2.25 2.25 0 01-2.25-2.25V6zm13.5 0a2.25 2.25 0 00-2.25-2.25H15A2.25 2.25 0 0012.75 6v2.25A2.25 2.25 0 0015 10.5h.75a2.25 2.25 0 002.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25v2.25A2.25 2.25 0 018.25 20.25H6a2.25 2.25 0 01-2.25-2.25v-2.25zm13.5 0a2.25 2.25 0 00-2.25-2.25H15a2.25 2.25 0 00-2.25 2.25v2.25A2.25 2.25 0 0015 20.25h.75a2.25 2.25 0 002.25-2.25v-2.25z',
                     'items' => [
+                        ['label' => 'My Tasks', 'route' => 'admin.tasks.index', 'icon' => 'M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z'],
                         ['label' => 'Blog Posts', 'route' => 'admin.blog-posts.index', 'icon' => 'M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25M16.5 7.5V18a2.25 2.25 0 002.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 002.25 2.25h13.5M6 7.5h3v3H6v-3z'],
-                    ],
-                ],
-                [
-                    'label' => 'Inbox',
-                    'items' => [
                         ['label' => 'Messages', 'route' => 'admin.messages.index', 'icon' => 'M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75'],
                     ],
                 ],
@@ -107,6 +98,28 @@
                     ],
                 ],
             ];
+
+            $currentRoute = request()->route()?->getName() ?? '';
+            $itemMatches = function (array $item) use ($currentRoute) {
+                $bases = $item['matchers'] ?? [];
+                $derived = preg_replace('/\.[^.]+$/', '', $item['route']);
+                if (str_contains($derived, '.')) {
+                    $bases[] = $derived;
+                }
+                $bases[] = $item['route'];
+
+                return collect($bases)->contains(function ($base) use ($currentRoute) {
+                    return $base !== '' && ($currentRoute === $base || str_starts_with($currentRoute, $base.'.'));
+                });
+            };
+
+            $activeGroup = null;
+            foreach ($navGroups as $group) {
+                if (count($group['items']) > 1 && collect($group['items'])->contains($itemMatches)) {
+                    $activeGroup = $group;
+                    break;
+                }
+            }
         @endphp
 
         <x-admin.sidebar :groups="$navGroups" />
@@ -124,6 +137,10 @@
 
                     @if (session('error'))
                         <x-admin.alert type="danger" :message="session('error')" />
+                    @endif
+
+                    @if ($activeGroup)
+                        <x-admin.section-switch :tabs="$activeGroup['items']" :title="$activeGroup['label']" />
                     @endif
 
                     {{ $slot }}

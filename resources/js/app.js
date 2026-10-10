@@ -3,7 +3,6 @@ import Swal from 'sweetalert2';
 function initApp() {
     initMobileMenu();
     initAdminSidebar();
-    initSidebarGroups();
     initUserDropdown();
     initScrollReveal();
     initCounters();
@@ -244,37 +243,6 @@ function initAdminSidebar() {
     if (openBtn) openBtn.addEventListener('click', openMobile);
     if (closeBtn) closeBtn.addEventListener('click', closeMobile);
     if (overlay) overlay.addEventListener('click', closeMobile);
-}
-
-/* ──────────────────────────────────────────────
-   Admin Sidebar — collapsible nav groups
-   ────────────────────────────────────────────── */
-function initSidebarGroups() {
-    document.querySelectorAll('[data-sidebar-group]').forEach((group) => {
-        const toggle = group.querySelector('[data-sidebar-group-toggle]');
-        const items = group.querySelector('[data-sidebar-group-items]');
-        const chevron = group.querySelector('[data-sidebar-group-chevron]');
-        if (!toggle || !items) return;
-
-        const setOpen = (open) => {
-            if (open) {
-                group.setAttribute('data-expanded', '');
-                items.classList.remove('hidden');
-            } else {
-                group.removeAttribute('data-expanded');
-                items.classList.add('hidden');
-            }
-            if (chevron) chevron.classList.toggle('rotate-90', open);
-        };
-
-        toggle.addEventListener('click', () => {
-            setOpen(!group.hasAttribute('data-expanded'));
-        });
-
-        if (group.hasAttribute('data-expanded') && chevron) {
-            chevron.classList.add('rotate-90');
-        }
-    });
 }
 
 /* ──────────────────────────────────────────────

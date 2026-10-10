@@ -44,7 +44,7 @@
             @if ($recentVisits->isEmpty())
                 <p class="py-8 text-center text-sm text-slate-500">No visits yet — visit the public site to see activity.</p>
             @else
-                <ul class="mt-2 divide-y divide-slate-100">
+                <ul class="mt-2">
                     @foreach ($recentVisits as $visit)
                         <li class="flex items-center gap-3 py-2.5">
                             <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-navy-50 text-navy-700">
@@ -113,7 +113,7 @@
             @if ($upcomingMeetings->isEmpty())
                 <p class="py-8 text-center text-sm text-slate-500">No upcoming meetings.</p>
             @else
-                <ul class="divide-y divide-slate-100">
+                <ul>
                     @foreach ($upcomingMeetings as $meeting)
                         <li class="flex items-center gap-3 py-3">
                             <div class="flex h-11 w-11 shrink-0 flex-col items-center justify-center rounded-lg bg-navy-50 text-navy-800">
@@ -144,7 +144,7 @@
             @if ($recentMessages->isEmpty())
                 <p class="py-8 text-center text-sm text-slate-500">No messages yet.</p>
             @else
-                <ul class="divide-y divide-slate-100">
+                <ul>
                     @foreach ($recentMessages as $message)
                         <li class="flex items-center gap-4 py-3">
                             <div class="min-w-0 flex-1">
@@ -171,7 +171,7 @@
             @if ($recentlyCreated['assignments']->isEmpty())
                 <p class="py-8 text-center text-sm text-slate-500">No assignments yet.</p>
             @else
-                <ul class="divide-y divide-slate-100">
+                <ul>
                     @foreach ($recentlyCreated['assignments'] as $assignment)
                         <li class="flex items-center justify-between gap-4 py-3">
                             <div class="min-w-0">
