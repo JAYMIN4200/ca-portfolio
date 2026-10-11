@@ -3,12 +3,13 @@
         <x-admin.auth-card heading="Reset password" subtitle="Choose a new password for your account.">
             <form method="POST" action="{{ route('admin.reset-password.submit') }}">
                 @csrf
+                <input type="hidden" name="token" value="{{ $token }}">
 
                 <div class="space-y-5">
                     <div>
                         <label for="email" class="mb-1.5 block text-sm font-medium text-slate-300">Email Address</label>
-                        <input type="email" name="email" id="email" value="{{ old('email', $email) }}" required autocomplete="email"
-                            class="block w-full rounded-lg border border-white/10 bg-white/10 px-3 py-2 text-sm text-slate-300 shadow-sm focus:border-gold-400 focus:ring-gold-400/30">
+                        <input type="email" name="email" id="email" value="{{ old('email', $email) }}" required readonly autocomplete="email"
+                            class="block w-full rounded-lg border border-white/10 bg-white/10 px-3 py-2 text-sm text-slate-400 shadow-sm focus:border-gold-400 focus:ring-gold-400/30">
                         @error('email')
                             <p class="mt-1 text-xs text-red-400">{{ $message }}</p>
                         @enderror

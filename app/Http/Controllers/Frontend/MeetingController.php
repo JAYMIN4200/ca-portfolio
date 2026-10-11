@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Events\MeetingRequestSubmitted;
 use App\Http\Controllers\Controller;
 use App\Models\Meeting;
 use App\Models\User;
@@ -26,7 +27,9 @@ class MeetingController extends Controller
         $validated['user_id'] = User::where('is_admin', true)->value('id');
         $validated['status'] = 'pending';
 
-        Meeting::create($validated);
+        $meeting = Meeting::create($validated);
+
+        MeetingRequestSubmitted::dispatch($meeting);
 
         return redirect()
             ->route('contact')

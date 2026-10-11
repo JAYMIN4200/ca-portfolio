@@ -292,7 +292,7 @@
                     title="Professional Assignments"
                     description="A selection of professional work and assignments undertaken, showcased without revealing confidential client information."
                 />
-                <x-frontend.grid :items="$assignments->count()" data-reveal-stagger="90">
+                <x-frontend.grid :items="$assignments->count()" :columns="3" data-reveal-stagger="90">
                     @foreach ($assignments as $assignment)
                         <a href="{{ route('assignments.show', $assignment) }}" class="group overflow-hidden rounded-2xl border border-white/10 bg-night/5 shadow-lg backdrop-blur transition-all duration-300 hover:-translate-y-1 hover:border-violet-400/50 hover:bg-night/10 hover:shadow-2xl hover:shadow-violet-900/40 hv-tilt" data-reveal="left">
                             @if (!empty($assignment->image_path))
@@ -304,7 +304,7 @@
                                     <span class="rounded-xl bg-violet-500/15 px-4 py-2 text-sm font-semibold text-violet-300">{{ $assignment->category ?? 'Professional Assignment' }}</span>
                                 </div>
                             @endif
-                            <div class="p-6">
+                            <div class="p-5">
                                 <span class="text-xs font-semibold uppercase tracking-wider text-violet-600">{{ $assignment->category ?? 'Professional Work' }}</span>
                                 <h3 class="mt-2 font-display text-base font-semibold text-white transition-colors group-hover:text-violet-700">{{ $assignment->title }}</h3>
                                 <p class="mt-2 line-clamp-2 text-sm text-slate-300">{{ $assignment->short_description }}</p>

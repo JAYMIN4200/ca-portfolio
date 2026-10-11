@@ -36,7 +36,31 @@
                 <p class="mb-2 text-xs font-medium uppercase tracking-wider text-slate-400">Message</p>
                 <p class="whitespace-pre-wrap text-sm leading-relaxed text-slate-700">{{ $message->message }}</p>
             </div>
+
+            @if ($message->replies->isNotEmpty())
+                <div class="space-y-3">
+                    <p class="text-xs font-medium uppercase tracking-wider text-slate-400">Replies Sent ({{ $message->replies->count() }})</p>
+                    @foreach ($message->replies as $reply)
+                        <div class="rounded-lg border-l-4 border-violet-500 bg-slate-50 px-4 py-3">
+                            <p class="whitespace-pre-wrap text-sm leading-relaxed text-slate-700">{{ $reply->body }}</p>
+                            <p class="mt-2 text-xs text-slate-400">Sent {{ $reply->created_at->format('M d, Y \a\t h:i A') }}</p>
+                        </div>
+                    @endforeach
+                </div>
+            @endif
         </div>
+
+        <div class="border-t border-slate-200 px-6 py-6">
+            <form method="POST" action="{{ route('admin.messages.reply', $message) }}" class="space-y-3">
+                @csrf
+                <label for="body" class="block text-sm font-semibold text-navy-950">Reply to {{ $message->name }}</label>
+                <textarea name="body" id="body" rows="4" required placeholder="Type your reply — it will be emailed to {{ $message->email }}..."
+                    class="block w-full rounded-lg border border-slate-300 px-3.5 py-2.5 text-sm text-slate-700 shadow-sm placeholder:text-slate-400 focus:border-navy-500 focus:ring-navy-500/30 {{ $errors->has('body') ? 'border-red-400' : '' }}">{{ old('body') }}</textarea>
+                @error('body')<p class="text-xs text-red-600">{{ $message }}</p>@enderror
+                <button type="submit" class="rounded-lg bg-navy-900 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-navy-800">Send Reply</button>
+            </form>
+        </div>
+
         <div class="flex items-center gap-3 border-t border-slate-200 px-6 py-4">
             <a href="mailto:{{ $message->email }}" class="rounded-lg bg-navy-900 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-navy-800">Reply by Email</a>
             <a href="{{ route('admin.messages.index') }}" class="btn-ghost rounded-lg px-4 py-2 text-sm">← Back to Messages</a>

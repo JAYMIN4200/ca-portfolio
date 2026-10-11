@@ -4,8 +4,11 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -77,42 +80,60 @@ class AuthController extends Controller
             'email.exists' => 'We could not find an account with that email address.',
         ]);
 
-        $request->session()->put('reset_email', $request->input('email'));
+        $status = Password::sendResetLink($request->only('email'));
 
-        return redirect()
-            ->route('admin.reset-password')
-            ->with('status', 'Email verified! Set your new password below.');
+        if ($status === Password::ResetLinkSent) {
+            return back()->with('toast', ['type' => 'success', 'message' => 'We have emailed your password reset link! Please check your inbox.']);
+        }
+
+        return back()->withErrors([
+            'email' => 'We are unable to send a reset link right now. Please try again in a moment.',
+        ])->onlyInput('email');
     }
 
-    public function showResetPassword()
+    public function showResetPassword(Request $request, string $token)
     {
         if (auth()->check()) {
             return redirect()->route('admin.dashboard');
         }
 
-        if (! session()->has('reset_email')) {
-            return redirect()->route('admin.forgot-password');
-        }
-
-        return view('admin.auth.reset-password', ['email' => session('reset_email')]);
+        return view('admin.auth.reset-password', [
+            'token' => $token,
+            'email' => $request->query('email'),
+        ]);
     }
 
     public function resetPassword(Request $request)
     {
-        $validated = $request->validate([
+        $request->validate([
+            'token' => ['required'],
             'email' => ['required', 'email', 'exists:users,email'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ], [
             'email.exists' => 'We could not find an account with that email address.',
         ]);
 
-        $user = User::where('email', $validated['email'])->firstOrFail();
-        $user->update(['password' => $validated['password']]);
+        $status = Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function (User $user, string $password): void {
+                $user->forceFill([
+                    'password' => $password,
+                ])->setRememberToken(Str::random(60));
 
-        session()->forget('reset_email');
+                $user->save();
 
-        return redirect()
-            ->route('admin.login')
-            ->with('toast', ['type' => 'success', 'message' => 'Password reset successfully. Please log in.']);
+                event(new PasswordReset($user));
+            }
+        );
+
+        if ($status === Password::PasswordReset) {
+            return redirect()
+                ->route('admin.login')
+                ->with('toast', ['type' => 'success', 'message' => 'Password reset successfully. Please log in with your new password.']);
+        }
+
+        return back()
+            ->withErrors(['email' => 'This password reset link is invalid or has expired. Please request a new one.'])
+            ->onlyInput('email');
     }
 }

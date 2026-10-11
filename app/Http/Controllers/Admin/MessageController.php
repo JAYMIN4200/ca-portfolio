@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\MessageReplied;
 use App\Http\Controllers\Controller;
 use App\Models\ContactMessage;
 use Illuminate\Http\Request;
@@ -48,8 +49,25 @@ class MessageController extends Controller
 
         return view('admin.messages.show', [
             'title' => 'Message',
-            'message' => $message,
+            'message' => $message->load('replies'),
         ]);
+    }
+
+    public function reply(Request $request, ContactMessage $message)
+    {
+        $validated = $request->validate([
+            'body' => ['required', 'string', 'min:2', 'max:5000'],
+        ]);
+
+        $reply = $message->replies()->create($validated);
+
+        if (! $message->is_read) {
+            $message->update(['is_read' => true]);
+        }
+
+        MessageReplied::dispatch($message, $reply);
+
+        return back()->with('status', 'Reply sent to '.$message->email.'.');
     }
 
     public function toggleRead(ContactMessage $message)

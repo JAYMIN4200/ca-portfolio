@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\MeetingScheduled;
 use App\Http\Controllers\Controller;
 use App\Models\Client;
 use App\Models\Meeting;
@@ -70,7 +71,9 @@ class MeetingController extends Controller
 
     public function store(Request $request)
     {
-        Meeting::create($this->validateMeeting($request));
+        $meeting = Meeting::create($this->validateMeeting($request));
+
+        $this->notifyClientIfScheduled($meeting);
 
         return redirect()
             ->route('admin.meetings.index')
@@ -92,6 +95,10 @@ class MeetingController extends Controller
     {
         $meeting->update($this->validateMeeting($request));
 
+        if ($meeting->wasChanged(['status', 'meeting_date', 'start_time', 'end_time', 'type', 'location', 'title'])) {
+            $this->notifyClientIfScheduled($meeting);
+        }
+
         return redirect()
             ->route('admin.meetings.index')
             ->with('status', 'Meeting updated successfully.');
@@ -112,7 +119,27 @@ class MeetingController extends Controller
 
         $meeting->update($validated);
 
+        if ($meeting->wasChanged('status')) {
+            $this->notifyClientIfScheduled($meeting);
+        }
+
         return back()->with('status', 'Meeting status updated.');
+    }
+
+    /**
+     * Notify the client only for statuses that represent a scheduling decision.
+     */
+    private function notifyClientIfScheduled(Meeting $meeting): void
+    {
+        if (blank($meeting->email)) {
+            return;
+        }
+
+        if (! in_array($meeting->status, ['confirmed', 'cancelled'], true)) {
+            return;
+        }
+
+        MeetingScheduled::dispatch($meeting);
     }
 
     /**

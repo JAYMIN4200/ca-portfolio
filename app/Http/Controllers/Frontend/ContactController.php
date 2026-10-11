@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Events\ContactMessageSubmitted;
 use App\Http\Controllers\Controller;
 use App\Models\ContactMessage;
 use Illuminate\Http\Request;
@@ -33,7 +34,9 @@ class ContactController extends Controller
 
         unset($validated['subject_other']);
 
-        ContactMessage::create($validated);
+        $message = ContactMessage::create($validated);
+
+        ContactMessageSubmitted::dispatch($message);
 
         return back()->with('status', 'Your message has been sent successfully. I will get back to you soon.');
     }

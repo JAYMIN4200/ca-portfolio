@@ -75,7 +75,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::get('forgot-password', [AuthController::class, 'showForgotPassword'])->name('forgot-password');
         Route::post('forgot-password', [AuthController::class, 'forgotPassword'])->name('forgot-password.submit');
-        Route::get('reset-password', [AuthController::class, 'showResetPassword'])->name('reset-password');
+        Route::get('reset-password/{token}', [AuthController::class, 'showResetPassword'])->name('reset-password');
         Route::post('reset-password', [AuthController::class, 'resetPassword'])->name('reset-password.submit');
     });
 
@@ -153,6 +153,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::get('messages', [MessageController::class, 'index'])->name('messages.index');
         Route::get('messages/{message}', [MessageController::class, 'show'])->name('messages.show');
+        Route::post('messages/{message}/reply', [MessageController::class, 'reply'])->name('messages.reply');
         Route::patch('messages/{message}/toggle-read', [MessageController::class, 'toggleRead'])->name('messages.toggle-read');
         Route::delete('messages/{message}', [MessageController::class, 'destroy'])->name('messages.destroy');
 

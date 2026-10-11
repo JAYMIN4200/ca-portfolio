@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ContactMessage extends Model
 {
@@ -18,6 +19,11 @@ class ContactMessage extends Model
     protected $casts = [
         'is_read' => 'boolean',
     ];
+
+    public function replies(): HasMany
+    {
+        return $this->hasMany(MessageReply::class)->orderBy('created_at');
+    }
 
     public function scopeUnread($query)
     {

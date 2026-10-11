@@ -47,4 +47,9 @@ class User extends Authenticatable
     {
         return $this->is_admin === true;
     }
+
+    public static function adminEmail(): ?string
+    {
+        return static::query()->where('is_admin', true)->value('email');
+    }
 }

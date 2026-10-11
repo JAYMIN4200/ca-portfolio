@@ -411,11 +411,12 @@ function clearErrors(form) {
    ────────────────────────────────────────────── */
 function initFlashAutoHide() {
     document.querySelectorAll('[data-auto-hide]').forEach((el) => {
+        const delay = Number(el.getAttribute('data-auto-hide')) || 3000;
         setTimeout(() => {
             el.classList.add('alert-hide');
             el.addEventListener('transitionend', () => el.remove(), { once: true });
             setTimeout(() => el.remove(), 600);
-        }, 3500);
+        }, delay);
     });
 }
 

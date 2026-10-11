@@ -1,5 +1,5 @@
 @if ($assignments->isNotEmpty())
-    <x-frontend.grid :items="$assignments->count()" data-reveal-stagger="80">
+    <x-frontend.grid :items="$assignments->count()" :columns="3" data-reveal-stagger="80">
         @foreach ($assignments as $assignment)
             <a href="{{ route('assignments.show', $assignment) }}" class="group overflow-hidden rounded-2xl border border-white/10 bg-night/5 shadow-lg backdrop-blur transition-all hover:-translate-y-1 hover:shadow-lg hv-lift" data-reveal="zoom">
                 @if (!empty($assignment->image_path))
@@ -11,7 +11,7 @@
                         <span class="rounded-xl bg-violet-500/15 px-4 py-2 text-sm font-semibold text-violet-400">{{ $assignment->category ?? 'Professional Assignment' }}</span>
                     </div>
                 @endif
-                <div class="p-6">
+                <div class="p-5">
                     <span class="text-xs font-semibold uppercase tracking-wider text-violet-600">{{ $assignment->category ?? 'Professional Work' }}</span>
                     <h2 class="mt-2 text-base font-semibold text-white transition-colors group-hover:text-violet-400">{{ $assignment->title }}</h2>
                     <p class="mt-2 line-clamp-2 text-sm text-slate-300">{{ $assignment->short_description }}</p>
