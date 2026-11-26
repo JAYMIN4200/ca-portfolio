@@ -58,7 +58,7 @@
                         </td>
                     </tr>
                 @empty
-                    <x-admin.empty-state resource="experiences" :colspan="6" message="No experiences found." create-label="Add your first experience" :create-route="route('admin.experiences.create')" />
+                    <x-admin.empty-state resource="experiences" :colspan="6" message="No experiences found." create-label="Add an experience" :create-route="route('admin.experiences.create')" />
                 @endforelse
             </tbody>
         </table>

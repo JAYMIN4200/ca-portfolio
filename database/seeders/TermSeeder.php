@@ -13,7 +13,7 @@ class TermSeeder extends Seeder
             [
                 'title' => 'Introduction',
                 'slug' => 'introduction',
-                'content' => 'Welcome to the portfolio website of Jinendra Panchal, a CA Finalist specialising in accounting, audit and taxation. By accessing or using this website, you agree to be bound by the terms and conditions set out below. If you do not agree with any part of these terms, please do not use this website.',
+                'content' => 'Welcome to the portfolio website of Jinendra Panchal, a Chartered Accountant specialising in accounting, audit and taxation. By accessing or using this website, you agree to be bound by the terms and conditions set out below. If you do not agree with any part of these terms, please do not use this website.',
                 'display_order' => 1,
                 'is_active' => true,
             ],
@@ -27,7 +27,7 @@ class TermSeeder extends Seeder
             [
                 'title' => 'Professional Disclaimer',
                 'slug' => 'professional-disclaimer',
-                'content' => 'The information presented on this website does not constitute professional advice and must not be relied upon as such. The website owner is a CA Finalist in practice training. Always consult a qualified professional before making financial, tax or legal decisions.',
+                'content' => 'The information presented on this website does not constitute professional advice and must not be relied upon as such. Always consult a qualified professional before making financial, tax or legal decisions.',
                 'display_order' => 3,
                 'is_active' => true,
             ],

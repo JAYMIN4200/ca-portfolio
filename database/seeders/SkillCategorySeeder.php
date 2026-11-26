@@ -16,6 +16,7 @@ class SkillCategorySeeder extends Seeder
             ['name' => 'Taxation', 'icon' => 'receipt-percent', 'display_order' => 3],
             ['name' => 'Compliance', 'icon' => 'shield-check', 'display_order' => 4],
             ['name' => 'Software & Tools', 'icon' => 'computer-desktop', 'display_order' => 5],
+            ['name' => 'Financial Advisory', 'icon' => 'light-bulb', 'display_order' => 6],
         ];
 
         foreach ($categories as $category) {

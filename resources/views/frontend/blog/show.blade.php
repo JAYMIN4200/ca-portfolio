@@ -1,4 +1,4 @@
-<x-frontend.layouts.app :seoTitle="$blogPost->title . ' | ' . ($settings['site_name'] ?? 'Jinendra Panchal')" :seoDescription="$blogPost->excerpt">
+<x-frontend.layouts.app :seoTitle="$blogPost->title . ' | ' . ($settings['site_title'] ?? config('app.name'))" :seoDescription="$blogPost->excerpt">
     <x-frontend.page-header
         eyebrow="{{ $blogPost->category ?? 'Article' }}"
         title="{{ $blogPost->title }}"

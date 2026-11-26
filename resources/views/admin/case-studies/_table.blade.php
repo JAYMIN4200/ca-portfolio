@@ -70,7 +70,7 @@
                         </td>
                     </tr>
                 @empty
-                    <x-admin.empty-state resource="case studies" :colspan="6" message="No case studies found." create-label="Add your first case study" :create-route="route('admin.case-studies.create')" />
+                    <x-admin.empty-state resource="case studies" :colspan="6" message="No case studies found." create-label="Add a case study" :create-route="route('admin.case-studies.create')" />
                 @endforelse
             </tbody>
         </table>

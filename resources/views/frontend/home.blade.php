@@ -1,4 +1,4 @@
-<x-frontend.layouts.app :seoTitle="$settings['seo_title'] ?? 'Jinendra Panchal | CA Finalist'">
+<x-frontend.layouts.app :seoTitle="$settings['seo_title'] ?? $settings['site_title'] ?? config('app.name')">
     {{-- Hero --}}
     <section class="relative overflow-hidden bg-night pt-24 lg:pt-0">
         <div class="absolute inset-0 aurora-bg"></div>
@@ -11,21 +11,17 @@
         <div class="absolute -bottom-40 -left-40 h-96 w-96 rounded-full bg-navy-500/20 blur-3xl"></div>
 
         <div class="container-app relative flex min-h-screen flex-col items-center justify-center py-16 lg:flex-row lg:gap-16">
-            <div class="max-w-2xl text-center lg:text-left" data-reveal="fade">
-                <p class="mb-4 mt-12 inline-flex items-center gap-2 rounded-full border border-violet-400/30 bg-violet-500/10 px-4 py-1.5 text-sm font-medium text-violet-300">
-                    <span class="h-2 w-2 animate-pulse rounded-full bg-violet-400"></span>
-                    {{ $profile?->career_objective ? 'Open to professional opportunities' : 'Currently pursuing CA Final' }}
-                </p>
+            <div class="mt-0 max-w-2xl text-center lg:text-left" data-reveal="fade">
                 <h1 class="font-display text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl">
                     {{ $profile?->user?->name ?? 'Jinendra Panchal' }}
                 </h1>
                 <p class="mt-3 font-display text-xl font-semibold text-transparent md:text-2xl">
                     <span class="bg-gradient-to-r from-violet-300 via-violet-400 to-violet-200 bg-clip-text text-transparent">
-                        {{ $profile?->professional_title ?? 'CA Finalist | Accounting, Audit & Taxation Professional' }}
+                        {{ $profile?->professional_title ?? 'Chartered Accountant | Accounting, Audit & Taxation Professional' }}
                     </span>
                 </p>
                 <p class="mt-6 max-w-xl text-base leading-relaxed text-slate-300 md:text-lg">
-                    {{ $profile?->short_intro ?? 'Aspiring Chartered Accountant with a strong foundation in accounting, audit, and taxation. Currently pursuing CA Final while gaining practical experience through Articleship.' }}
+                    {{ $profile?->short_intro ?? 'Chartered Accountant with a strong foundation in accounting, audit, and taxation, delivering reliable and compliant financial solutions.' }}
                 </p>
 
                 <div class="mt-8 flex flex-wrap justify-center gap-3 lg:justify-start">
@@ -74,16 +70,30 @@
                         </div>
                     </div>
 
-                    <div class="absolute -right-3 -top-3 hero-badge animate-float">
-                        <span class="hero-badge-ring" aria-hidden="true"></span>
-                        <p class="hero-badge-title">GST</p>
-                        <p class="hero-badge-label">Expert</p>
-                    </div>
-                    <div class="absolute -bottom-4 -left-3 hero-badge animate-float-slow">
-                        <span class="hero-badge-ring" aria-hidden="true"></span>
-                        <p class="hero-badge-title font-display text-2xl font-bold">₹</p>
-                        <p class="hero-badge-label">Tax Planning</p>
-                    </div>
+                    @php
+                        $heroBadges = [
+                            1 => ['position' => '-right-3 -top-3', 'animation' => 'animate-float', 'title' => 'GST', 'label' => 'Expert'],
+                            2 => ['position' => '-bottom-4 -left-3', 'animation' => 'animate-float', 'title' => '₹', 'label' => 'Tax Planning'],
+                            3 => ['position' => '-left-3 -top-3', 'animation' => 'animate-float-slow', 'title' => 'ITR', 'label' => 'Income Tax'],
+                            4 => ['position' => '-right-3 -bottom-4', 'animation' => 'animate-float-slow', 'title' => 'Audit', 'label' => 'Compliance'],
+                        ];
+                    @endphp
+
+                    @foreach ($heroBadges as $index => $badge)
+                        @php
+                            $badgeEnabled = ($settings['hero_badge_' . $index . '_enabled'] ?? '1') === '1';
+                            $badgeTitle = $settings['hero_badge_' . $index . '_title'] ?? $badge['title'];
+                            $badgeLabel = $settings['hero_badge_' . $index . '_label'] ?? $badge['label'];
+                        @endphp
+                        @if ($badgeEnabled)
+                            <x-frontend.hero-badge
+                                :title="$badgeTitle"
+                                :label="$badgeLabel"
+                                :position="$badge['position']"
+                                :animation="$badge['animation']"
+                            />
+                        @endif
+                    @endforeach
                 </div>
             </div>
         </div>
@@ -156,27 +166,51 @@
         <section class="bg-ink py-16 md:py-20">
             <div class="container-app grid grid-cols-1 items-center gap-12 {{ $qualifications->isNotEmpty() ? 'lg:grid-cols-2' : 'lg:gap-0' }}">
                 <div data-reveal="left">
-                    <x-frontend.section-heading eyebrow="About Me" title="A Journey Toward Chartered Accountancy" align="left" description="{{ $profile?->professional_title ?? 'CA Finalist | Accounting, Audit & Taxation' }}" />
-                    <div class="space-y-4 text-base leading-relaxed text-slate-300">
-                        @if (!empty($profile?->about_me))
-                            @php $aboutParagraphs = preg_split('/\n+/', $profile->about_me); @endphp
-                            @foreach (array_slice($aboutParagraphs, 0, 2) as $paragraph)
-                                <p>{{ $paragraph }}</p>
-                            @endforeach
-                        @endif
-                        @if (!empty($profile?->career_objective))
-                            <div class="rounded-xl border-l-4 border-violet-500 bg-night p-5 shadow-sm">
-                                <p class="text-sm font-display font-semibold uppercase tracking-wider text-violet-700">Career Objective</p>
-                                <p class="mt-1 text-slate-300">{{ $profile->career_objective }}</p>
-                            </div>
-                        @endif
-                    </div>
-                    <a href="{{ route('about') }}" class="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-violet-700 hover:text-violet-900">
-                        Read More About Me
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                    <x-frontend.section-heading eyebrow="About Me" title="A Chartered Accountant by Profession" align="left" description="{{ $profile?->professional_title ?? 'Chartered Accountant | Accounting, Audit & Taxation' }}" />
+
+                    <div class="group relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-violet-500/[0.07] via-white/[0.02] to-transparent p-6 transition-all duration-300 hover:-translate-y-1 hover:border-violet-500/30 hover:shadow-2xl hover:shadow-violet-900/20 md:p-7">
+                        <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-violet-500/50 to-transparent transition-all duration-300 group-hover:via-violet-400/80"></div>
+                        <div class="absolute -right-10 -bottom-10 h-28 w-28 rounded-full bg-violet-500/10 blur-2xl transition-all duration-300 group-hover:bg-violet-500/20"></div>
+                        <svg class="absolute -right-2 -top-2 h-20 w-20 text-violet-500/10 transition-all duration-300 group-hover:text-violet-500/20" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
                         </svg>
-                    </a>
+                        <div class="relative text-base leading-relaxed text-slate-300">
+                            @if (!empty($profile?->about_me))
+                                <div id="home-about-preview" data-about-preview class="max-h-44 overflow-hidden space-y-4 [&_p]:leading-relaxed [&_p:empty]:hidden [&_strong]:font-semibold [&_strong]:text-white [&_em]:italic [&_em]:text-slate-200 [&_u]:underline [&_ul]:list-disc [&_ul]:pl-6 [&_ol]:list-decimal [&_ol]:pl-6 [&_li]:mt-1 [&_a]:text-violet-400 [&_a]:underline [&_h2]:text-lg [&_h2]:font-semibold [&_h2]:text-white [&_h3]:font-semibold [&_h3]:text-white">
+                                    @if (preg_match('/<\w+[^>]*>/', $profile->about_me))
+                                        {!! $profile->about_me !!}
+                                    @else
+                                        @foreach (preg_split('/\n+/', $profile->about_me) as $paragraph)
+                                            <p>{{ $paragraph }}</p>
+                                        @endforeach
+                                    @endif
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+
+                    @if (!empty($profile?->career_objective))
+                        <div class="mt-8 rounded-xl border-l-4 border-violet-500 bg-night p-5 shadow-sm">
+                            <p class="text-sm font-display font-semibold uppercase tracking-wider text-violet-700">Career Objective</p>
+                            <p class="mt-1 text-slate-300">{{ $profile->career_objective }}</p>
+                        </div>
+                    @endif
+
+                    @if (!empty($profile?->about_me))
+                        <button type="button" data-about-expand aria-expanded="false" aria-controls="home-about-preview" data-collapsed-label="Read More About Me" data-expanded-label="Show Less" class="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-violet-700 hover:text-violet-900">
+                            <span data-about-expand-label>Read More About Me</span>
+                            <svg data-about-expand-icon xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4 transition-transform duration-200">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                            </svg>
+                        </button>
+                    @else
+                        <a href="{{ route('about') }}" class="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-violet-700 hover:text-violet-900">
+                            Read More About Me
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                            </svg>
+                        </a>
+                    @endif
                 </div>
 
                 @if ($qualifications->isNotEmpty())
@@ -206,7 +240,7 @@
                 <x-frontend.section-heading
                     eyebrow="Expertise"
                     title="Areas of Expertise"
-                    description="Professional skills developed through the CA curriculum and hands-on Articleship experience."
+                    description="Professional skills developed through the CA curriculum and hands-on professional experience."
                 />
                 <x-frontend.grid :items="$skills->count()" data-reveal-stagger="90">
                     @foreach ($skills as $category)
@@ -220,7 +254,7 @@
                                 {{ $category->name }}
                             </h3>
                             <ul class="mt-4 space-y-2">
-                                @forelse ($category->skills->take(5) as $skill)
+                                @forelse ($category->skills as $skill)
                                     <li class="flex items-center gap-2 text-sm text-slate-300">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-4 w-4 shrink-0 text-violet-600">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />

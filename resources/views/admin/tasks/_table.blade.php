@@ -93,7 +93,7 @@
                         </td>
                     </tr>
                 @empty
-                    <x-admin.empty-state resource="tasks" :colspan="6" message="No tasks found." create-label="Add your first task" :create-route="route('admin.tasks.create')" />
+                    <x-admin.empty-state resource="tasks" :colspan="6" message="No tasks found." create-label="Add a task" :create-route="route('admin.tasks.create')" />
                 @endforelse
             </tbody>
         </table>

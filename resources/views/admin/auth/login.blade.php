@@ -1,6 +1,6 @@
 <x-admin.layouts.guest :title="'Admin Login'">
     <div class="flex min-h-screen flex-col items-center justify-center px-4 py-12">
-        <x-admin.auth-card heading="Welcome back" subtitle="Sign in to your admin dashboard">
+        <x-admin.auth-card heading="Welcome back" :websiteName="\App\Services\SettingsService::get('site_name', config('app.name'))" subtitle="Sign in to your admin dashboard">
             <form method="POST" action="{{ route('admin.login') }}">
                 @csrf
 

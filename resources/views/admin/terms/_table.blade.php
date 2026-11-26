@@ -50,7 +50,7 @@
                         </td>
                     </tr>
                 @empty
-                    <x-admin.empty-state resource="term sections" :colspan="5" message="No term sections found." create-label="Add your first section" :create-route="route('admin.terms.create')" />
+                    <x-admin.empty-state resource="term sections" :colspan="5" message="No term sections found." create-label="Add a section" :create-route="route('admin.terms.create')" />
                 @endforelse
             </tbody>
         </table>

@@ -6,6 +6,7 @@ use App\Models\BlogPost;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class BlogPostSeeder extends Seeder
@@ -42,7 +43,7 @@ class BlogPostSeeder extends Seeder
             [
                 'title' => 'Five Red Flags an Auditor Looks For First',
                 'category' => 'Audit',
-                'excerpt' => 'From unexplained round numbers to consistent negative cash flow, these are the signals that draw an auditor\u2019s attention.',
+                'excerpt' => 'From unexplained round numbers to consistent negative cash flow, these are the signals that draw an auditor’s attention.',
                 'tags' => ['Audit', 'Internal Controls', 'Risk'],
                 'days' => -7,
                 'content' => "Auditors are trained to notice patterns, and some patterns consistently signal risk. Knowing them in advance helps you tighten your books before the engagement begins.\n\nThe first red flag is unexplained round numbers. A string of transactions at exactly five thousand or exactly one lakh often points to estimates or plug figures rather than real supporting documentation.\n\nThe second is a mismatch between revenue and cash. Healthy growth usually brings cash with it. If sales are rising while operating cash flow is consistently negative, either credit terms are too loose or revenue recognition needs a second look.\n\nThe third is a concentration of related-party transactions with no clear commercial rationale. The fourth is a high volume of manual journal entries near period end, which is a classic route for adjustments that lack support.\n\nThe fifth is weak segregation of duties, where the same person records transactions, handles cash and reconciles the bank. Most of these issues are easy to fix once spotted, and fixing them before the audit is far cheaper than fixing them after.",
@@ -65,15 +66,22 @@ class BlogPostSeeder extends Seeder
             ],
         ];
 
+        $templates = [
+            'GST' => ['hue' => '1E3A5F', 'accent' => '7FB069', 'label' => 'GST Insights'],
+            'Taxation' => ['hue' => '2E3A59', 'accent' => 'E8843C', 'label' => 'Taxation'],
+            'Accounting' => ['hue' => '234B4E', 'accent' => '4FB3BF', 'label' => 'Accounting'],
+            'Audit' => ['hue' => '2B3C5E', 'accent' => 'C9A84C', 'label' => 'Audit & Assurance'],
+        ];
+
         foreach ($posts as $data) {
-            BlogPost::updateOrCreate(
-                ['slug' => Str::slug($data['title'])],
+            $slug = Str::slug($data['title']);
+            $post = BlogPost::updateOrCreate(
+                ['slug' => $slug],
                 [
                     'user_id' => $admin?->id,
                     'title' => $data['title'],
                     'excerpt' => $data['excerpt'],
                     'content' => $data['content'],
-                    'cover_image' => null,
                     'category' => $data['category'],
                     'tags' => $data['tags'],
                     'status' => BlogPost::STATUS_PUBLISHED,
@@ -82,6 +90,39 @@ class BlogPostSeeder extends Seeder
                     'published_at' => Carbon::today()->addDays($data['days']),
                 ]
             );
+
+            $template = $templates[$post->category] ?? ['hue' => '1F2937', 'accent' => 'C9A84C', 'label' => 'Blog Article'];
+            $path = 'blog/'.$slug.'.svg';
+
+            Storage::disk('public')->put($path, $this->coverSvg($template, $post->title));
+
+            $post->update(['cover_image' => $path]);
         }
+    }
+
+    protected function coverSvg(array $template, string $title): string
+    {
+        $hue = $template['hue'];
+        $accent = $template['accent'];
+        $label = htmlspecialchars($template['label'], ENT_QUOTES | ENT_XML1, 'UTF-8');
+        $safeTitle = htmlspecialchars(Str::limit($title, 52), ENT_QUOTES | ENT_XML1, 'UTF-8');
+
+        return <<<SVG
+            <svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" viewBox="0 0 800 450">
+                <defs>
+                    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%" stop-color="#{$hue}"/>
+                        <stop offset="100%" stop-color="#0F172A"/>
+                    </linearGradient>
+                </defs>
+                <rect width="800" height="450" fill="url(#bg)"/>
+                <circle cx="690" cy="70" r="170" fill="#{$accent}" opacity="0.12"/>
+                <circle cx="100" cy="390" r="220" fill="#ffffff" opacity="0.04"/>
+                <rect x="60" y="72" width="54" height="5" rx="2.5" fill="#{$accent}"/>
+                <text x="60" y="112" font-family="Arial, sans-serif" font-size="14" fill="#{$accent}" letter-spacing="4">{$label}</text>
+                <text x="60" y="320" font-family="Georgia, serif" font-size="30" font-weight="bold" fill="#ffffff">{$safeTitle}</text>
+                <text x="60" y="360" font-family="Arial, sans-serif" font-size="13" fill="#CBD5E1" letter-spacing="2">BLOG ARTICLE</text>
+            </svg>
+            SVG;
     }
 }

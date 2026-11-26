@@ -72,7 +72,7 @@
                         </td>
                     </tr>
                 @empty
-                    <x-admin.empty-state resource="clients" :colspan="8" message="No clients found." create-label="Add your first client" :create-route="route('admin.clients.create')" />
+                    <x-admin.empty-state resource="clients" :colspan="8" message="No clients found." create-label="Add a client" :create-route="route('admin.clients.create')" />
                 @endforelse
             </tbody>
         </table>

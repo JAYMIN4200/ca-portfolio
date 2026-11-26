@@ -65,7 +65,7 @@
                         </td>
                     </tr>
                 @empty
-                    <x-admin.empty-state resource="skills" :colspan="6" message="No skills found." create-label="Add your first skill" :create-route="route('admin.skills.create')" />
+                    <x-admin.empty-state resource="skills" :colspan="6" message="No skills found." create-label="Add a skill" :create-route="route('admin.skills.create')" />
                 @endforelse
             </tbody>
         </table>

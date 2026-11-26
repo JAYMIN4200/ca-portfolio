@@ -60,7 +60,7 @@
                         </td>
                     </tr>
                 @empty
-                    <x-admin.empty-state resource="assignments" :colspan="6" message="No assignments found." create-label="Add your first assignment" :create-route="route('admin.assignments.create')" />
+                    <x-admin.empty-state resource="assignments" :colspan="6" message="No assignments found." create-label="Add an assignment" :create-route="route('admin.assignments.create')" />
                 @endforelse
             </tbody>
         </table>

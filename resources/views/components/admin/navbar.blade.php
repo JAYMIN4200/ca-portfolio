@@ -7,7 +7,12 @@
     $routeName = request()->route()?->getName();
     $pageTitle = $title ?? \App\Http\Helpers\AdminPageTitle::for($routeName);
     $pageCount = $counts[$routeName] ?? null;
-    $lastLogin = $user?->last_login_at;
+    $themeToggleEnabled = \App\Services\SettingsService::get('theme_toggle_enabled', '1') === '1';
+    $lastLogin = session('previous_login_at', $user?->last_login_at);
+    // Session serializes Carbon dates as UTC ISO-8601; display them in the app timezone.
+    if ($lastLogin) {
+        $lastLogin = \Illuminate\Support\Carbon::parse($lastLogin)->setTimezone(config('app.timezone'));
+    }
 @endphp
 
 <header class="sticky top-0 z-30 flex h-16 items-center gap-3 border-b border-slate-200 bg-white/90 px-4 backdrop-blur-md sm:px-6 lg:px-8">
@@ -28,14 +33,16 @@
     </div>
 
     {{-- Theme toggle --}}
-    <button type="button" data-theme-toggle aria-label="Toggle light / dark theme" class="rounded-lg p-2 text-slate-600 transition-colors hover:bg-slate-100 hover:text-navy-900">
-        <svg data-icon-dark xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
-        </svg>
-        <svg data-icon-light class="hidden h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
-        </svg>
-    </button>
+    @if ($themeToggleEnabled)
+        <button type="button" data-theme-toggle aria-label="Toggle light / dark theme" class="rounded-lg p-2 text-slate-600 transition-colors hover:bg-slate-100 hover:text-navy-900">
+            <svg data-icon-dark xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+            </svg>
+            <svg data-icon-light class="hidden h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+            </svg>
+        </button>
+    @endif
 
     {{-- Messages --}}
     <a href="{{ route('admin.messages.index') }}" title="Messages" class="relative rounded-lg p-2 text-slate-600 transition-colors hover:bg-slate-100 hover:text-navy-900">

@@ -63,4 +63,25 @@ class AdminNavigationTest extends TestCase
             ->assertSee(route('admin.blog-posts.index', absolute: false))
             ->assertSee(route('admin.messages.index', absolute: false));
     }
+
+    public function test_last_login_from_session_is_shown_in_the_app_timezone(): void
+    {
+        $admin = $this->admin();
+        $sessionLoginAt = '2026-11-26T15:38:18.000000Z';
+
+        $this->withSession(['previous_login_at' => $sessionLoginAt])
+            ->actingAs($admin)
+            ->get(route('admin.dashboard'))
+            ->assertSee('26 Nov 2026, 09:08 PM');
+    }
+
+    public function test_last_login_falls_back_to_the_user_timestamp_in_the_app_timezone(): void
+    {
+        $admin = $this->admin();
+        $admin->update(['last_login_at' => '2026-11-26 21:25:53']);
+
+        $this->actingAs($admin)
+            ->get(route('admin.dashboard'))
+            ->assertSee('26 Nov 2026, 09:25 PM');
+    }
 }

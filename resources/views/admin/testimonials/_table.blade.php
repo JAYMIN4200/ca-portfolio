@@ -63,7 +63,7 @@
                         </td>
                     </tr>
                 @empty
-                    <x-admin.empty-state resource="testimonials" :colspan="5" message="No testimonials found." create-label="Add your first testimonial" :create-route="route('admin.testimonials.create')" />
+                    <x-admin.empty-state resource="testimonials" :colspan="5" message="No testimonials found." create-label="Add a testimonial" :create-route="route('admin.testimonials.create')" />
                 @endforelse
             </tbody>
         </table>

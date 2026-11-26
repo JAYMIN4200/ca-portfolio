@@ -13,7 +13,7 @@
 
 <div class="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
     <div>
-        <x-admin.form-file name="cover" label="Cover Image" accept="image/*" />
+        <x-admin.form-file name="cover" label="Cover Image" accept="image/*" help="Recommended: 1280x720px (16:9). JPG, PNG or WebP, max 3MB." />
         @if ($post?->cover_image)
             <div class="mt-3 flex items-center gap-3 rounded-lg border border-slate-200 bg-slate-50 p-2">
                 <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($post->cover_image) }}" alt="" class="h-16 w-16 rounded-lg object-cover">

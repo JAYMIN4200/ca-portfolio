@@ -12,8 +12,8 @@ class SettingSeeder extends Seeder
         $settings = [
             // General
             'site_name' => ['value' => 'Jinendra Panchal', 'group' => 'general'],
-            'site_title' => ['value' => 'Jinendra Panchal | CA Finalist', 'group' => 'general'],
-            'footer_text' => ['value' => 'CA Finalist | Accounting, Audit & Taxation Professional', 'group' => 'general'],
+            'site_title' => ['value' => 'Jinendra Panchal | Chartered Accountant', 'group' => 'general'],
+            'footer_text' => ['value' => 'Chartered Accountant | Accounting, Audit & Taxation Professional', 'group' => 'general'],
             'copyright' => ['value' => '© '.date('Y').' Jinendra Panchal. All rights reserved.', 'group' => 'general'],
             'logo_text' => ['value' => 'JP', 'group' => 'general'],
 
@@ -42,9 +42,9 @@ End-to-End Coverage | From bookkeeping to tax filing under one roof.
 Transparent Pricing | Clear, upfront fees with no hidden charges.', 'group' => 'home'],
 
             // SEO
-            'seo_title' => ['value' => 'Jinendra Panchal | CA Finalist, Accounting, Audit & Taxation Professional', 'group' => 'seo'],
-            'seo_description' => ['value' => 'Portfolio of Jinendra Panchal, a CA Finalist specializing in Accounting, Audit & Taxation. Currently pursuing CA Final with Articleship experience.', 'group' => 'seo'],
-            'seo_keywords' => ['value' => 'CA Finalist, Chartered Accountant, Accounting, Audit, Taxation, GST, Income Tax, Ahmedabad, Gujarat', 'group' => 'seo'],
+            'seo_title' => ['value' => 'Jinendra Panchal | Chartered Accountant, Accounting, Audit & Taxation Professional', 'group' => 'seo'],
+            'seo_description' => ['value' => 'Portfolio of Jinendra Panchal, a Chartered Accountant specializing in Accounting, Audit & Taxation.', 'group' => 'seo'],
+            'seo_keywords' => ['value' => 'Chartered Accountant, CA, Accounting, Audit, Taxation, GST, Income Tax, Ahmedabad, Gujarat', 'group' => 'seo'],
         ];
 
         foreach ($settings as $key => $data) {

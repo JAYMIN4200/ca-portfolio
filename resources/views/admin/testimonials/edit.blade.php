@@ -27,7 +27,7 @@
                     <x-admin.form-input name="rating" label="Rating" type="number" min="1" max="5" :value="$testimonial->rating" placeholder="1-5" />
                     <x-admin.form-input name="display_order" label="Display Order" type="number" :value="$testimonial->display_order" placeholder="0" />
                 </div>
-                <x-admin.form-file name="photo" label="Replace Photo" accept="image/*" />
+                <x-admin.form-file name="photo" label="Replace Photo" accept="image/*" help="Recommended: 400x400px (square). JPG, PNG or WebP, max 2MB." />
                 <x-admin.form-checkbox name="is_active" label="Active" :checked="$testimonial->is_active" />
             </div>
 

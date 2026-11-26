@@ -21,9 +21,14 @@
         <div>
             <div class="flex items-center gap-3">
                 <x-frontend.brand-mark size="h-9 w-9" text="text-lg" rounded="rounded-lg" />
-                <p class="text-base font-display font-semibold text-white">{{ $settings['site_name'] ?? 'Jinendra Panchal' }}</p>
+                <div class="min-w-0 leading-tight">
+                    <p class="truncate text-base font-display font-semibold text-white">{{ $settings['site_title'] ?? $settings['site_name'] ?? config('app.name') }}</p>
+                    @if (!empty($settings['site_title']) && !empty($settings['site_name']) && $settings['site_title'] !== $settings['site_name'])
+                        <p class="truncate text-xs text-slate-400">{{ $settings['site_name'] }}</p>
+                    @endif
+                </div>
             </div>
-            <p class="mt-4 text-sm leading-relaxed text-slate-400">{{ $profile?->short_intro ?? ($settings['footer_text'] ?? 'CA Finalist | Accounting, Audit & Taxation Professional') }}</p>
+            <p class="mt-4 text-sm leading-relaxed text-slate-400">{{ $profile?->short_intro ?? ($settings['footer_text'] ?? 'Chartered Accountant | Accounting, Audit & Taxation Professional') }}</p>
             @if (!empty($handles))
                 <div class="mt-5 flex flex-wrap gap-3">
                     @foreach ($handles as $key => $href)
@@ -42,7 +47,7 @@
             <h3 class="mb-4 text-sm font-display font-semibold uppercase tracking-wider text-white">Quick Links</h3>
             <ul class="grid grid-cols-2 gap-2 text-sm">
                 <li><a href="{{ route('about') }}" class="hover:text-violet-400">About</a></li>
-                <li><a href="{{ route('qualifications') }}" class="hover:text-violet-400">Qualifications</a></li>
+                {{-- <li><a href="{{ route('qualifications') }}" class="hover:text-violet-400">Qualifications</a></li> --}}
                 <li><a href="{{ route('skills') }}" class="hover:text-violet-400">Skills</a></li>
                 <li><a href="{{ route('experience') }}" class="hover:text-violet-400">Experience</a></li>
                 <li><a href="{{ route('services') }}" class="hover:text-violet-400">Services</a></li>
@@ -51,7 +56,7 @@
                 <li><a href="{{ route('blog') }}" class="hover:text-violet-400">Blog</a></li>
                 <li><a href="{{ route('testimonials') }}" class="hover:text-violet-400">Testimonials</a></li>
                 <li><a href="{{ route('faqs') }}" class="hover:text-violet-400">FAQs</a></li>
-                <li><a href="{{ route('resume') }}" class="hover:text-violet-400">Resume</a></li>
+                {{-- <li><a href="{{ route('resume') }}" class="hover:text-violet-400">Resume</a></li> --}}
                 <li><a href="{{ route('terms') }}" class="hover:text-violet-400">Terms & Conditions</a></li>
                 <li><a href="{{ route('contact') }}" class="hover:text-violet-400">Contact</a></li>
             </ul>
@@ -92,7 +97,7 @@
     <div class="relative border-t border-white/10">
         <div class="container-app flex flex-col items-center justify-between gap-2 py-5 text-xs text-slate-500 sm:flex-row">
             <p>{{ $settings['copyright'] ?? '© ' . date('Y') . ' Jinendra Panchal. All rights reserved.' }}</p>
-            <p>{{ $settings['site_title'] ?? 'CA Finalist | Accounting, Audit & Taxation · GST · Income Tax' }}</p>
+            <p>{{ $settings['site_title'] ?? 'Chartered Accountant | Accounting, Audit & Taxation · GST · Income Tax' }}</p>
         </div>
     </div>
 </footer>

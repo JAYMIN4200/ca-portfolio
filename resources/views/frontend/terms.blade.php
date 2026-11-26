@@ -1,4 +1,4 @@
-<x-frontend.layouts.app :seoTitle="'Terms & Conditions | ' . ($settings['site_name'] ?? 'Jinendra Panchal')">
+<x-frontend.layouts.app :seoTitle="'Terms & Conditions | ' . ($settings['site_title'] ?? config('app.name'))">
     <x-frontend.page-header
         eyebrow="Legal"
         title="Terms & Conditions"

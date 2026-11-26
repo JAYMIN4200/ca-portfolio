@@ -47,7 +47,7 @@
                         </td>
                     </tr>
                 @empty
-                    <x-admin.empty-state resource="FAQs" :colspan="5" message="No FAQs found." create-label="Add your first FAQ" :create-route="route('admin.faqs.create')" />
+                    <x-admin.empty-state resource="FAQs" :colspan="5" message="No FAQs found." create-label="Add a FAQ" :create-route="route('admin.faqs.create')" />
                 @endforelse
             </tbody>
         </table>

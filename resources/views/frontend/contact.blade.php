@@ -1,4 +1,4 @@
-<x-frontend.layouts.app :seoTitle="'Contact | ' . ($settings['site_name'] ?? 'Jinendra Panchal')">
+<x-frontend.layouts.app :seoTitle="'Contact | ' . ($settings['site_title'] ?? config('app.name'))">
     <x-frontend.page-header
         eyebrow="Contact"
         title="Get in Touch"
@@ -52,7 +52,7 @@
                             <select name="subject" id="subject" required data-custom-select
                                 class="block w-full rounded-lg border border-white/15 bg-white/5 px-3.5 py-2.5 text-sm text-white shadow-sm focus:border-violet-400 focus:ring-violet-500/40 {{ $errors->has('subject') ? 'border-red-400' : '' }}">
                                 <option value="" disabled {{ old('subject') ? '' : 'selected' }}>Select a subject</option>
-                                @foreach (['Accounting & Bookkeeping', 'Audit & Assurance', 'GST Compliance', 'Income Tax & ITR', 'TDS & Payroll', 'Career / Articleship', 'Other'] as $option)
+                                @foreach (['Accounting & Bookkeeping', 'Audit & Assurance', 'GST Compliance', 'Income Tax & ITR', 'TDS & Payroll', 'Career / Training', 'Other'] as $option)
                                     <option value="{{ $option }}" {{ old('subject') === $option ? 'selected' : '' }}>{{ $option }}</option>
                                 @endforeach
                             </select>
@@ -157,10 +157,9 @@
                 </div>
 
                 <div class="rounded-2xl border border-violet-500/20 bg-gradient-to-br from-navy-900 to-violet-950 p-6 text-white">
-                    <h3 class="text-lg font-semibold">Available for Opportunities</h3>
+                    <h3 class="text-lg font-semibold">Building Professional Partnerships</h3>
                     <p class="mt-2 text-sm text-slate-300">
-                        I'm currently pursuing my CA Final alongside my Articleship and am open to professional discussions,
-                        collaboration opportunities, and relevant engagements in accounting, audit and taxation.
+                        At {{ $settings['site_title'] ?? $settings['site_name'] ?? config('app.name') }}, we value meaningful professional relationships and welcome opportunities to collaborate in accounting, auditing, taxation, and financial consultancy.
                     </p>
                     @if (!empty($profile?->resume_path))
                         <a href="{{ route('resume.download') }}" class="mt-4 inline-flex items-center gap-2 rounded-lg bg-violet-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-violet-500">

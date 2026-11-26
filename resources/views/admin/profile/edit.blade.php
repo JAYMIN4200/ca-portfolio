@@ -19,8 +19,7 @@
                             @endif
                         </div>
                         <div class="w-full">
-                            <x-admin.form-file name="profile_photo" label="Upload Photo" accept="image/png,image/jpeg,image/webp" />
-                            <p class="mt-1 text-xs text-slate-500">JPG, PNG or WebP. Max 2MB.</p>
+                            <x-admin.form-file name="profile_photo" label="Upload Photo" accept="image/png,image/jpeg,image/webp" help="Recommended: 800x800px (square). JPG, PNG or WebP, max 2MB." />
                         </div>
                     </div>
                 </div>
@@ -47,13 +46,31 @@
                 <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
                     <h2 class="mb-4 text-base font-semibold text-navy-950">Professional Information</h2>
                     <div class="space-y-4">
-                        <x-admin.form-input name="professional_title" label="Professional Title" :value="$profile->professional_title" placeholder="CA Finalist | Accounting, Audit & Taxation Professional" help="E.g. CA Finalist | Accounting, Audit & Taxation Professional" />
+                        <x-admin.form-input name="professional_title" label="Professional Title" :value="$profile->professional_title" placeholder="Chartered Accountant | Accounting, Audit & Taxation Professional" help="E.g. Chartered Accountant | Accounting, Audit & Taxation Professional" />
                         <x-admin.form-textarea name="short_intro" label="Short Introduction" :value="$profile->short_intro" rows="3" placeholder="A one-line professional summary shown on the website hero section" help="Short summary shown in the home page hero/footer. Keep it to one or two lines." />
                         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                             <x-admin.form-input name="years_of_experience" label="Years of Experience" type="number" min="0" max="60" :value="$profile->years_of_experience" placeholder="E.g. 5" help="Shown as a stat on the website." />
                             <x-admin.form-input name="clients_count" label="Clients Served" type="number" min="0" :value="$profile->clients_count" placeholder="E.g. 120" help="Shown as a stat on the website." />
                         </div>
-                        <x-admin.form-textarea name="about_me" label="About Me" :value="$profile->about_me" rows="8" placeholder="Write a short bio about your professional background..." help="Each new line becomes a separate paragraph on the About section and About page." />
+                        <div>
+                            @php
+                                $aboutMeValue = old('about_me', $profile->about_me);
+                                $aboutMeEditorValue = $aboutMeValue;
+                                if (filled($aboutMeValue) && ! preg_match('/<\w+[^>]*>/', $aboutMeValue)) {
+                                    $aboutMeEditorValue = collect(preg_split('/\n+/', $aboutMeValue))
+                                        ->filter(fn ($p) => trim($p) !== '')
+                                        ->map(fn ($p) => '<p>' . e(trim($p)) . '</p>')
+                                        ->implode('');
+                                }
+                            @endphp
+                            <label for="about_me_editor" class="mb-1.5 block text-sm font-medium text-slate-700">About Me</label>
+                            <div id="about_me_editor" class="rich-editor rounded-lg border border-slate-300 bg-white">{!! $aboutMeEditorValue !!}</div>
+                            <textarea name="about_me" id="about_me" class="hidden">{{ $aboutMeValue }}</textarea>
+                            @error('about_me')
+                                <p class="field-error">{{ $message }}</p>
+                            @enderror
+                            <p class="mt-1.5 text-xs text-slate-500">Use the toolbar for bold, italic, lists, and formatting. This content appears on the About section and About page.</p>
+                        </div>
                         <x-admin.form-textarea name="career_objective" label="Career Objective" :value="$profile->career_objective" rows="4" placeholder="Your career objective statement" help="Shown as the 'Career Objective' block on the About page. Each new line becomes a separate paragraph." />
                     </div>
                 </div>
@@ -83,6 +100,15 @@
     </form>
 
     @push('scripts')
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
+    <style>
+        #about_me_editor { min-height: 220px; font-size: 0.875rem; }
+        #about_me_editor .ql-editor { min-height: 180px; }
+        .ql-toolbar.ql-snow, .ql-container.ql-snow { border-color: #cbd5e1; }
+        .ql-toolbar.ql-snow { border-radius: 0.5rem 0.5rem 0 0; background: #f8fafc; }
+        .ql-container.ql-snow { border-radius: 0 0 0.5rem 0.5rem; }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
     <script>
         const fileInput = document.querySelector('input[name="profile_photo"]');
         const photoPreview = document.getElementById('photoPreview');
@@ -96,6 +122,34 @@
                 };
                 reader.readAsDataURL(file);
             });
+        }
+
+        const aboutEditorEl = document.getElementById('about_me_editor');
+        const aboutInput = document.getElementById('about_me');
+        if (aboutEditorEl && aboutInput && window.Quill) {
+            const quill = new Quill(aboutEditorEl, {
+                theme: 'snow',
+                placeholder: 'Write a short bio about your professional background...',
+                modules: {
+                    toolbar: [
+                        [{ header: [2, 3, false] }],
+                        ['bold', 'italic', 'underline'],
+                        [{ list: 'ordered' }, { list: 'bullet' }],
+                        ['link'],
+                        ['clean']
+                    ]
+                }
+            });
+
+            const syncAboutMe = () => {
+                const html = quill.root.innerHTML;
+                aboutInput.value = html === '<p><br></p>' ? '' : html;
+            };
+
+            quill.on('text-change', syncAboutMe);
+            syncAboutMe();
+
+            aboutEditorEl.closest('form')?.addEventListener('submit', syncAboutMe);
         }
     </script>
     @endpush

@@ -1,4 +1,4 @@
-<x-frontend.layouts.app :seoTitle="'About Me | ' . ($settings['site_name'] ?? 'Jinendra Panchal')">
+<x-frontend.layouts.app :seoTitle="'About Me | ' . ($settings['site_title'] ?? config('app.name'))">
     @php
         $handles = $profile?->socialHandles() ?? [];
         $handleIcons = [
@@ -14,7 +14,7 @@
     <x-frontend.page-header
         eyebrow="About Me"
         title="The Professional Behind the Portfolio"
-        description="{{ $profile?->short_intro ?? 'Aspiring Chartered Accountant pursuing CA Final with practical Articleship experience.' }}"
+        description="{{ $profile?->short_intro ?? 'Chartered Accountant with practical experience in accounting, audit, and taxation.' }}"
     />
 
     @if ($profile?->years_of_experience || $profile?->clients_count)
@@ -52,23 +52,33 @@
     <section class="bg-night py-16 md:py-20">
         <div class="container-app grid grid-cols-1 gap-12 lg:grid-cols-3">
             <div class="lg:col-span-2">
-                <div class="space-y-6 text-base leading-relaxed text-slate-300">
-                    @if (!empty($profile?->about_me))
-                        @foreach (preg_split('/\n+/', $profile->about_me) as $paragraph)
-                            <p>{{ $paragraph }}</p>
-                        @endforeach
-                    @else
-                        <p>
-                            As a CA Finalist with a strong foundation in Accounting, Audit and Taxation, I am currently pursuing
-                            the CA Final examination while completing my Articleship — the practical training that forms the
-                            heart of the Chartered Accountancy course.
-                        </p>
-                        <p>
-                            Having cleared the CA Intermediate examination, I have built a comprehensive understanding of
-                            financial accounting, auditing standards, taxation and corporate laws. My Articleship has given
-                            me hands-on exposure to real-world financial processes and compliance requirements.
-                        </p>
-                    @endif
+                <div class="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] p-8 shadow-xl shadow-black/10 transition-all duration-300 hover:-translate-y-1 hover:border-violet-500/30 hover:bg-white/[0.05] hover:shadow-2xl hover:shadow-violet-900/20 md:p-10">
+                    <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-violet-500/60 to-transparent transition-all duration-300 group-hover:via-violet-400/80"></div>
+                    <div class="absolute -right-6 -top-6 h-28 w-28 rounded-full bg-violet-500/10 blur-2xl transition-all duration-300 group-hover:bg-violet-500/20"></div>
+
+                    <div class="relative space-y-5 text-base leading-8 text-slate-300 md:text-[17px]">
+                        @if (!empty($profile?->about_me))
+                            @if (preg_match('/<\w+[^>]*>/', $profile->about_me))
+                                <div class="space-y-4 [&_p]:leading-8 [&_p:empty]:hidden [&_strong]:font-semibold [&_strong]:text-white [&_em]:italic [&_em]:text-slate-200 [&_u]:underline [&_ul]:list-disc [&_ul]:space-y-2 [&_ul]:pl-6 [&_ol]:list-decimal [&_ol]:space-y-2 [&_ol]:pl-6 [&_li]:text-slate-300 [&_a]:font-medium [&_a]:text-violet-400 [&_a]:underline [&_a]:decoration-violet-500/40 [&_a:hover]:text-violet-300 [&_h2]:text-2xl [&_h2]:font-display [&_h2]:font-semibold [&_h2]:text-white [&_h3]:text-xl [&_h3]:font-display [&_h3]:font-semibold [&_h3]:text-white">
+                                    {!! $profile->about_me !!}
+                                </div>
+                            @else
+                                @foreach (preg_split('/\n+/', $profile->about_me) as $paragraph)
+                                    <p>{{ $paragraph }}</p>
+                                @endforeach
+                            @endif
+                        @else
+                            <p>
+                                As a Chartered Accountant with a strong foundation in Accounting, Audit and Taxation, I bring
+                                hands-on experience in real-world financial processes and compliance requirements.
+                            </p>
+                            <p>
+                                Having completed the Chartered Accountancy qualification, I have built a comprehensive understanding of
+                                financial accounting, auditing standards, taxation and corporate laws. My practical training has given
+                                me hands-on exposure to audits, taxation, and day-to-day accounting across a diversified client base.
+                            </p>
+                        @endif
+                    </div>
                 </div>
 
                 @if (!empty($profile?->career_objective))
@@ -83,24 +93,28 @@
                     <x-frontend.grid :items="$mvCount" max="2" class="mt-10" data-reveal-stagger="90">
                         @if (!empty($settings['mission']))
                             <div class="rounded-2xl border border-white/10 bg-night/5 p-6 shadow-lg backdrop-blur hv-lift" data-reveal="fade">
-                                <span class="flex h-11 w-11 items-center justify-center rounded-xl bg-violet-500/15 text-violet-300 ring-1 ring-violet-500/30">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
-                                    </svg>
-                                </span>
-                                <h2 class="mt-4 text-lg font-semibold text-white">Our Mission</h2>
-                                <p class="mt-2 text-sm leading-relaxed text-slate-300">{{ $settings['mission'] }}</p>
+                                <div class="flex items-center gap-3">
+                                    <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-violet-500/15 text-violet-300 ring-1 ring-violet-500/30">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
+                                        </svg>
+                                    </span>
+                                    <h2 class="text-lg font-semibold text-white">Our Mission</h2>
+                                </div>
+                                <p class="mt-3 text-sm leading-relaxed text-slate-300">{{ $settings['mission'] }}</p>
                             </div>
                         @endif
                         @if (!empty($settings['vision']))
                             <div class="rounded-2xl border border-white/10 bg-night/5 p-6 shadow-lg backdrop-blur hv-lift" data-reveal="fade">
-                                <span class="flex h-11 w-11 items-center justify-center rounded-xl bg-violet-500/15 text-violet-300 ring-1 ring-violet-500/30">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178zM15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                    </svg>
-                                </span>
-                                <h2 class="mt-4 text-lg font-semibold text-white">Our Vision</h2>
-                                <p class="mt-2 text-sm leading-relaxed text-slate-300">{{ $settings['vision'] }}</p>
+                                <div class="flex items-center gap-3">
+                                    <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-violet-500/15 text-violet-300 ring-1 ring-violet-500/30">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178zM15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        </svg>
+                                    </span>
+                                    <h2 class="text-lg font-semibold text-white">Our Vision</h2>
+                                </div>
+                                <p class="mt-3 text-sm leading-relaxed text-slate-300">{{ $settings['vision'] }}</p>
                             </div>
                         @endif
                     </x-frontend.grid>
@@ -210,14 +224,6 @@
                     </div>
                 @endif
 
-                <div class="rounded-2xl border border-white/10 bg-night/5 p-6 shadow-lg backdrop-blur hv-lift" data-reveal="fade">
-                    <h3 class="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-400">Future Career Goals</h3>
-                    <p class="text-sm leading-relaxed text-slate-300">
-                        To complete the CA Final examination, qualify as a Chartered Accountant, and continue developing
-                        expertise in audit, taxation and financial advisory services while contributing significant value
-                        to the profession and the organizations I serve.
-                    </p>
-                </div>
             </aside>
         </div>
     </section>

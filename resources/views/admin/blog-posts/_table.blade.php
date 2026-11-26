@@ -71,7 +71,7 @@
                         </td>
                     </tr>
                 @empty
-                    <x-admin.empty-state resource="blog posts" :colspan="6" message="No blog posts found." create-label="Write your first post" :create-route="route('admin.blog-posts.create')" />
+                    <x-admin.empty-state resource="blog posts" :colspan="6" message="No blog posts found." create-label="Write a post" :create-route="route('admin.blog-posts.create')" />
                 @endforelse
             </tbody>
         </table>

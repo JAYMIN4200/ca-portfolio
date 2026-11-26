@@ -44,7 +44,7 @@
         @empty
             <div class="col-span-full rounded-xl bg-white p-12 text-center shadow-sm ring-1 ring-slate-200">
                 <p class="text-sm text-slate-500">No skill categories yet.</p>
-                <a href="{{ route('admin.skill-categories.create') }}" class="mt-2 inline-block text-sm font-medium text-navy-700 hover:underline">Create your first category →</a>
+                <a href="{{ route('admin.skill-categories.create') }}" class="mt-2 inline-block text-sm font-medium text-navy-700 hover:underline">Create a category →</a>
             </div>
         @endforelse
     </div>

@@ -19,7 +19,7 @@ class FaqSeeder extends Seeder
             ],
             [
                 'question' => 'Are you a qualified Chartered Accountant?',
-                'answer' => 'I am a CA Finalist currently pursuing my Chartered Accountancy alongside my Articleship. I have cleared both CA Foundation and CA Intermediate, and I am gaining hands-on practical experience in audit, taxation and accounting.',
+                'answer' => 'I am a qualified Chartered Accountant. I have cleared CA Foundation, CA Intermediate, and CA Final, and I have hands-on practical experience in audit, taxation and accounting.',
                 'category' => 'General',
                 'display_order' => 2,
                 'is_active' => true,

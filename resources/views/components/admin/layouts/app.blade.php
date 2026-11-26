@@ -8,10 +8,11 @@
         <script>!function(){var d=document.documentElement,k='ca_theme_'+(d.getAttribute('data-theme-scope')||'frontend'),t=null;try{t=localStorage.getItem(k)}catch(e){}d.setAttribute('data-theme',t||d.getAttribute('data-theme-session')||d.getAttribute('data-theme-default')||'dark')}();</script>
         @php
             $siteName = \App\Services\SettingsService::get('site_name', config('app.name'));
+            $siteTitle = \App\Services\SettingsService::get('site_title', $siteName);
             $favicon = \App\Services\SettingsService::get('site_favicon');
             $faviconLetter = strtoupper(substr(\App\Services\SettingsService::get('logo_text', 'CA'), 0, 1));
         @endphp
-        <title>{{ isset($title) ? $title . ' | ' . $siteName : $siteName }}</title>
+        <title>{{ isset($title) ? $title . ' | ' . $siteTitle : $siteTitle }}</title>
         @if ($favicon)
             <link rel="icon" type="image/png" href="{{ Storage::url($favicon) }}">
         @else

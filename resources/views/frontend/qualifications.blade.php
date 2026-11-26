@@ -1,4 +1,4 @@
-<x-frontend.layouts.app :seoTitle="'Qualifications | ' . ($settings['site_name'] ?? 'Jinendra Panchal')">
+<x-frontend.layouts.app :seoTitle="'Qualifications | ' . ($settings['site_title'] ?? config('app.name'))">
     <x-frontend.page-header
         eyebrow="Qualifications"
         title="Educational & Professional Qualifications"

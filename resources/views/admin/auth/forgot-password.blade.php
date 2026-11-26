@@ -1,6 +1,6 @@
 <x-admin.layouts.guest :title="'Forgot Password'">
     <div class="flex min-h-screen flex-col items-center justify-center px-4 py-12">
-        <x-admin.auth-card heading="Reset your password" subtitle="Enter your admin email and we'll email you a reset link.">
+        <x-admin.auth-card heading="Reset your password" :websiteName="\App\Services\SettingsService::get('site_name', config('app.name'))" subtitle="Enter your admin email and we'll email you a reset link.">
             <form method="POST" action="{{ route('admin.forgot-password.submit') }}">
                 @csrf
 

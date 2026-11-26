@@ -28,10 +28,10 @@ class QualificationSeeder extends Seeder
             [
                 'name' => 'CA Final',
                 'institution' => 'Institute of Chartered Accountants of India',
-                'status' => 'pursuing',
+                'status' => 'cleared',
                 'start_year' => 2021,
                 'end_year' => null,
-                'description' => 'Currently pursuing CA Final examination.',
+                'description' => 'Successfully cleared CA Final examination.',
                 'display_order' => 2,
             ],
             [

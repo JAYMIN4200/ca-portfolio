@@ -3,7 +3,7 @@
 @php
     $user = auth()->user();
     $settings = \App\Services\SettingsService::all();
-    $brandTitle = $settings['site_name'] ?? config('app.name');
+    $brandTitle = $settings['site_title'] ?? $settings['site_name'] ?? config('app.name');
     $routeName = request()->route()?->getName() ?? '';
 
     $isItemActive = function (array $item) use ($routeName) {

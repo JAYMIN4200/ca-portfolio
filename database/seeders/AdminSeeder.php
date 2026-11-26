@@ -21,8 +21,8 @@ class AdminSeeder extends Seeder
         $admin->profile()->updateOrCreate(
             ['user_id' => $admin->id],
             [
-                'professional_title' => 'CA Finalist | Accounting, Audit & Taxation Professional',
-                'short_intro' => 'Aspiring Chartered Accountant with a strong foundation in accounting, audit, and taxation. Currently pursuing CA Final while gaining practical experience through Articleship.',
+                'professional_title' => 'Chartered Accountant | Accounting, Audit & Taxation Professional',
+                'short_intro' => 'Chartered Accountant with a strong foundation in accounting, audit, and taxation, delivering reliable and compliant financial solutions.',
                 'phone' => '+91 9979024601',
                 'location' => 'Naroda, Ahmedabad, Gujarat 382230, India',
                 'linkedin_username' => 'jinendra2002',

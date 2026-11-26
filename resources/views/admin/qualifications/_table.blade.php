@@ -54,7 +54,7 @@
                         </td>
                     </tr>
                 @empty
-                    <x-admin.empty-state resource="qualifications" :colspan="6" message="No qualifications found." create-label="Add your first qualification" :create-route="route('admin.qualifications.create')" />
+                    <x-admin.empty-state resource="qualifications" :colspan="6" message="No qualifications found." create-label="Add a qualification" :create-route="route('admin.qualifications.create')" />
                 @endforelse
             </tbody>
         </table>

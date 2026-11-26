@@ -55,6 +55,15 @@ class TestimonialSeeder extends Seeder
                 'display_order' => 5,
                 'is_active' => true,
             ],
+            [
+                'name' => 'Punit Mevada',
+                'designation' => 'Business Owner',
+                'company' => 'Mevada Enterprises',
+                'message' => 'Working with Jinendra has been a smooth and reliable experience. His clarity in accounting and taxation matters, along with timely support, makes him a trusted professional to work with.',
+                'rating' => 5,
+                'display_order' => 6,
+                'is_active' => true,
+            ],
         ];
 
         foreach ($testimonials as $data) {

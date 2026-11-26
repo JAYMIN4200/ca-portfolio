@@ -29,6 +29,7 @@ class SettingController extends Controller
             'general.copyright' => ['nullable', 'string', 'max:500'],
             'general.logo_text' => ['nullable', 'string', 'max:50'],
             'general.site_favicon' => ['nullable', 'string', 'max:255'],
+            'general.theme_toggle_enabled' => ['nullable', 'in:0,1'],
 
             // About
             'about.mission' => ['nullable', 'string', 'max:3000'],
@@ -36,6 +37,18 @@ class SettingController extends Controller
 
             // Home
             'home.why_choose_us' => ['nullable', 'string', 'max:5000'],
+            'home.hero_badge_1_title' => ['nullable', 'string', 'max:30'],
+            'home.hero_badge_1_label' => ['nullable', 'string', 'max:30'],
+            'home.hero_badge_1_enabled' => ['nullable', 'in:0,1'],
+            'home.hero_badge_2_title' => ['nullable', 'string', 'max:30'],
+            'home.hero_badge_2_label' => ['nullable', 'string', 'max:30'],
+            'home.hero_badge_2_enabled' => ['nullable', 'in:0,1'],
+            'home.hero_badge_3_title' => ['nullable', 'string', 'max:30'],
+            'home.hero_badge_3_label' => ['nullable', 'string', 'max:30'],
+            'home.hero_badge_3_enabled' => ['nullable', 'in:0,1'],
+            'home.hero_badge_4_title' => ['nullable', 'string', 'max:30'],
+            'home.hero_badge_4_label' => ['nullable', 'string', 'max:30'],
+            'home.hero_badge_4_enabled' => ['nullable', 'in:0,1'],
 
             // Contact
             'contact.contact_email' => ['nullable', 'email', 'max:255'],

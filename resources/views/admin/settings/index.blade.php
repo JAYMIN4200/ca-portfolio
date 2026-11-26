@@ -14,7 +14,7 @@
                 <h2 class="mb-4 text-base font-semibold text-navy-950">General</h2>
                 <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <x-admin.form-input name="general[site_name]" label="Website Name" :value="$g('general', 'site_name', config('app.name'))" placeholder="E.g. Jinendra Panchal" />
-                    <x-admin.form-input name="general[site_title]" label="Website Title" :value="$g('general', 'site_title')" placeholder="E.g. CA Finalist | Accounting, Audit & Taxation" />
+                    <x-admin.form-input name="general[site_title]" label="Website Title" :value="$g('general', 'site_title')" placeholder="E.g. Chartered Accountant | Accounting, Audit & Taxation" />
                     <x-admin.form-input name="general[footer_text]" label="Footer Text" :value="$g('general', 'footer_text')" placeholder="Short tagline shown in the website footer" help="Shown as the tagline in the website footer only when the profile's Short Intro is empty. If a Short Intro is set, that is used instead." />
                     <x-admin.form-input name="general[copyright]" label="Copyright" :value="$g('general', 'copyright')" placeholder="© 2026 Jinendra Panchal. All rights reserved." />
                 </div>
@@ -43,7 +43,7 @@
                             </div>
                             <div class="flex-1">
                                 <label class="mb-1.5 block text-sm font-medium text-slate-700">Favicon</label>
-                                <x-admin.form-file name="site_favicon" label="Upload favicon (32x32 recommended)" accept="image/png,image/x-icon,image/webp,image/svg+xml" />
+                                <x-admin.form-file name="site_favicon" label="Upload favicon" accept="image/png,image/x-icon,image/webp,image/svg+xml" help="Recommended: 512x512px PNG (square) for sharp display. Min 32x32px." />
                                 <p class="mt-1 text-xs text-slate-500">Shown in the browser tab on both the website and admin panel. Replaces the auto-generated letter favicon.</p>
                                 @if ($faviconPath)
                                     <p class="mt-1 text-xs text-slate-400">Current: {{ $faviconPath }} — uploading a new one replaces it.</p>
@@ -51,6 +51,12 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="mt-5 border-t border-slate-200 pt-5">
+                    <x-admin.form-toggle name="general[theme_toggle_enabled]"
+                        label="Show theme switcher"
+                        help="When enabled, the light / dark theme button is shown in the website and admin navigation bars."
+                        :checked="$g('general', 'theme_toggle_enabled', '1') === '1'" />
                 </div>
             </div>
             <div class="rounded-xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
@@ -86,12 +92,43 @@
                         @endif
                     </div>
                     <div class="flex-1">
-                        <x-admin.form-file name="hero_image" label="Upload hero image" accept="image/png,image/jpeg,image/webp" />
+                        <x-admin.form-file name="hero_image" label="Upload hero image" accept="image/png,image/jpeg,image/webp" help="Recommended: 800x1000px (4:5 portrait). JPG, PNG or WebP." />
                         <p class="mt-1 text-xs text-slate-500">Shown on the right side of the home page hero, next to the name. Wide portrait crop recommended (e.g. 800x1000). If left empty, the default GST illustration is used.</p>
                         @if ($heroPath)
                             <p class="mt-1 text-xs text-slate-400">Current: {{ $heroPath }} — uploading a new one replaces it.</p>
                         @endif
                     </div>
+                </div>
+            </div>
+
+            <div class="rounded-xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+                <h2 class="mb-1 text-base font-semibold text-navy-950">Home Hero Badges</h2>
+                <p class="mb-4 text-xs text-slate-500">Four badges shown on the corners of the home page hero image. Uncheck "Show" to hide a badge, or leave the title and label blank to hide it too.</p>
+                <div class="space-y-4">
+                    @php
+                        $badgeMeta = [
+                            1 => ['corner' => 'Top right', 'title' => 'GST', 'label' => 'Expert'],
+                            2 => ['corner' => 'Bottom left', 'title' => '₹', 'label' => 'Tax Planning'],
+                            3 => ['corner' => 'Top left', 'title' => 'ITR', 'label' => 'Income Tax'],
+                            4 => ['corner' => 'Bottom right', 'title' => 'Audit', 'label' => 'Compliance'],
+                        ];
+                    @endphp
+                    @foreach ($badgeMeta as $index => $meta)
+                        <div class="grid grid-cols-1 items-end gap-3 rounded-lg border border-slate-200 p-4 sm:grid-cols-12">
+                            <div class="sm:col-span-3">
+                                <p class="text-sm font-medium text-slate-700">Badge {{ $index }} <span class="text-xs font-normal text-slate-400">({{ $meta['corner'] }})</span></p>
+                                <div class="mt-2">
+                                    <x-admin.form-checkbox name="home[hero_badge_{{ $index }}_enabled]" label="Show" :checked="$g('home', 'hero_badge_'.$index.'_enabled', '1') === '1'" />
+                                </div>
+                            </div>
+                            <div class="sm:col-span-4">
+                                <x-admin.form-input name="home[hero_badge_{{ $index }}_title]" label="Title" :value="$g('home', 'hero_badge_'.$index.'_title', $meta['title'])" :placeholder="$meta['title']" />
+                            </div>
+                            <div class="sm:col-span-5">
+                                <x-admin.form-input name="home[hero_badge_{{ $index }}_label]" label="Label" :value="$g('home', 'hero_badge_'.$index.'_label', $meta['label'])" :placeholder="$meta['label']" />
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
             </div>
 

@@ -1,8 +1,8 @@
-<x-frontend.layouts.app :seoTitle="'Experience | ' . ($settings['site_name'] ?? 'Jinendra Panchal')">
+<x-frontend.layouts.app :seoTitle="'Experience | ' . ($settings['site_title'] ?? config('app.name'))">
     <x-frontend.page-header
         eyebrow="Experience"
-        title="Articleship Experience"
-        description="Practical training and hands-on professional experience gained under the guidance of experienced Chartered Accountants."
+        title="Professional Experience"
+        description="Professional experience delivering accounting, audit, and taxation work with accuracy, compliance, and client focus."
     />
 
     <section class="bg-night py-16 md:py-20">
@@ -69,7 +69,7 @@
                 </div>
             @empty
                 <div class="rounded-2xl border border-white/10 bg-night/5 p-12 text-center">
-                    <p class="text-sm text-slate-400">Articleship experience details are being updated. Please check back soon.</p>
+                    <p class="text-sm text-slate-400">Experience details are being updated. Please check back soon.</p>
                 </div>
             @endforelse
         </div>

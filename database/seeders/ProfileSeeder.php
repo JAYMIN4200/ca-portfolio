@@ -18,9 +18,9 @@ class ProfileSeeder extends Seeder
         $admin->profile()->updateOrCreate(
             ['user_id' => $admin->id],
             [
-                'professional_title' => 'CA Finalist | Accounting, Audit & Taxation Professional',
-                'short_intro' => 'Aspiring Chartered Accountant with a strong foundation in accounting, audit, and taxation. Currently pursuing CA Final while gaining practical experience through Articleship.',
-                'about_me' => "CA Finalist with a strong foundation in financial accounting, audit and taxation, currently pursuing the CA Final examination while completing my Articleship. I enjoy translating complex financial information into clear, decision-ready insight for businesses.\n\nMy Articleship has given me hands-on exposure to statutory and internal audits, GST and income tax compliance, and day-to-day bookkeeping for a diversified client base. I work extensively on Tally Prime, MS Excel and the government tax portals, and I am comfortable managing deadlines across multiple engagements.\n\nI am now looking to build on this foundation and grow into a well-rounded Chartered Accountant.",
+                'professional_title' => 'Chartered Accountant | Accounting, Audit & Taxation Professional',
+                'short_intro' => 'Chartered Accountant with a strong foundation in accounting, audit, and taxation, delivering reliable and compliant financial solutions.',
+                'about_me' => "Chartered Accountant with a strong foundation in financial accounting, audit and taxation. I enjoy translating complex financial information into clear, decision-ready insight for businesses.\n\nMy practical training has given me hands-on exposure to statutory and internal audits, GST and income tax compliance, and day-to-day bookkeeping for a diversified client base. I work extensively on Tally Prime, MS Excel and the government tax portals, and I am comfortable managing deadlines across multiple engagements.\n\nI am committed to building on this foundation and delivering value-driven financial solutions to the organisations and clients I serve.",
                 'career_objective' => 'To qualify as a Chartered Accountant and build expertise in audit, taxation and financial advisory, delivering accurate, compliant and value-adding solutions to the organisations and clients I serve.',
                 'phone' => '+91 9979024601',
                 'location' => 'Naroda, Ahmedabad, Gujarat 382230, India',

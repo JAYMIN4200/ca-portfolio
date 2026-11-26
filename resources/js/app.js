@@ -5,6 +5,7 @@ function initApp() {
     initAdminSidebar();
     initUserDropdown();
     initScrollReveal();
+    initAboutPreview();
     initCounters();
     initAdminFormValidation();
     initFlashAutoHide();
@@ -23,6 +24,7 @@ function initApp() {
     initMeetingCalendar();
     initPaymentSummary();
     initFinancialChart();
+    initVisitsChart();
     initContactSubject();
     initBackToTop();
     initCarousels();
@@ -280,6 +282,32 @@ function initUserDropdown() {
    ────────────────────────────────────────────── */
 function initScrollReveal() {
     observeReveal(document);
+}
+
+/* ──────────────────────────────────────────────
+   Home About Me — expandable preview
+   ────────────────────────────────────────────── */
+function initAboutPreview() {
+    document.querySelectorAll('[data-about-expand]').forEach((button) => {
+        const preview = document.getElementById(button.getAttribute('aria-controls'));
+        const label = button.querySelector('[data-about-expand-label]');
+        if (!preview || !label) return;
+
+        button.addEventListener('click', () => {
+            const shouldExpand = button.getAttribute('aria-expanded') !== 'true';
+
+            button.setAttribute('aria-expanded', String(shouldExpand));
+            preview.classList.toggle('max-h-44', !shouldExpand);
+            preview.classList.toggle('max-h-none', shouldExpand);
+            preview.classList.toggle('overflow-hidden', !shouldExpand);
+
+            label.textContent = shouldExpand
+                ? (button.dataset.expandedLabel || 'Show Less')
+                : (button.dataset.collapsedLabel || 'Read More');
+
+            button.querySelector('[data-about-expand-icon]')?.classList.toggle('rotate-180', shouldExpand);
+        });
+    });
 }
 
 let revealObserver = null;
@@ -946,6 +974,56 @@ function initFinancialChart() {
             load();
         });
     }
+
+    syncActiveState();
+}
+
+function initVisitsChart() {
+    const container = document.querySelector('[data-visits-chart]');
+    if (!container) return;
+
+    const panel = document.getElementById('visitsChartPanel');
+    const endpoint = container.getAttribute('data-endpoint');
+    if (!panel || !endpoint) return;
+
+    const periodButtons = [...container.querySelectorAll('[data-visits-period]')];
+    let period = container.getAttribute('data-period') || 'week';
+
+    const syncActiveState = () => {
+        periodButtons.forEach((btn) => {
+            const active = btn.getAttribute('data-visits-period') === period;
+            btn.classList.toggle('bg-white', active);
+            btn.classList.toggle('text-navy-900', active);
+            btn.classList.toggle('shadow-sm', active);
+            btn.classList.toggle('text-slate-600', !active);
+            btn.classList.toggle('hover:text-navy-800', !active);
+        });
+    };
+
+    const load = async () => {
+        panel.style.opacity = '0.4';
+        panel.style.pointerEvents = 'none';
+        try {
+            const resp = await fetch(`${endpoint}?visit_period=${encodeURIComponent(period)}`, {
+                headers: { 'X-Requested-With': 'XMLHttpRequest', Accept: 'application/json' },
+            });
+            const data = await resp.json();
+            if (data.html) panel.innerHTML = data.html;
+        } catch (err) {
+            console.error('Visits chart error', err);
+        } finally {
+            panel.style.opacity = '';
+            panel.style.pointerEvents = '';
+        }
+    };
+
+    periodButtons.forEach((btn) => {
+        btn.addEventListener('click', () => {
+            period = btn.getAttribute('data-visits-period');
+            syncActiveState();
+            load();
+        });
+    });
 
     syncActiveState();
 }

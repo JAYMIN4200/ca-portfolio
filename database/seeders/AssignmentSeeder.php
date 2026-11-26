@@ -55,6 +55,28 @@ class AssignmentSeeder extends Seeder
                 'display_order' => 4,
                 'is_active' => true,
             ],
+            [
+                'title' => 'TDS Compliance & Payroll Processing Support',
+                'category' => 'TDS',
+                'short_description' => 'Supported monthly TDS deductions, challan payments, and payroll compliance for a services company.',
+                'description' => 'Assisted in end-to-end TDS compliance for a services firm, including deduction working, challan preparation, and quarterly return support. Also helped streamline payroll calculations and statutory deductions to ensure timely and accurate compliance.',
+                'responsibilities' => ['Monthly TDS working and challan preparation', 'Quarterly TDS return data compilation', 'Payroll processing and deduction checks', 'Employee tax computation support'],
+                'tools_used' => ['MS Excel', 'Tally Prime', 'TRACES Portal'],
+                'external_url' => null,
+                'display_order' => 5,
+                'is_active' => true,
+            ],
+            [
+                'title' => 'ROC Filing & Corporate Compliance Assistance',
+                'category' => 'ROC / MCA',
+                'short_description' => 'Assisted with ROC filings, annual compliance documentation, and MCA record maintenance for a private company.',
+                'description' => 'Provided support for routine ROC and MCA compliance activities for a private limited company. Prepared working files for annual filings, maintained statutory records, and coordinated with stakeholders for timely submission of required forms and documents.',
+                'responsibilities' => ['Preparation of annual ROC filing data', 'Maintenance of statutory registers and records', 'MCA form documentation support', 'Coordination for compliance deadlines'],
+                'tools_used' => ['MCA Portal', 'MS Excel', 'MS Word'],
+                'external_url' => null,
+                'display_order' => 6,
+                'is_active' => true,
+            ],
         ];
 
         $svgTemplates = [
@@ -62,6 +84,8 @@ class AssignmentSeeder extends Seeder
             'GST' => ['hue' => '1E3A5F', 'accent' => '7FB069', 'label' => 'GST Compliance'],
             'Income Tax' => ['hue' => '2E3A59', 'accent' => 'E8843C', 'label' => 'Income Tax'],
             'Accounting' => ['hue' => '234B4E', 'accent' => '4FB3BF', 'label' => 'Accounting'],
+            'TDS' => ['hue' => '3B2F63', 'accent' => 'A78BFA', 'label' => 'TDS & Payroll'],
+            'ROC / MCA' => ['hue' => '3F2D20', 'accent' => 'F59E0B', 'label' => 'ROC / MCA Compliance'],
         ];
 
         foreach ($assignments as $data) {

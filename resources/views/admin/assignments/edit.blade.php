@@ -20,7 +20,7 @@
                 <x-admin.form-input name="title" label="Assignment Title" :value="$assignment->title" required placeholder="E.g. Statutory Audit of a Manufacturing Company" />
                 <x-admin.form-input name="category" label="Category" :value="$assignment->category" placeholder="E.g. Audit, GST, Income Tax, Accounting" />
                 <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                    <x-admin.form-file name="image" label="Replace Cover Image" accept="image/png,image/jpeg,image/webp" />
+                    <x-admin.form-file name="image" label="Replace Cover Image" accept="image/png,image/jpeg,image/webp" help="Recommended: 1280x720px (16:9). JPG, PNG or WebP, max 3MB." />
                     <x-admin.form-input name="external_url" label="External URL" :value="$assignment->external_url" placeholder="https://..." help="Optional public link" />
                 </div>
                 <x-admin.form-textarea name="short_description" label="Short Description" :value="$assignment->short_description" rows="3" placeholder="Brief summary shown on assignment cards" help="Shown under the title on assignment cards and the details sidebar. Keep it 1–2 lines." />

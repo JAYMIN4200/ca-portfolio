@@ -24,7 +24,7 @@ class ExperienceSeeder extends Seeder
                 'start_date' => '2023-06-01',
                 'end_date' => null,
                 'is_current' => true,
-                'description' => 'Currently pursuing CA Final articleship with hands-on exposure to audits, taxation and accounting assignments across a diversified client base.',
+                'description' => 'Hands-on exposure to audits, taxation and accounting assignments across a diversified client base.',
                 'responsibilities' => [
                     'Assisting in statutory and internal audits',
                     'Preparation of financial statements and schedules',
@@ -42,7 +42,7 @@ class ExperienceSeeder extends Seeder
                 'start_date' => '2022-07-01',
                 'end_date' => '2023-05-31',
                 'is_current' => false,
-                'description' => 'Gained foundational training in audit techniques, documentation and basic accounting during the early years of articleship.',
+                'description' => 'Gained foundational training in audit techniques, documentation and basic accounting during the early years of practical training.',
                 'responsibilities' => [
                     'Voucher checking and audit trail documentation',
                     'Bank reconciliation and client co-ordination',

@@ -1,10 +1,12 @@
 @props([
     'heading' => '',
     'subtitle' => '',
+    'websiteName' => '',
 ])
 
 @php
     $siteName = \App\Services\SettingsService::get('site_name', config('app.name'));
+    $siteTitle = \App\Services\SettingsService::get('site_title', $siteName);
 @endphp
 
 {{-- Single, self-contained dark-glass card for all auth screens, so
@@ -18,7 +20,7 @@
             <x-admin.brand-mark size="h-14 w-14" text="text-2xl" rounded="rounded-2xl" />
             <div>
                 <p class="font-display text-xl font-semibold text-white">Admin Panel</p>
-                <p class="text-sm text-slate-400">{{ $siteName }}</p>
+                <p class="text-sm text-slate-400">{{ $siteTitle }}</p>
             </div>
         </div>
 
@@ -26,6 +28,9 @@
 
         <div class="relative mt-6">
             <h1 class="text-center font-display text-2xl font-bold text-white">{{ $heading }}</h1>
+            @if ($websiteName !== '')
+                <p class="mt-1 text-center text-sm font-medium text-gold-400">{{ $websiteName }}</p>
+            @endif
             <p class="mt-1 text-center text-sm text-slate-400">{{ $subtitle }}</p>
         </div>
 

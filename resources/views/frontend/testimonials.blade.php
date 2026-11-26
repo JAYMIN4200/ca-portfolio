@@ -1,4 +1,4 @@
-<x-frontend.layouts.app :seoTitle="'Testimonials | ' . ($settings['site_name'] ?? 'Jinendra Panchal')">
+<x-frontend.layouts.app :seoTitle="'Testimonials | ' . ($settings['site_title'] ?? config('app.name'))">
     <x-frontend.page-header
         eyebrow="Social Proof"
         title="What Clients Say"

@@ -54,7 +54,7 @@
                         </td>
                     </tr>
                 @empty
-                    <x-admin.empty-state resource="payments" :colspan="7" message="No payments found." create-label="Record your first payment" :create-route="route('admin.payments.create')" />
+                    <x-admin.empty-state resource="payments" :colspan="7" message="No payments found." create-label="Record a payment" :create-route="route('admin.payments.create')" />
                 @endforelse
             </tbody>
         </table>

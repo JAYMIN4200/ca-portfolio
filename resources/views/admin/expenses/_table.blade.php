@@ -52,7 +52,7 @@
                         </td>
                     </tr>
                 @empty
-                    <x-admin.empty-state resource="expenses" :colspan="6" message="No expenses found." create-label="Add your first expense" :create-route="route('admin.expenses.create')" />
+                    <x-admin.empty-state resource="expenses" :colspan="6" message="No expenses found." create-label="Add an expense" :create-route="route('admin.expenses.create')" />
                 @endforelse
             </tbody>
         </table>

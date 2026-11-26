@@ -1,4 +1,4 @@
-<x-frontend.layouts.app :seoTitle="$caseStudy->title . ' | ' . ($settings['site_name'] ?? 'Jinendra Panchal')" :seoDescription="$caseStudy->summary">
+<x-frontend.layouts.app :seoTitle="$caseStudy->title . ' | ' . ($settings['site_title'] ?? config('app.name'))" :seoDescription="$caseStudy->summary">
     <x-frontend.page-header
         eyebrow="{{ $caseStudy->category ?? 'Case Study' }}"
         title="{{ $caseStudy->title }}"

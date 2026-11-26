@@ -33,7 +33,7 @@ class DashboardController extends Controller
             'tasks_pending' => Task::where('status', 'pending')->count(),
             'messages' => ContactMessage::count(),
             'unread_messages' => ContactMessage::unread()->count(),
-            'visits_today' => Visit::today()->count(),
+            'visits_today' => Visit::today()->distinct('ip_address')->count('ip_address'),
             'visits_total' => Visit::count(),
             'clients' => Client::count(),
             'meetings_upcoming' => Meeting::upcoming()->count(),
@@ -43,14 +43,8 @@ class DashboardController extends Controller
             'pending_amount' => (float) Payment::pending()->sum('amount'),
         ];
 
-        $visitTrend = Visit::selectRaw('DATE(created_at) as date, COUNT(*) as count')
-            ->where('created_at', '>=', Carbon::now()->subDays(6)->startOfDay())
-            ->groupBy('date')
-            ->orderBy('date')
-            ->pluck('count', 'date');
-
-        $trendLabels = collect(range(6, 0))->map(fn ($i) => Carbon::now()->subDays($i)->toDateString());
-        $trendData = $trendLabels->map(fn ($date) => $visitTrend->get($date, 0));
+        $visitPeriod = $request->input('visit_period', 'week');
+        $visitData = $this->visitSeries($visitPeriod);
 
         $recentVisits = Visit::latest()->limit(6)->get();
         $recentMessages = ContactMessage::ordered()->limit(5)->get();
@@ -73,8 +67,9 @@ class DashboardController extends Controller
             'stats' => $stats,
             'recentMessages' => $recentMessages,
             'recentlyCreated' => $recentlyCreated,
-            'trendLabels' => $trendLabels,
-            'trendData' => $trendData,
+            'visitLabels' => $visitData['labels'],
+            'visitData' => $visitData['data'],
+            'visitPeriod' => $visitPeriod,
             'recentVisits' => $recentVisits,
             'upcomingMeetings' => $upcomingMeetings,
             'financialLabels' => $financialData['labels'],
@@ -102,6 +97,20 @@ class DashboardController extends Controller
             ])->render(),
             'period' => $period,
             'type' => $type,
+        ]);
+    }
+
+    public function visits(Request $request)
+    {
+        $period = $request->input('visit_period', 'week');
+        $data = $this->visitSeries($period);
+
+        return response()->json([
+            'html' => view('admin.partials.visits-chart', [
+                'visitLabels' => $data['labels'],
+                'visitData' => $data['data'],
+            ])->render(),
+            'period' => $period,
         ]);
     }
 
@@ -220,5 +229,46 @@ class DashboardController extends Controller
         })->all();
 
         return compact('labels', 'expenses', 'payments');
+    }
+
+    /** @return array{labels: string[], data: int[]} */
+    private function visitSeries(string $period = 'week'): array
+    {
+        $now = Carbon::now();
+
+        if ($period === 'year') {
+            $labels = [];
+            $data = [];
+            for ($i = 11; $i >= 0; $i--) {
+                $month = $now->copy()->startOfMonth()->subMonths($i);
+                $labels[] = $month->format('M y');
+                $data[] = (int) Visit::whereBetween('created_at', [$month->copy()->startOfMonth(), $month->copy()->endOfMonth()])->count();
+            }
+
+            return compact('labels', 'data');
+        }
+
+        if ($period === 'month') {
+            $labels = [];
+            $data = [];
+            $days = $now->day - 1;
+            for ($i = 0; $i <= $days; $i++) {
+                $day = $now->copy()->startOfMonth()->addDays($i);
+                $labels[] = $day->format('d');
+                $data[] = (int) Visit::whereDate('created_at', $day)->count();
+            }
+
+            return compact('labels', 'data');
+        }
+
+        $labels = [];
+        $data = [];
+        for ($i = 6; $i >= 0; $i--) {
+            $day = $now->copy()->subDays($i);
+            $labels[] = $day->format('D');
+            $data[] = (int) Visit::whereDate('created_at', $day)->count();
+        }
+
+        return compact('labels', 'data');
     }
 }

@@ -39,8 +39,10 @@ class AuthController extends Controller
                 ]);
             }
 
-            $name = auth()->user()->name;
-            auth()->user()->update(['last_login_at' => now()]);
+            $user = auth()->user();
+            $name = $user->name;
+            $request->session()->put('previous_login_at', $user->last_login_at);
+            $user->update(['last_login_at' => now()]);
 
             return redirect()
                 ->intended(route('admin.dashboard'))

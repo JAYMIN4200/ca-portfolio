@@ -85,6 +85,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('calendar', [DashboardController::class, 'calendar'])->name('dashboard.calendar');
         Route::get('financials', [DashboardController::class, 'financials'])->name('dashboard.financials');
+        Route::get('visits', [DashboardController::class, 'visits'])->name('dashboard.visits');
 
         Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');

@@ -1,6 +1,6 @@
 <x-admin.layouts.guest :title="'Reset Password'">
     <div class="flex min-h-screen flex-col items-center justify-center px-4 py-12">
-        <x-admin.auth-card heading="Reset password" subtitle="Choose a new password for your account.">
+        <x-admin.auth-card heading="Reset password" :websiteName="\App\Services\SettingsService::get('site_name', config('app.name'))" subtitle="Choose a new password for your account.">
             <form method="POST" action="{{ route('admin.reset-password.submit') }}">
                 @csrf
                 <input type="hidden" name="token" value="{{ $token }}">
