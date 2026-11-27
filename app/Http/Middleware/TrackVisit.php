@@ -27,6 +27,7 @@ class TrackVisit
                 'ip_address' => $request->ip(),
                 'user_agent' => $request->userAgent(),
                 'url' => $request->fullUrl(),
+                'user_id' => auth()->id(),
             ]);
         }
 

@@ -43,4 +43,26 @@ class SettingsService
     {
         static::$cache = null;
     }
+
+    public static function copyright(): string
+    {
+        $year = (string) now()->year;
+        $value = trim(static::get('copyright') ?? '');
+
+        if ($value === '') {
+            $value = rtrim(static::get('site_title', config('app.name')) ?? '', '.') . '. All rights reserved.';
+        }
+
+        $value = str_replace('{year}', $year, $value);
+
+        if (preg_match('/\b\d{4}\b/', $value)) {
+            return $value;
+        }
+
+        if (str_starts_with($value, '©')) {
+            return '© ' . $year . ' ' . trim(ltrim($value, '©'));
+        }
+
+        return '© ' . $year . ' ' . $value;
+    }
 }

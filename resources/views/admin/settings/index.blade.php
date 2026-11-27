@@ -16,7 +16,7 @@
                     <x-admin.form-input name="general[site_name]" label="Website Name" :value="$g('general', 'site_name', config('app.name'))" placeholder="E.g. Jinendra Panchal" />
                     <x-admin.form-input name="general[site_title]" label="Website Title" :value="$g('general', 'site_title')" placeholder="E.g. Chartered Accountant | Accounting, Audit & Taxation" />
                     <x-admin.form-input name="general[footer_text]" label="Footer Text" :value="$g('general', 'footer_text')" placeholder="Short tagline shown in the website footer" help="Shown as the tagline in the website footer only when the profile's Short Intro is empty. If a Short Intro is set, that is used instead." />
-                    <x-admin.form-input name="general[copyright]" label="Copyright" :value="$g('general', 'copyright')" placeholder="© 2026 Jinendra Panchal. All rights reserved." />
+                    <x-admin.form-input name="general[copyright]" label="Copyright" :value="$g('general', 'copyright')" placeholder="Website Title. All rights reserved." help="The current year is added automatically. Leave blank to use the website title." />
                 </div>
             </div>
 

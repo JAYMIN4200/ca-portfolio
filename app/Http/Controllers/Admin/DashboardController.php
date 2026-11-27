@@ -33,8 +33,8 @@ class DashboardController extends Controller
             'tasks_pending' => Task::where('status', 'pending')->count(),
             'messages' => ContactMessage::count(),
             'unread_messages' => ContactMessage::unread()->count(),
-            'visits_today' => Visit::today()->distinct('ip_address')->count('ip_address'),
-            'visits_total' => Visit::count(),
+            'visits_today' => Visit::today()->uniqueVisitors()->count('ip_address'),
+            'visits_total' => Visit::uniqueVisitors()->count('ip_address'),
             'clients' => Client::count(),
             'meetings_upcoming' => Meeting::upcoming()->count(),
             'received_total' => (float) Payment::received()->sum('amount'),
@@ -46,7 +46,7 @@ class DashboardController extends Controller
         $visitPeriod = $request->input('visit_period', 'week');
         $visitData = $this->visitSeries($visitPeriod);
 
-        $recentVisits = Visit::latest()->limit(6)->get();
+        $recentVisits = Visit::with('user')->latest()->limit(6)->get();
         $recentMessages = ContactMessage::ordered()->limit(5)->get();
 
         $recentlyCreated = DB::transaction(function () {

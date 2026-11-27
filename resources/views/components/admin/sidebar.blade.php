@@ -223,8 +223,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
         var html = '';
         matches.forEach(function (item) {
+            // A group link and its first module share the same URL, so the index
+            // keeps the group label and stores the module label as an alias.
+            // Show whichever label the user actually searched for.
+            var labels = [item.label].concat(item.aliases || []);
+            var matchedLabel = labels.filter(function (label) {
+                return label.toLowerCase().indexOf(lower) !== -1;
+            })[0] || item.label;
+
             html += '<li><a href="' + escapeHtml(item.url) + '" class="sidebar-search-item flex items-center justify-between gap-3 rounded-md px-3 py-2 text-sm transition-colors">' +
-                '<span class="min-w-0 truncate">' + highlight(item.label, query) + '</span>' +
+                '<span class="min-w-0 truncate">' + highlight(matchedLabel, query) + '</span>' +
                 (item.group ? '<span class="sidebar-search-group shrink-0 text-[11px]">' + escapeHtml(item.group) + '</span>' : '') +
                 '</a></li>';
         });

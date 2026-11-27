@@ -67,4 +67,51 @@ class FrontendPagesRenderTest extends TestCase
             ->assertDontSee('Available for Opportunities')
             ->assertDontSee("I'm a Chartered Accountant and am open to professional discussions");
     }
+
+    public function test_footer_copyright_replaces_year_token_with_the_current_year(): void
+    {
+        SettingsService::set('copyright', '© {year} Dynamic Test Firm. All rights reserved.');
+        $this->travelTo('2030-06-15');
+
+        $this->get(route('home'))
+            ->assertSee('© 2030 Dynamic Test Firm. All rights reserved.');
+    }
+
+    public function test_footer_adds_current_year_when_copyright_has_no_year(): void
+    {
+        SettingsService::set('copyright', '© Dynamic Test Firm. All rights reserved.');
+        $this->travelTo('2030-06-15');
+
+        $this->get(route('home'))
+            ->assertSee('© 2030 Dynamic Test Firm. All rights reserved.');
+    }
+
+    public function test_footer_adds_copyright_symbol_and_year_when_both_are_missing(): void
+    {
+        SettingsService::set('copyright', 'Dynamic Test Firm. All rights reserved.');
+        $this->travelTo('2030-06-15');
+
+        $this->get(route('home'))
+            ->assertSee('© 2030 Dynamic Test Firm. All rights reserved.');
+    }
+
+    public function test_footer_copyright_falls_back_to_the_site_title(): void
+    {
+        SettingsService::set('site_title', 'Dynamic Test Firm');
+        SettingsService::set('copyright', null);
+
+        $this->get(route('home'))
+            ->assertSee('© ' . now()->year . ' Dynamic Test Firm. All rights reserved.');
+    }
+
+    public function test_footer_shows_the_website_name_on_the_right_side(): void
+    {
+        SettingsService::set('site_name', 'Dynamic Test Name');
+        SettingsService::set('site_title', 'Dynamic Test Title');
+        SettingsService::set('copyright', null);
+
+        $this->get(route('home'))
+            ->assertSee('© ' . now()->year . ' Dynamic Test Title. All rights reserved.')
+            ->assertSee('Dynamic Test Name');
+    }
 }

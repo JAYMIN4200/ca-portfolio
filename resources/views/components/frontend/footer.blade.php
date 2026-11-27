@@ -96,8 +96,8 @@
 
     <div class="relative border-t border-white/10">
         <div class="container-app flex flex-col items-center justify-between gap-2 py-5 text-xs text-slate-500 sm:flex-row">
-            <p>{{ $settings['copyright'] ?? '© ' . date('Y') . ' Jinendra Panchal. All rights reserved.' }}</p>
-            <p>{{ $settings['site_title'] ?? 'Chartered Accountant | Accounting, Audit & Taxation · GST · Income Tax' }}</p>
+            <p>{{ \App\Services\SettingsService::copyright() }}</p>
+            <p>{{ $settings['site_name'] ?? config('app.name') }}</p>
         </div>
     </div>
 </footer>
