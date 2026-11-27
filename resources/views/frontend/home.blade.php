@@ -14,11 +14,10 @@
             <div class="mt-0 max-w-2xl text-center lg:text-left" data-reveal="fade">
                 @php
                     $heroName = $profile?->user?->name ?? 'Jinendra Panchal';
-                    $heroLetters = collect(mb_str_split($heroName))
-                        ->map(fn (string $letter, int $index): string => '<span class="hero-name-letter" style="--letter-index: '.$index.'" aria-hidden="true">'.($letter === ' ' ? '&nbsp;' : e($letter)).'</span>')
-                        ->implode('');
                 @endphp
-                <h1 class="font-display text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl" aria-label="{{ $heroName }}">{!! $heroLetters !!}</h1>
+                <h1 class="font-display text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl" aria-label="{{ $heroName }}">
+                    <span class="hero-name-shine" aria-hidden="true">{{ $heroName }}<span class="hero-name-glint">{{ $heroName }}</span></span>
+                </h1>
                 <p class="font-display text-xl font-semibold text-transparent md:text-2xl">
                     <span class="bg-gradient-to-r from-violet-300 via-violet-400 to-violet-200 bg-clip-text text-transparent">
                         {{ $profile?->professional_title ?? 'Chartered Accountant | Accounting, Audit & Taxation Professional' }}

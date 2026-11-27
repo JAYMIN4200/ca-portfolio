@@ -112,13 +112,22 @@
         animation: textShine 5s linear infinite;
     }
 
-    /* Hero name: each letter rises into place in sequence on page load. */
-    .hero-name-letter {
+    /* Hero name: the base text stays untouched; a light band sweeps over it. */
+    .hero-name-shine {
+        position: relative;
         display: inline-block;
-        opacity: 0;
-        transform: translateY(.45em) rotate(6deg) scale(.92);
-        animation: heroLetterIn .6s cubic-bezier(.22, 1, .36, 1) forwards;
-        animation-delay: calc(140ms + var(--letter-index, 0) * 85ms);
+    }
+
+    .hero-name-glint {
+        position: absolute;
+        inset: 0;
+        color: transparent;
+        background: linear-gradient(100deg, transparent 25%, rgba(196, 181, 253, .9) 48%, rgba(255, 255, 255, .95) 52%, transparent 75%);
+        background-size: 250% 100%;
+        -webkit-background-clip: text;
+        background-clip: text;
+        animation: heroShineSweep 3s ease-in-out infinite;
+        pointer-events: none;
     }
 
     .animate-float {
@@ -163,15 +172,13 @@
     }
 }
 
-@keyframes heroLetterIn {
-    0% {
-        opacity: 0;
-        transform: translateY(.45em) rotate(6deg) scale(.92);
+@keyframes heroShineSweep {
+    0%, 10% {
+        background-position: 100% 0;
     }
 
-    100% {
-        opacity: 1;
-        transform: translateY(0) rotate(0) scale(1);
+    90%, 100% {
+        background-position: 0% 0;
     }
 }
 
@@ -847,10 +854,8 @@ html[data-theme="dark"] .section-switch-item.is-active {
             transform: none;
         }
 
-        .hero-name-letter {
-            animation: none;
-            opacity: 1;
-            transform: none;
+        .hero-name-glint {
+            display: none;
         }
     }
 
