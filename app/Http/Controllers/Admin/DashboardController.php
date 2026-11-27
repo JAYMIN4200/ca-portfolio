@@ -242,7 +242,7 @@ class DashboardController extends Controller
             for ($i = 11; $i >= 0; $i--) {
                 $month = $now->copy()->startOfMonth()->subMonths($i);
                 $labels[] = $month->format('M y');
-                $data[] = (int) Visit::whereBetween('created_at', [$month->copy()->startOfMonth(), $month->copy()->endOfMonth()])->count();
+                $data[] = (int) Visit::whereBetween('created_at', [$month->copy()->startOfMonth(), $month->copy()->endOfMonth()])->uniqueVisitors()->count('ip_address');
             }
 
             return compact('labels', 'data');
@@ -255,7 +255,7 @@ class DashboardController extends Controller
             for ($i = 0; $i <= $days; $i++) {
                 $day = $now->copy()->startOfMonth()->addDays($i);
                 $labels[] = $day->format('d');
-                $data[] = (int) Visit::whereDate('created_at', $day)->count();
+                $data[] = (int) Visit::whereDate('created_at', $day)->uniqueVisitors()->count('ip_address');
             }
 
             return compact('labels', 'data');
@@ -266,7 +266,7 @@ class DashboardController extends Controller
         for ($i = 6; $i >= 0; $i--) {
             $day = $now->copy()->subDays($i);
             $labels[] = $day->format('D');
-            $data[] = (int) Visit::whereDate('created_at', $day)->count();
+            $data[] = (int) Visit::whereDate('created_at', $day)->uniqueVisitors()->count('ip_address');
         }
 
         return compact('labels', 'data');

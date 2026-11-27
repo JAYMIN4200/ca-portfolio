@@ -12,8 +12,13 @@
 
         <div class="container-app relative flex min-h-screen flex-col items-center justify-center py-16 lg:flex-row lg:gap-16">
             <div class="mt-0 max-w-2xl text-center lg:text-left" data-reveal="fade">
-                <h1 class="font-display text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl">
-                    {{ $profile?->user?->name ?? 'Jinendra Panchal' }}
+                @php
+                    $heroName = $profile?->user?->name ?? 'Jinendra Panchal';
+                @endphp
+                <h1 class="text-shine font-display text-4xl font-bold leading-tight md:text-5xl lg:text-6xl" aria-label="{{ $heroName }}">
+                    @foreach (mb_str_split($heroName) as $index => $letter)
+                        <span class="hero-name-letter" style="--letter-index: {{ $index }}" aria-hidden="true">{!! $letter === ' ' ? '&nbsp;' : e($letter) !!}</span>
+                    @endforeach
                 </h1>
                 <p class="mt-3 font-display text-xl font-semibold text-transparent md:text-2xl">
                     <span class="bg-gradient-to-r from-violet-300 via-violet-400 to-violet-200 bg-clip-text text-transparent">

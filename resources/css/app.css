@@ -112,6 +112,17 @@
         animation: textShine 5s linear infinite;
     }
 
+    /* Hero name: each letter rises into place in sequence on page load. */
+    .hero-name-letter {
+        display: inline-block;
+        opacity: 0;
+        transform: translateY(.45em) rotate(6deg) scale(.92);
+        filter: blur(8px);
+        animation: heroLetterIn .6s cubic-bezier(.22, 1, .36, 1) forwards;
+        animation-delay: calc(140ms + var(--letter-index, 0) * 85ms);
+        text-shadow: 0 0 18px rgba(167, 139, 250, .35);
+    }
+
     .animate-float {
         animation: floatY 6s ease-in-out infinite;
     }
@@ -151,6 +162,25 @@
 @keyframes textShine {
     to {
         background-position: 200% center;
+    }
+}
+
+@keyframes heroLetterIn {
+    0% {
+        opacity: 0;
+        transform: translateY(.45em) rotate(6deg) scale(.92);
+        filter: blur(8px);
+    }
+
+    60% {
+        opacity: 1;
+        filter: blur(0);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) rotate(0) scale(1);
+        filter: blur(0);
     }
 }
 
@@ -824,6 +854,13 @@ html[data-theme="dark"] .section-switch-item.is-active {
 
         .hero-shell:hover .hero-lift {
             transform: none;
+        }
+
+        .hero-name-letter {
+            animation: none;
+            opacity: 1;
+            transform: none;
+            filter: none;
         }
     }
 

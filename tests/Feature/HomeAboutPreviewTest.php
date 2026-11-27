@@ -43,4 +43,13 @@ class HomeAboutPreviewTest extends TestCase
             ->assertSee('data-about-expand', false)
             ->assertSee('Final rich paragraph that was previously hidden.', false);
     }
+
+    public function test_home_renders_the_name_as_staggered_letters_with_an_accessible_label(): void
+    {
+        $this->get('/')
+            ->assertSee('aria-label="Jinendra Panchal"', false)
+            ->assertSee('hero-name-letter', false)
+            ->assertSee('style="--letter-index: 0"', false)
+            ->assertSee('style="--letter-index: 15"', false);
+    }
 }

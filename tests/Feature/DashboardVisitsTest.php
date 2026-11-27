@@ -61,4 +61,38 @@ class DashboardVisitsTest extends TestCase
             ->assertSee('Guest')
             ->assertSee('10.0.0.4');
     }
+
+    public function test_weekly_visit_chart_counts_each_ip_only_once_per_day(): void
+    {
+        $admin = User::factory()->create(['is_admin' => true]);
+        $this->travelTo('2026-11-27 12:00:00');
+
+        Visit::create(['ip_address' => '10.0.0.1', 'user_agent' => 'Test', 'url' => route('home')]);
+        Visit::create(['ip_address' => '10.0.0.1', 'user_agent' => 'Test', 'url' => route('about')]);
+        Visit::create(['ip_address' => '10.0.0.2', 'user_agent' => 'Test', 'url' => route('home')]);
+
+        $this->actingAs($admin)
+            ->get(route('admin.dashboard', ['visit_period' => 'week']))
+            ->assertViewHas('visitData', [0, 0, 0, 0, 0, 0, 2]);
+    }
+
+    public function test_yearly_visit_chart_counts_each_ip_only_once_per_month(): void
+    {
+        $admin = User::factory()->create(['is_admin' => true]);
+        $this->travelTo('2026-11-27 12:00:00');
+
+        foreach (['2026-02-10', '2026-02-15'] as $date) {
+            $visit = Visit::create(['ip_address' => '10.0.0.1', 'user_agent' => 'Test', 'url' => route('home')]);
+            $visit->created_at = $date.' 10:00:00';
+            $visit->save();
+        }
+
+        $visit = Visit::create(['ip_address' => '10.0.0.2', 'user_agent' => 'Test', 'url' => route('home')]);
+        $visit->created_at = '2026-02-20 10:00:00';
+        $visit->save();
+
+        $this->actingAs($admin)
+            ->get(route('admin.dashboard', ['visit_period' => 'year']))
+            ->assertViewHas('visitData', [0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+    }
 }
