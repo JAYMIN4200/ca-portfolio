@@ -117,10 +117,8 @@
         display: inline-block;
         opacity: 0;
         transform: translateY(.45em) rotate(6deg) scale(.92);
-        filter: blur(8px);
         animation: heroLetterIn .6s cubic-bezier(.22, 1, .36, 1) forwards;
         animation-delay: calc(140ms + var(--letter-index, 0) * 85ms);
-        text-shadow: 0 0 18px rgba(167, 139, 250, .35);
     }
 
     .animate-float {
@@ -169,18 +167,11 @@
     0% {
         opacity: 0;
         transform: translateY(.45em) rotate(6deg) scale(.92);
-        filter: blur(8px);
-    }
-
-    60% {
-        opacity: 1;
-        filter: blur(0);
     }
 
     100% {
         opacity: 1;
         transform: translateY(0) rotate(0) scale(1);
-        filter: blur(0);
     }
 }
 
@@ -860,7 +851,6 @@ html[data-theme="dark"] .section-switch-item.is-active {
             animation: none;
             opacity: 1;
             transform: none;
-            filter: none;
         }
     }
 

@@ -48,8 +48,8 @@ class HomeAboutPreviewTest extends TestCase
     {
         $this->get('/')
             ->assertSee('aria-label="Jinendra Panchal"', false)
-            ->assertSee('hero-name-letter', false)
             ->assertSee('style="--letter-index: 0"', false)
-            ->assertSee('style="--letter-index: 15"', false);
+            ->assertSee('style="--letter-index: 15"', false)
+            ->assertSee('</span><span class="hero-name-letter"', false);
     }
 }
